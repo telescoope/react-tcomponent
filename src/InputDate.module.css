@@ -1,0 +1,11 @@
+.tglmerah {
+  color: red;
+}
+
+.react-datepicker__close-icon::after {
+  background: #fff;
+  color: #db2828;
+  font-weight: bold;
+  font-size: 12pt;
+  border-radius: 0
+}

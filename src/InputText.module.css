@@ -1,0 +1,45 @@
+div[class*="RichTextEditor"] div[class*="ButtonWrap"],
+div[class*="RichTextEditor"] span[class*="Dropdown"] {
+  z-index: 0 !important
+}
+
+.equationContainer {
+  margin: 12px 8px;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  padding: .375rem .75rem;
+}
+
+#editorIcon, #chemistryIcon {
+  display: inline-block;
+  margin: 0 5px 0 0;
+  padding: 6px 8px;
+  line-height: 22px;
+  box-sizing: border-box;
+  background: none #fdfdfd;
+  background: linear-gradient(180deg, #fdfdfd 0, #f6f7f8);
+  border: 1px solid #999;
+  border-radius: 2px;
+  color: #333;
+  text-decoration: none;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.PhoneInputInput {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
