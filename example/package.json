@@ -19,7 +19,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "react-tcomponent": "link:..",
-    "tcomponent": "git+ssh://root@telescoope.org:22/~/gitea-repositories/telescoope/tcomponent.git"
+    "tcomponent": "git+https://github.com/telescoope/tcomponent.git"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
