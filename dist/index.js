@@ -6,8 +6,8 @@ var Cleave = _interopDefault(require('cleave.js/react'));
 var lodash = require('lodash');
 var reactRedux = require('react-redux');
 var PhoneInput = _interopDefault(require('react-phone-number-input'));
+var JoditEditor = _interopDefault(require('jodit-react'));
 var Mousetrap = _interopDefault(require('mousetrap'));
-var SunEditor = _interopDefault(require('suneditor-react'));
 var tcomponent = require('tcomponent');
 var parse = _interopDefault(require('html-react-parser'));
 var reactBootstrap = require('react-bootstrap');
@@ -37,7 +37,6 @@ require('react-phone-number-input/style.css');
 require('bootstrap/dist/css/bootstrap.min.css');
 require('dropzone/dist/min/dropzone.min.css');
 require('video-react/dist/video-react.css');
-require('suneditor/dist/css/suneditor.min.css');
 require('rc-time-picker/assets/index.css');
 require('react-datepicker/dist/react-datepicker.css');
 require('react-input-range/lib/css/index.css');
@@ -165,28 +164,30 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
         data = data.substring(0, _this2.props.maxlength);
       }
 
-      _this2.props.setInput(_this2.state.props_name, data);
-
       _this2.setState({
         value: data
       });
+
+      _this2.props.setInput(_this2.state.props_name, data);
     };
 
     _this2.onChange = function (data) {
-      _this2.props.setInput(_this2.state.props_name, data);
+      console.log(data);
 
       _this2.setState({
         value: data
       });
+
+      _this2.props.setInput(_this2.state.props_name, data);
     };
 
     _this2.onChangeEditor = function (value) {
       if (value) {
-        _this2.props.setInput(_this2.state.props_name, value.toString('html'));
-
         _this2.setState({
           value: value
         });
+
+        _this2.props.setInput(_this2.state.props_name, value.toString('html'));
       }
     };
 
@@ -233,10 +234,14 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
       type: type,
       placeholder: default_placeholder,
       options_cleave: options_cleave,
-      value: _this2.props.value,
-      props_name: _this2.props.name ? tcomponent.slug(String(_this2.props.name), '_') : ''
+      value: _this2.props.value ? String(_this2.props.value) : '',
+      props_name: _this2.props.name ? tcomponent.slug(String(_this2.props.name), '_') : '',
+      config: {
+        readonly: false
+      }
     };
     _this2.toolbarRef = React__default.createRef();
+    _this2.editorRef = React__default.createRef();
     return _this2;
   }
 
@@ -244,11 +249,12 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
 
   _proto2.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     try {
-      if (tcomponent.findArrayName(this.state.props_name, this.props.input) != tcomponent.findArrayName(this.state.props_name, prevProps.input) && tcomponent.findArrayName(this.state.props_name, this.props.input) != this.state.value) {
+      if (!lodash.isEqual(tcomponent.findArrayName(this.state.props_name, this.props.input), tcomponent.findArrayName(this.state.props_name, prevProps.input)) && !lodash.isEqual(this.state.value, tcomponent.findArrayName(this.state.props_name, this.props.input))) {
         var value = this.props.input[this.state.props_name] || '';
         this.setState({
           value: value
         });
+        console.log('COND 1', value);
       }
     } catch (e) {}
 
@@ -258,6 +264,7 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
       this.setState({
         value: _value
       });
+      console.log('COND 2');
     }
   };
 
@@ -334,25 +341,14 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
         onChange: this.onChange
       });
     } else if (this.state.type == 'texteditor') {
-      return /*#__PURE__*/React__default.createElement(SunEditor, {
-        key: this.props.id + '_editor',
+      return /*#__PURE__*/React__default.createElement(JoditEditor, {
+        key: this.props.name + '_editor',
         id: this.props.id,
-        value: this.state.value,
-        onChange: this.onChangeEditor,
-        enableToolbar: true,
-        setContents: this.state.value,
-        enable: true,
-        defaultValue: this.state.value,
-        setOptions: {
-          buttonList: [['undo', 'redo', 'fontSize', 'formatBlock', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'list', 'table', 'image', 'video', 'fullScreen', 'link', 'removeFormat', 'showBlocks', 'codeView', 'preview']]
-        },
-        attributesWhitelist: {
-          table: 'style',
-          tbody: 'style',
-          thead: 'style',
-          tr: 'style',
-          td: 'style'
-        }
+        ref: this.editorRef,
+        value: String(this.state.value),
+        config: this.state.config,
+        tabIndex: 1,
+        onChange: this.onChange
       });
     } else if (this.state.type == 'equation') {
       return /*#__PURE__*/React__default.createElement("div", {
@@ -1049,7 +1045,7 @@ var CustomInput = function CustomInput(props) {
       fontSize: 'inherit'
     },
     type: "text",
-    "class": "form-control",
+    className: "form-control",
     disabled: props.disabled,
     name: props.name,
     value: props.value || '',
@@ -2413,7 +2409,7 @@ var CustomInput$1 = function CustomInput(props) {
       fontSize: 'inherit'
     },
     type: "text",
-    "class": "form-control",
+    className: "form-control",
     disabled: props.disabled,
     name: props.name,
     value: props.value || '',

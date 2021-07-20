@@ -1,16 +1,18 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 
 import Cleave from 'cleave.js/react'
 
-import { isEmpty, isUndefined } from 'lodash'
+import { isEmpty, isUndefined, isNull, isEqual } from 'lodash'
 
 import { connect } from 'react-redux'
 
 import PhoneInput from 'react-phone-number-input'
 
+import JoditEditor from 'jodit-react'
+
 import Mousetrap from 'mousetrap'
 
-import SunEditor from 'suneditor-react'
+// import SunEditor from 'suneditor-react'
 
 import './InputText.module.css'
 
@@ -134,26 +136,35 @@ class InputText extends React.Component {
       type,
       placeholder: default_placeholder,
       options_cleave,
-      value: this.props.value,
-      props_name: this.props.name ? slug(String(this.props.name), '_') : ''
+      value: this.props.value ? String(this.props.value) : '',
+      props_name: this.props.name ? slug(String(this.props.name), '_') : '',
+      config: {
+        readonly: false
+      }
     }
 
     this.toolbarRef = React.createRef()
 
-    // this.editorRef = React.createRef()
+    this.editorRef = React.createRef()
   }
 
   componentDidUpdate(prevProps, prevState) {
     try {
       if (
-        findArrayName(this.state.props_name, this.props.input) !=
-          findArrayName(this.state.props_name, prevProps.input) &&
-        findArrayName(this.state.props_name, this.props.input) !=
-          this.state.value
+        !isEqual(
+          findArrayName(this.state.props_name, this.props.input),
+          findArrayName(this.state.props_name, prevProps.input)
+        ) &&
+        !isEqual(
+          this.state.value,
+          findArrayName(this.state.props_name, this.props.input)
+        )
       ) {
         let value = this.props.input[this.state.props_name] || ''
 
         this.setState({ value })
+
+        console.log('COND 1', value)
       }
     } catch (e) {}
 
@@ -161,6 +172,8 @@ class InputText extends React.Component {
       let value = this.props.value || ''
 
       this.setState({ value })
+
+      console.log('COND 2')
     }
   }
 
@@ -224,22 +237,24 @@ class InputText extends React.Component {
       data = data.substring(0, this.props.maxlength)
     }
 
-    this.props.setInput(this.state.props_name, data)
-
     this.setState({ value: data })
+
+    this.props.setInput(this.state.props_name, data)
   }
 
   onChange = (data) => {
-    this.props.setInput(this.state.props_name, data)
+    console.log(data)
 
     this.setState({ value: data })
+
+    this.props.setInput(this.state.props_name, data)
   }
 
   onChangeEditor = (value) => {
     if (value) {
-      this.props.setInput(this.state.props_name, value.toString('html'))
-
       this.setState({ value })
+
+      this.props.setInput(this.state.props_name, value.toString('html'))
     }
   }
 
@@ -255,7 +270,7 @@ class InputText extends React.Component {
   */
 
   render() {
-    // console.log(this.editorRef)
+    // console.log('value', this.state.value)
 
     if (!this.state.props_name) return 'Name is Required'
 
@@ -300,6 +315,19 @@ class InputText extends React.Component {
         />
       )
     } else if (this.state.type == 'texteditor') {
+      return (
+        <JoditEditor
+          key={this.props.name + '_editor'}
+          id={this.props.id}
+          ref={this.editorRef}
+          value={String(this.state.value)}
+          config={this.state.config}
+          tabIndex={1}
+          // onBlur={(newContent) => console.log('onBlur',newContent)}
+          onChange={this.onChange}
+        />
+      )
+      /*
       return (
         <SunEditor
           // getSunEditorInstance={this.instanceSunEditor}
@@ -353,6 +381,7 @@ class InputText extends React.Component {
           }}
         />
       )
+      */
     } else if (this.state.type == 'equation') {
       return (
         <div id={this.props.id} ref={this.toolbarRef}>

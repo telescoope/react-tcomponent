@@ -31,7 +31,7 @@ const CustomInput = (props) => {
           fontSize: 'inherit'
         }}
         type='text'
-        class='form-control'
+        className='form-control'
         disabled={props.disabled}
         name={props.name}
         value={props.value || ''}

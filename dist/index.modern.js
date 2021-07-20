@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Cleave from 'cleave.js/react';
-import { isEmpty, isUndefined, filter, isEqual, isArray, isString, debounce, isNull, find, includes, uniqBy, findIndex, isBoolean, uniq, map, isObject } from 'lodash';
+import { isEqual, isEmpty, isUndefined, filter, isArray, isString, isNull, find, includes, debounce, uniqBy, findIndex, isBoolean, uniq, map, isObject } from 'lodash';
 import { connect, useSelector, useDispatch } from 'react-redux';
 import PhoneInput from 'react-phone-number-input';
+import JoditEditor from 'jodit-react';
 import Mousetrap from 'mousetrap';
-import SunEditor from 'suneditor-react';
-import { slug, findArrayName, secureData, setAuthHeader, numberFormat, useDebounce, fetchErrorDispatch, defaultFilterData } from 'tcomponent';
+import { findArrayName, slug, secureData, setAuthHeader, numberFormat, useDebounce, fetchErrorDispatch, defaultFilterData } from 'tcomponent';
 import parse from 'html-react-parser';
 import { Form, ButtonGroup, Button as Button$1, Modal as Modal$1, InputGroup, Table, Row as Row$1, Col as Col$1, DropdownButton, Dropdown, Badge, Card } from 'react-bootstrap';
 import '@wiris/mathtype-generic';
@@ -34,44 +34,99 @@ import 'react-phone-number-input/style.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'dropzone/dist/min/dropzone.min.css';
 import 'video-react/dist/video-react.css';
-import 'suneditor/dist/css/suneditor.min.css';
 import 'rc-time-picker/assets/index.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-input-range/lib/css/index.css';
 
-class WirisEquationEditor extends React.Component {
-  constructor(props) {
-    super(props);
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
 
-    this.handleEquationChange = event => {
-      let {
-        onEquationInput
-      } = this.props;
-      let mathFormat = window.WirisPlugin.Parser.endParse(event.target.value);
-      let equationImage = event.target.value;
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+function _inheritsLoose(subClass, superClass) {
+  subClass.prototype = Object.create(superClass.prototype);
+  subClass.prototype.constructor = subClass;
+
+  _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+function _taggedTemplateLiteralLoose(strings, raw) {
+  if (!raw) {
+    raw = strings.slice(0);
+  }
+
+  strings.raw = raw;
+  return strings;
+}
+
+var WirisEquationEditor = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(WirisEquationEditor, _React$Component);
+
+  function WirisEquationEditor(props) {
+    var _this;
+
+    _this = _React$Component.call(this, props) || this;
+
+    _this.handleEquationChange = function (event) {
+      var onEquationInput = _this.props.onEquationInput;
+      var mathFormat = window.WirisPlugin.Parser.endParse(event.target.value);
+      var equationImage = event.target.value;
       onEquationInput(equationImage, mathFormat);
     };
 
-    this.equationEditorRef = React.createRef();
-    this.toolbarRef = React.createRef();
+    _this.equationEditorRef = React.createRef();
+    _this.toolbarRef = React.createRef();
+    return _this;
   }
 
-  componentDidMount() {
+  var _proto = WirisEquationEditor.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
 
     try {
-      let genericIntegrationProperties = {};
+      var genericIntegrationProperties = {};
       genericIntegrationProperties.target = this.equationEditorRef.current;
       genericIntegrationProperties.toolbar = this.toolbarRef.current;
-      let genericIntegrationInstance = new window.WirisPlugin.GenericIntegration(genericIntegrationProperties);
+      var genericIntegrationInstance = new window.WirisPlugin.GenericIntegration(genericIntegrationProperties);
       genericIntegrationInstance.init();
       genericIntegrationInstance.listeners.fire('onTargetReady', {});
     } catch (e) {}
-  }
+  };
 
-  render() {
-    let {
-      value
-    } = this.props || {};
+  _proto.render = function render() {
+    var _ref = this.props || {},
+        value = _ref.value;
+
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       ref: this.toolbarRef
     }), /*#__PURE__*/React.createElement(ContentEditable, {
@@ -81,55 +136,65 @@ class WirisEquationEditor extends React.Component {
       onChange: this.handleEquationChange,
       html: value || ''
     }));
-  }
+  };
 
-}
+  return WirisEquationEditor;
+}(React.Component);
 
-class InputText extends React.Component {
-  constructor(props) {
-    super(props);
+var InputText = /*#__PURE__*/function (_React$Component2) {
+  _inheritsLoose(InputText, _React$Component2);
 
-    this.handleInputChange = event => {
+  function InputText(props) {
+    var _this2;
+
+    _this2 = _React$Component2.call(this, props) || this;
+
+    _this2.handleInputChange = function (event) {
       event.preventDefault();
-      let data = event.target.value ? String(event.target.value) : '';
+      var data = event.target.value ? String(event.target.value) : '';
 
-      if (this.state.type == 'nik' || this.state.type == 'kip' || this.state.type == 'npwp' || this.state.type == 'postcode') {
+      if (_this2.state.type == 'nik' || _this2.state.type == 'kip' || _this2.state.type == 'npwp' || _this2.state.type == 'postcode') {
         data = data.replace(/\D/g, '');
       }
 
-      if (this.props.maxlength) {
-        data = data.substring(0, this.props.maxlength);
+      if (_this2.props.maxlength) {
+        data = data.substring(0, _this2.props.maxlength);
       }
 
-      this.props.setInput(this.state.props_name, data);
-      this.setState({
+      _this2.setState({
         value: data
       });
+
+      _this2.props.setInput(_this2.state.props_name, data);
     };
 
-    this.onChange = data => {
-      this.props.setInput(this.state.props_name, data);
-      this.setState({
+    _this2.onChange = function (data) {
+      console.log(data);
+
+      _this2.setState({
         value: data
       });
+
+      _this2.props.setInput(_this2.state.props_name, data);
     };
 
-    this.onChangeEditor = value => {
+    _this2.onChangeEditor = function (value) {
       if (value) {
-        this.props.setInput(this.state.props_name, value.toString('html'));
-        this.setState({
-          value
+        _this2.setState({
+          value: value
         });
+
+        _this2.props.setInput(_this2.state.props_name, value.toString('html'));
       }
     };
 
-    this.onBlur = evt => {};
+    _this2.onBlur = function (evt) {};
 
-    this.afterPaste = evt => {};
+    _this2.afterPaste = function (evt) {};
 
-    let default_placeholder = this.props.placeholder;
-    let options_cleave = {};
-    let type = this.props.type ? String(this.props.type) : '';
+    var default_placeholder = _this2.props.placeholder;
+    var options_cleave = {};
+    var type = _this2.props.type ? String(_this2.props.type) : '';
 
     if (type.toLowerCase() == 'nik') {
       options_cleave = {
@@ -137,62 +202,72 @@ class InputText extends React.Component {
         blocks: [2, 2, 2, 6, 4],
         numericOnly: true
       };
-      default_placeholder = this.props.placeholder || 'Nomor Induk Kependudukan';
+      default_placeholder = _this2.props.placeholder || 'Nomor Induk Kependudukan';
     } else if (type.toLowerCase() == 'kip') {
       options_cleave = {
         delimiter: ' ',
         blocks: [4, 4, 4, 4]
       };
-      default_placeholder = this.props.placeholder || 'Kartu Indonesia Pintar';
+      default_placeholder = _this2.props.placeholder || 'Kartu Indonesia Pintar';
     } else if (type.toLowerCase() == 'npwp') {
       options_cleave = {
         delimiters: ['.', '.', '.', '-', '.'],
         blocks: [2, 3, 3, 1, 3, 3],
         numericOnly: true
       };
-      default_placeholder = this.props.placeholder || 'Nomor Pokok Wajib Pajak';
+      default_placeholder = _this2.props.placeholder || 'Nomor Pokok Wajib Pajak';
     } else if (type.toLowerCase() == 'postcode') {
       options_cleave = {
         blocks: [5],
         delimiter: ' ',
         numericOnly: true
       };
-      default_placeholder = this.props.placeholder || 'Kode Pos';
+      default_placeholder = _this2.props.placeholder || 'Kode Pos';
     } else if (type.toLowerCase() == 'phone') {
-      default_placeholder = this.props.placeholder || 'Telepon';
+      default_placeholder = _this2.props.placeholder || 'Telepon';
     }
 
-    this.state = {
-      type,
+    _this2.state = {
+      type: type,
       placeholder: default_placeholder,
-      options_cleave,
-      value: this.props.value,
-      props_name: this.props.name ? slug(String(this.props.name), '_') : ''
+      options_cleave: options_cleave,
+      value: _this2.props.value ? String(_this2.props.value) : '',
+      props_name: _this2.props.name ? slug(String(_this2.props.name), '_') : '',
+      config: {
+        readonly: false
+      }
     };
-    this.toolbarRef = React.createRef();
+    _this2.toolbarRef = React.createRef();
+    _this2.editorRef = React.createRef();
+    return _this2;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  var _proto2 = InputText.prototype;
+
+  _proto2.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     try {
-      if (findArrayName(this.state.props_name, this.props.input) != findArrayName(this.state.props_name, prevProps.input) && findArrayName(this.state.props_name, this.props.input) != this.state.value) {
-        let value = this.props.input[this.state.props_name] || '';
+      if (!isEqual(findArrayName(this.state.props_name, this.props.input), findArrayName(this.state.props_name, prevProps.input)) && !isEqual(this.state.value, findArrayName(this.state.props_name, this.props.input))) {
+        var value = this.props.input[this.state.props_name] || '';
         this.setState({
-          value
+          value: value
         });
+        console.log('COND 1', value);
       }
     } catch (e) {}
 
     if (this.props.value && prevProps.value != this.props.value) {
-      let value = this.props.value || '';
-      this.setState({
-        value
-      });
-    }
-  }
+      var _value = this.props.value || '';
 
-  componentDidMount() {
+      this.setState({
+        value: _value
+      });
+      console.log('COND 2');
+    }
+  };
+
+  _proto2.componentDidMount = function componentDidMount() {
     if (this.props.disableCopy || this.props.disablePaste || this.props.disableSelectAll) {
-      let comb = [];
+      var comb = [];
 
       if (this.props.disableCopy) {
         comb.push('command+c');
@@ -216,21 +291,21 @@ class InputText extends React.Component {
       }
     }
 
-    let value = '';
+    var value = '';
 
     try {
-      let input_name = findArrayName(this.state.props_name, this.props.input);
+      var input_name = findArrayName(this.state.props_name, this.props.input);
       value = this.props.value ? this.props.value : input_name;
     } catch (e) {}
 
     this.setState({
-      value
+      value: value
     });
-  }
+  };
 
-  componentWillUnmount() {}
+  _proto2.componentWillUnmount = function componentWillUnmount() {};
 
-  render() {
+  _proto2.render = function render() {
     if (!this.state.props_name) return 'Name is Required';
 
     if (this.props.disabled || this.props.isReadonly) {
@@ -263,25 +338,14 @@ class InputText extends React.Component {
         onChange: this.onChange
       });
     } else if (this.state.type == 'texteditor') {
-      return /*#__PURE__*/React.createElement(SunEditor, {
-        key: this.props.id + '_editor',
+      return /*#__PURE__*/React.createElement(JoditEditor, {
+        key: this.props.name + '_editor',
         id: this.props.id,
-        value: this.state.value,
-        onChange: this.onChangeEditor,
-        enableToolbar: true,
-        setContents: this.state.value,
-        enable: true,
-        defaultValue: this.state.value,
-        setOptions: {
-          buttonList: [['undo', 'redo', 'fontSize', 'formatBlock', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'outdent', 'indent', 'align', 'list', 'table', 'image', 'video', 'fullScreen', 'link', 'removeFormat', 'showBlocks', 'codeView', 'preview']]
-        },
-        attributesWhitelist: {
-          table: 'style',
-          tbody: 'style',
-          thead: 'style',
-          tr: 'style',
-          td: 'style'
-        }
+        ref: this.editorRef,
+        value: String(this.state.value),
+        config: this.state.config,
+        tabIndex: 1,
+        onChange: this.onChange
       });
     } else if (this.state.type == 'equation') {
       return /*#__PURE__*/React.createElement("div", {
@@ -295,7 +359,7 @@ class InputText extends React.Component {
       }));
     }
 
-    let defaultType = this.state.type === 'text' || isUndefined(this.state.type) ? 'search' : this.state.type;
+    var defaultType = this.state.type === 'text' || isUndefined(this.state.type) ? 'search' : this.state.type;
     return /*#__PURE__*/React.createElement(Form.Control, {
       id: this.props.id,
       type: defaultType,
@@ -305,23 +369,30 @@ class InputText extends React.Component {
       name: this.state.props_name,
       className: "form-control mousetrap"
     });
-  }
+  };
 
-}
+  return InputText;
+}(React.Component);
 
-const mapStateToProps = state => ({
-  input: state.core.input || {}
-});
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {}
+  };
+};
 
-const mapDispatchToProps = dispatch => ({
-  setInput: (key, val) => dispatch({
-    type: 'SET_INPUT',
-    payload: {
-      key: slug(String(key), '_'),
-      value: val
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      return dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
     }
-  })
-});
+  };
+};
 
 var InputText$1 = connect(mapStateToProps, mapDispatchToProps)(InputText);
 
@@ -332,7 +403,7 @@ function Loading() {
   });
 }
 
-let moment = moment$1;
+var moment = moment$1;
 
 function Preview(props) {
   try {
@@ -365,29 +436,45 @@ function Preview(props) {
 }
 
 function InputFile(props) {
-  let acceptedFiles = props.accept ? props.accept : 'image/*, video/*, audio/*, .docx, .xlsx, .pptx, .csv, .pdf';
-  let input = useSelector(state => state.core.input);
-  let parameter = useSelector(state => state.core.parameter);
-  let [type, setType] = useState({});
-  let [value, setValue] = useState([]);
-  let [loading, setLoading] = useState(false);
-  let auth = useSelector(state => state.auth);
-  let dispatch = useDispatch();
+  var acceptedFiles = props.accept ? props.accept : 'image/*, video/*, audio/*, .docx, .xlsx, .pptx, .csv, .pdf';
+  var input = useSelector(function (state) {
+    return state.core.input;
+  });
+  var parameter = useSelector(function (state) {
+    return state.core.parameter;
+  });
+
+  var _useState = useState({}),
+      type = _useState[0],
+      setType = _useState[1];
+
+  var _useState2 = useState([]),
+      value = _useState2[0],
+      setValue = _useState2[1];
+
+  var _useState3 = useState(false),
+      loading = _useState3[0],
+      setLoading = _useState3[1];
+
+  var auth = useSelector(function (state) {
+    return state.auth;
+  });
+  var dispatch = useDispatch();
 
   function onDelete(val) {
-    let url = process.env.REACT_APP_API_URL + '/file/delete';
-    let data = secureData({
+    var url = process.env.REACT_APP_API_URL + '/file/delete';
+    var data = secureData({
       token_file: val,
       token: auth.token
     });
-    let options = {
+    var options = {
       method: 'POST',
       headers: setAuthHeader(auth),
-      url,
-      data
+      url: url,
+      data: data
     };
     setLoading(true);
-    axios(options).then(response => {
+    axios(options).then(function (response) {
       if (!isEmpty(response.data.message)) {
         dispatch({
           type: 'SET_MESSAGE',
@@ -395,7 +482,7 @@ function InputFile(props) {
         });
       }
 
-      let isi = filter(value, o => {
+      var isi = filter(value, function (o) {
         return !isEqual(o, val);
       });
       setValue(isi);
@@ -407,12 +494,12 @@ function InputFile(props) {
         }
       });
       setLoading(false);
-    }).catch(error => {
+    })["catch"](function (error) {
       dispatch({
         type: 'SET_MESSAGE',
         payload: 'Gagal menghapus lampiran'
       });
-      let isi = filter(value, o => {
+      var isi = filter(value, function (o) {
         return !isEqual(o, val);
       });
       dispatch({
@@ -429,18 +516,18 @@ function InputFile(props) {
 
   function fetchInfo(token) {
     if (isString(token) && !isEmpty(token) && token != 'null' && isEmpty(type[token])) {
-      let url = process.env.REACT_APP_API_URL + '/file/info';
-      let data = secureData({
+      var url = process.env.REACT_APP_API_URL + '/file/info';
+      var data = secureData({
         token_file: token
       });
-      let options = {
+      var options = {
         method: 'POST',
         headers: setAuthHeader(auth),
-        url,
-        data
+        url: url,
+        data: data
       };
       setLoading(true);
-      axios(options).then(response => {
+      axios(options).then(function (response) {
         if (response.data.success) {
           type[token] = response.data.data;
           setType(type);
@@ -449,7 +536,7 @@ function InputFile(props) {
         }
 
         setLoading(false);
-      }).catch(error => {
+      })["catch"](function (error) {
         type[token] = '';
         setType(type);
         open[token] = false;
@@ -461,17 +548,17 @@ function InputFile(props) {
   function reloadType(t) {
     try {
       if (isArray(t) && t.length > 0) {
-        for (let i = 0; i < t.length; i++) {
-          let kondisi = cekValidFile(t[i]);
+        for (var i = 0; i < t.length; i++) {
+          var kondisi = cekValidFile(t[i]);
 
           if (kondisi) {
             fetchInfo(t[i]);
           }
         }
       } else {
-        let kondisi = cekValidFile(t);
+        var _kondisi = cekValidFile(t);
 
-        if (kondisi) {
+        if (_kondisi) {
           fetchInfo(t);
         }
       }
@@ -487,45 +574,45 @@ function InputFile(props) {
   }
 
   function setIsinya(d) {
-    let i = String(d).split('|');
+    var i = String(d).split('|');
     return setValid(i);
   }
 
-  useEffect(() => {
-    let x = props.value ? props.value : findArrayName(props.name, input);
+  useEffect(function () {
+    var x = props.value ? props.value : findArrayName(props.name, input);
 
     if (x) {
-      let cek = setIsinya(x);
+      var cek = setIsinya(x);
       setValue(cek);
     }
   }, []);
-  useEffect(() => {
-    let cek = setIsinya(findArrayName(props.name, input));
+  useEffect(function () {
+    var cek = setIsinya(findArrayName(props.name, input));
 
     if (!isEqual(cek, value)) {
       setValue(cek);
     }
   }, [findArrayName(props.name, input)]);
-  useEffect(() => {
+  useEffect(function () {
     reloadType(value);
   }, [value]);
-  useEffect(() => {
+  useEffect(function () {
     openFile(loading);
   }, [loading]);
 
   function toggle(val) {
-    setOpen({ ...open,
-      [val]: !open[val]
-    });
+    var _extends2;
+
+    setOpen(_extends({}, open, (_extends2 = {}, _extends2[val] = !open[val], _extends2)));
   }
 
   function fileUpload(file, base64) {
-    let url = props.url || process.env.REACT_APP_API_URL + '/file/upload';
+    var url = props.url || process.env.REACT_APP_API_URL + '/file/upload';
 
-    let _data = new FormData();
+    var _data = new FormData();
 
-    let _name = file.name;
-    let _type = file.type;
+    var _name = file.name;
+    var _type = file.type;
 
     _data.append('type', _type);
 
@@ -539,8 +626,8 @@ function InputFile(props) {
 
     setLoading(true);
     axios.post(url, _data, {
-      headers: setAuthHeader(auth, `multipart/form-data; boundary=${_data._boundary}`)
-    }).then(response => {
+      headers: setAuthHeader(auth, "multipart/form-data; boundary=" + _data._boundary)
+    }).then(function (response) {
       if (!isEmpty(response.data.message)) {
         dispatch({
           type: 'SET_MESSAGE',
@@ -568,7 +655,7 @@ function InputFile(props) {
       }
 
       setLoading(false);
-    }).catch(error => {
+    })["catch"](function (error) {
       dispatch({
         type: 'SET_INPUT',
         payload: {
@@ -585,9 +672,9 @@ function InputFile(props) {
   }
 
   function createfile(file) {
-    let reader = new FileReader();
+    var reader = new FileReader();
 
-    reader.onload = e => {
+    reader.onload = function (e) {
       fileUpload(file);
     };
 
@@ -595,10 +682,10 @@ function InputFile(props) {
   }
 
   function onChangeMultiple(file) {
-    let isi = JSON.parse(file.xhr.response);
-    let current = value || [];
+    var isi = JSON.parse(file.xhr.response);
+    var current = value || [];
     current.push(isi.data.token);
-    let t = filter(current, function (o) {
+    var t = filter(current, function (o) {
       return !isEmpty(o);
     }) || [];
     dispatch({
@@ -631,21 +718,24 @@ function InputFile(props) {
 
   function onClick(e) {
     openFile(true);
-    setTimeout(() => {
+    setTimeout(function () {
       openFile(false);
     }, 60000);
   }
 
   function onChange(e) {
-    let files = e.target.files || e.dataTransfer.files;
+    var files = e.target.files || e.dataTransfer.files;
     if (!files.length) return;
     createfile(files[0]);
   }
 
   function onDrop() {}
 
-  let [open, setOpen] = useState({});
-  let terisi = setValid(value);
+  var _useState4 = useState({}),
+      open = _useState4[0],
+      setOpen = _useState4[1];
+
+  var terisi = setValid(value);
 
   if (!process.env.REACT_APP_API_URL) {
     return /*#__PURE__*/React.createElement("span", null, "REACT_APP_API_URL is required for .env");
@@ -676,7 +766,7 @@ function InputFile(props) {
       removedfile: onDeleteMultiple
     },
     djsConfig: {
-      acceptedFiles,
+      acceptedFiles: acceptedFiles,
       params: {
         token: auth.user.token
       },
@@ -684,7 +774,7 @@ function InputFile(props) {
       autoProcessQueue: true,
       maxFiles: 5
     }
-  })), !loading && terisi.length > 0 && terisi.map((val, index) => {
+  })), !loading && terisi.length > 0 && terisi.map(function (val, index) {
     return /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'inline-block'
@@ -697,18 +787,24 @@ function InputFile(props) {
     }), /*#__PURE__*/React.createElement("br", null)), /*#__PURE__*/React.createElement(ButtonGroup, null, /*#__PURE__*/React.createElement(Button$1, {
       variant: "primary",
       size: "sm",
-      onClick: () => toggle(val)
+      onClick: function onClick() {
+        return toggle(val);
+      }
     }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
       icon: faSearch
     }), " Lihat"), /*#__PURE__*/React.createElement(Button$1, {
       vendor: "success",
-      onClick: () => window.location.href = process.env.REACT_APP_API_URL + '/file/download/' + val,
+      onClick: function onClick() {
+        return window.location.href = process.env.REACT_APP_API_URL + '/file/download/' + val;
+      },
       size: "sm"
     }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
       icon: faDownload
     }), " Unduh"), !props.isReadonly && /*#__PURE__*/React.createElement(Button$1, {
       variant: "danger",
-      onClick: () => onDelete(val),
+      onClick: function onClick() {
+        return onDelete(val);
+      },
       size: "sm"
     }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
       icon: faTimes
@@ -716,10 +812,14 @@ function InputFile(props) {
       size: "lg",
       id: 'modal_' + val,
       show: open[val],
-      onHide: () => toggle(val)
+      onHide: function onHide() {
+        return toggle(val);
+      }
     }, /*#__PURE__*/React.createElement(Modal$1.Header, {
       closeButton: true,
-      onHide: () => toggle(val)
+      onHide: function onHide() {
+        return toggle(val);
+      }
     }, /*#__PURE__*/React.createElement(Modal$1.Title, null, "Lampiran ", val)), /*#__PURE__*/React.createElement(Modal$1.Body, null, /*#__PURE__*/React.createElement(Preview, {
       key: val,
       type: type[val],
@@ -728,38 +828,42 @@ function InputFile(props) {
   }), loading && /*#__PURE__*/React.createElement(Loading, null));
 }
 
-class InputChoose extends React.Component {
-  constructor(props) {
-    super(props);
+var InputChoose = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InputChoose, _React$Component);
 
-    this.labelGenerate = option => {
-      let label = [];
+  function InputChoose(props) {
+    var _this;
 
-      if (isArray(this.props.optionLabel)) {
+    _this = _React$Component.call(this, props) || this;
 
-        for (let i = 0; i <= this.props.optionLabel.length - 1; i++) {
-          let isi = option[this.props.optionLabel[i]];
+    _this.labelGenerate = function (option) {
+      var label = [];
+
+      if (isArray(_this.props.optionLabel)) {
+
+        for (var i = 0; i <= _this.props.optionLabel.length - 1; i++) {
+          var isi = option[_this.props.optionLabel[i]];
           label.push(isi);
         }
       } else {
-        label.push(option[this.props.optionLabel]);
+        label.push(option[_this.props.optionLabel]);
       }
 
       return label;
     };
 
-    this.onChange = selectedOption => {
-      if (!this.props.isReadonly && this.props.name) {
+    _this.onChange = function (selectedOption) {
+      if (!_this.props.isReadonly && _this.props.name) {
         try {
-          if (this.props.isMultiple) {
-            let current_val = this.state.defaultValue || [];
-            let removed = false;
-            let new_val = [];
+          if (_this.props.isMultiple) {
+            var current_val = _this.state.defaultValue || [];
+            var removed = false;
+            var new_val = [];
 
-            for (let i = 0; i < current_val.length; i++) {
-              let isi = current_val[i];
+            for (var i = 0; i < current_val.length; i++) {
+              var isi = current_val[i];
 
-              if (isi == selectedOption[this.props.optionValue]) {
+              if (isi == selectedOption[_this.props.optionValue]) {
                 removed = true;
               } else {
                 new_val.push(isi);
@@ -767,43 +871,46 @@ class InputChoose extends React.Component {
             }
 
             if (!removed) {
-              new_val.push(selectedOption[this.props.optionValue]);
+              new_val.push(selectedOption[_this.props.optionValue]);
             }
 
-            this.props.setInput(this.props.name, new_val);
+            _this.props.setInput(_this.props.name, new_val);
           } else {
-            let val = findArrayName(this.props.name, this.props.input) || null;
+            var val = findArrayName(_this.props.name, _this.props.input) || null;
 
-            if (this.props.value) {
-              val = this.props.value;
+            if (_this.props.value) {
+              val = _this.props.value;
             }
 
-            let new_val = null;
+            var _new_val = null;
 
-            if (val != selectedOption[this.props.optionValue]) {
-              new_val = selectedOption[this.props.optionValue];
+            if (val != selectedOption[_this.props.optionValue]) {
+              _new_val = selectedOption[_this.props.optionValue];
             }
 
-            this.props.setInput(this.props.name, new_val);
+            _this.props.setInput(_this.props.name, _new_val);
           }
         } catch (e) {
-          this.props.setInput(this.props.name, null);
+          _this.props.setInput(_this.props.name, null);
         }
       }
 
-      this.onRefresh();
+      _this.onRefresh();
     };
 
-    this.state = {
+    _this.state = {
       defaultValue: null,
-      type: this.props.type || 'inline'
+      type: _this.props.type || 'inline'
     };
-    this.onRefresh = debounce(this.onRefresh.bind(this), 200);
+    _this.onRefresh = debounce(_this.onRefresh.bind(_assertThisInitialized(_this)), 200);
+    return _this;
   }
 
-  onRefresh() {
-    let val = null;
-    let defaultValue = null;
+  var _proto = InputChoose.prototype;
+
+  _proto.onRefresh = function onRefresh() {
+    var val = null;
+    var defaultValue = null;
 
     if (this.props.value) {
       val = this.props.value;
@@ -815,10 +922,10 @@ class InputChoose extends React.Component {
       if (this.props.isMultiple) {
         defaultValue = [];
 
-        for (let i = 0; i < this.props.options.length; i++) {
-          for (let y = 0; y < val.length; y++) {
-            let opt = this.props.options[i];
-            let cur = val[y];
+        for (var i = 0; i < this.props.options.length; i++) {
+          for (var y = 0; y < val.length; y++) {
+            var opt = this.props.options[i];
+            var cur = val[y];
 
             if (String(opt[this.props.optionValue]) == String(cur)) {
               defaultValue.push(opt[this.props.optionValue]);
@@ -834,22 +941,24 @@ class InputChoose extends React.Component {
 
     defaultValue = !isUndefined(defaultValue) && !isNull(defaultValue) ? defaultValue : null;
     this.setState({
-      defaultValue
+      defaultValue: defaultValue
     });
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState) {
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     if (!isEqual(findArrayName(this.props.name, prevProps.input), findArrayName(this.props.name, this.props.input)) && !isEqual(this.state.defaultValue, findArrayName(this.props.name, this.props.input))) {
       this.onRefresh();
     }
-  }
+  };
 
-  componentDidMount() {
+  _proto.componentDidMount = function componentDidMount() {
     this.onRefresh();
-  }
+  };
 
-  render() {
-    let options = [];
+  _proto.render = function render() {
+    var _this2 = this;
+
+    var options = [];
 
     try {
       options = this.props.options.length > 0 ? this.props.options : [];
@@ -857,26 +966,26 @@ class InputChoose extends React.Component {
 
     return /*#__PURE__*/React.createElement("div", {
       className: "custom-controls-stacked"
-    }, options.map(value => {
-      let isChecked = false;
+    }, options.map(function (value) {
+      var isChecked = false;
 
       try {
-        if (this.props.isMultiple) {
-          isChecked = includes(this.state.defaultValue, value[this.props.optionValue]);
+        if (_this2.props.isMultiple) {
+          isChecked = includes(_this2.state.defaultValue, value[_this2.props.optionValue]);
         } else {
-          isChecked = isEqual(value[this.props.optionValue], this.state.defaultValue[this.props.optionValue]);
+          isChecked = isEqual(value[_this2.props.optionValue], _this2.state.defaultValue[_this2.props.optionValue]);
         }
       } catch (e) {}
 
       return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Form.Check, {
-        inline: this.state.type == 'inline',
-        disabled: this.props.disabled || this.props.isReadonly,
-        type: this.props.isMultiple ? 'checkbox' : 'radio',
-        name: this.props.name,
-        onChange: this.onChange.bind(this, value),
+        inline: _this2.state.type == 'inline',
+        disabled: _this2.props.disabled || _this2.props.isReadonly,
+        type: _this2.props.isMultiple ? 'checkbox' : 'radio',
+        name: _this2.props.name,
+        onChange: _this2.onChange.bind(_this2, value),
         value: value,
         checked: isChecked,
-        label: this.labelGenerate(value).map((val, i) => {
+        label: _this2.labelGenerate(value).map(function (val, i) {
           if (isEqual(String(val).substring(0, 3), 'AT-')) {
             return /*#__PURE__*/React.createElement(InputFile, {
               value: val,
@@ -884,32 +993,39 @@ class InputChoose extends React.Component {
               preview: true
             });
           } else {
-            return this.props.isHtml ? parse(String(val)) : val;
+            return _this2.props.isHtml ? parse(String(val)) : val;
           }
         })
       }));
     }));
-  }
+  };
 
-}
+  return InputChoose;
+}(React.Component);
 
-let mapStateToProps$1 = state => ({
-  input: state.core.input || {}
-});
+var mapStateToProps$1 = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {}
+  };
+};
 
-let mapDispatchToProps$1 = dispatch => ({
-  setInput: (key, val) => dispatch({
-    type: 'SET_INPUT',
-    payload: {
-      key: slug(String(key)),
-      value: val
+var mapDispatchToProps$1 = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      return dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key)),
+          value: val
+        }
+      });
     }
-  })
-});
+  };
+};
 
 var InputChoose$1 = connect(mapStateToProps$1, mapDispatchToProps$1)(InputChoose);
 
-const CustomInput = props => {
+var CustomInput = function CustomInput(props) {
   return /*#__PURE__*/React.createElement(InputGroup, {
     size: "sm"
   }, /*#__PURE__*/React.createElement(InputGroup.Text, {
@@ -926,7 +1042,7 @@ const CustomInput = props => {
       fontSize: 'inherit'
     },
     type: "text",
-    class: "form-control",
+    className: "form-control",
     disabled: props.disabled,
     name: props.name,
     value: props.value || '',
@@ -934,45 +1050,58 @@ const CustomInput = props => {
   }));
 };
 
-class InputDate extends React.Component {
-  constructor(props) {
-    super(props);
+var InputDate = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InputDate, _React$Component);
 
-    this.handleInputChange = data => {
+  function InputDate(props) {
+    var _this;
+
+    _this = _React$Component.call(this, props) || this;
+
+    _this.handleInputChange = function (data) {
       data = moment__default(data).isValid() ? moment__default(data).format('YYYY-MM-DD') : null;
-      this.props.setInput(this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput(_this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.handleInputChangeStart = data => {
+    _this.handleInputChangeStart = function (data) {
       data = moment__default(data).isValid() ? moment__default(data).format('YYYY-MM-DD') : null;
-      this.props.setInput('start_' + this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput('start_' + _this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.handleInputChangeEnd = data => {
+    _this.handleInputChangeEnd = function (data) {
       data = moment__default(data).isValid() ? moment__default(data).format('YYYY-MM-DD') : null;
-      this.props.setInput('end_' + this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput('end_' + _this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.checkTglMerah = date => {
-      let x = moment__default(date).format('d');
+    _this.checkTglMerah = function (date) {
+      var x = moment__default(date).format('d');
       return x == 0 || x == 6 ? 'tglmerah' : undefined;
     };
 
-    this.state = {
+    _this.state = {
       selected: null,
       start_selected: null,
       end_selected: null
     };
-    this.onRefresh = debounce(this.onRefresh.bind(this), 200);
+    _this.onRefresh = debounce(_this.onRefresh.bind(_assertThisInitialized(_this)), 200);
+    return _this;
   }
 
-  onRefresh() {
+  var _proto = InputDate.prototype;
+
+  _proto.onRefresh = function onRefresh() {
     if (this.props.isRange) {
-      let start_selected = null;
-      let end_selected = null;
+      var start_selected = null;
+      var end_selected = null;
 
       try {
         start_selected = this.props.start_selected ? moment__default(this.props.start_selected).toDate() : findArrayName('start_' + this.props.name, this.props.input) ? moment__default(findArrayName('start_' + this.props.name, this.props.input)).toDate() : null;
@@ -983,27 +1112,27 @@ class InputDate extends React.Component {
       } catch (e) {}
 
       this.setState({
-        start_selected,
-        end_selected
+        start_selected: start_selected,
+        end_selected: end_selected
       });
     } else {
-      let selected = null;
+      var selected = null;
 
       try {
         selected = this.props.selected ? moment__default(this.props.selected).toDate() : findArrayName(this.props.name, this.props.input) ? moment__default(findArrayName(this.props.name, this.props.input)).toDate() : null;
       } catch (e) {}
 
       this.setState({
-        selected
+        selected: selected
       });
     }
-  }
+  };
 
-  componentDidMount() {
+  _proto.componentDidMount = function componentDidMount() {
     this.onRefresh();
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState) {
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     if (!this.props.isRange && findArrayName(this.props.name, prevProps.input) != findArrayName(this.props.name, this.props.input) && findArrayName(this.props.name, this.props.input) != this.state.selected) {
       this.onRefresh();
     }
@@ -1015,10 +1144,10 @@ class InputDate extends React.Component {
     if (this.props.isRange && findArrayName('end_' + this.props.name, prevProps.input) != findArrayName('end_' + this.props.name, this.props.input) && findArrayName('end_' + this.props.name, this.props.input) != this.state.end_selected) {
       this.onRefresh();
     }
-  }
+  };
 
-  render() {
-    let dateFormat = this.props.dateFormat ? this.props.dateFormat : this.props.yearOnly ? 'yyyy' : 'yyyy-MM-dd';
+  _proto.render = function render() {
+    var dateFormat = this.props.dateFormat ? this.props.dateFormat : this.props.yearOnly ? 'yyyy' : 'yyyy-MM-dd';
 
     if (this.props.isRange) {
       if (this.props.disabled || this.props.isReadonly) {
@@ -1121,96 +1250,107 @@ class InputDate extends React.Component {
       readOnly: this.props.disabled || this.props.isReadonly,
       shouldCloseOnSelect: false
     });
-  }
+  };
 
-}
+  return InputDate;
+}(React.Component);
 
-const mapStateToProps$2 = state => ({
-  input: state.core.input || {}
-});
+var mapStateToProps$2 = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {}
+  };
+};
 
-const mapDispatchToProps$2 = dispatch => ({
-  setInput: (key, val) => dispatch({
-    type: 'SET_INPUT',
-    payload: {
-      key: slug(String(key), '_'),
-      value: val
+var mapDispatchToProps$2 = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      return dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
     }
-  })
-});
+  };
+};
 
 var InputDate$1 = connect(mapStateToProps$2, mapDispatchToProps$2)(InputDate);
 
-class InputNumber extends React.Component {
-  constructor(props) {
-    super(props);
+var InputNumber = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InputNumber, _React$Component);
 
-    this.handleInputChange = event => {
-      let val = null;
+  function InputNumber(props) {
+    var _this;
 
-      if (this.props.type == 'decimal') {
+    _this = _React$Component.call(this, props) || this;
+
+    _this.handleInputChange = function (event) {
+      var val = null;
+
+      if (_this.props.type == 'decimal') {
         val = Number(event.target.value.replace(/[^0-9.-]+/g, ''));
-      } else if (this.props.type == 'percent') {
-        val = this.validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 0, 100);
-      } else if (this.props.type == 'range_three') {
-        val = this.validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 1, 3);
-      } else if (this.props.type == 'range_hundred') {
-        val = this.validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 1, 100);
-      } else if (this.props.type == 'range_depend') {
-        val = this.validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 0, 100);
+      } else if (_this.props.type == 'percent') {
+        val = _this.validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 0, 100);
+      } else if (_this.props.type == 'range_three') {
+        val = _this.validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 1, 3);
+      } else if (_this.props.type == 'range_hundred') {
+        val = _this.validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 1, 100);
+      } else if (_this.props.type == 'range_depend') {
+        val = _this.validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 0, 100);
       } else {
         val = event.target.value.replace(/[^0-9.-]+/g, '');
       }
 
-      let min = this.props.minValue ? Number(this.props.minValue) : null;
-      let max = this.props.maxValue ? Number(this.props.maxValue) : null;
+      var min = _this.props.minValue ? Number(_this.props.minValue) : null;
+      var max = _this.props.maxValue ? Number(_this.props.maxValue) : null;
 
       if (max && min) {
-        val = this.validate_min_max(val, min, max);
+        val = _this.validate_min_max(val, min, max);
       } else if (!max && min) {
-        val = this.validate_min_max(val, min, 999999999999);
+        val = _this.validate_min_max(val, min, 999999999999);
       } else if (max && !min) {
-        val = this.validate_min_max(val, 0, max);
+        val = _this.validate_min_max(val, 0, max);
       }
 
       val = val ? val : 0;
 
-      if (this.state.props_name) {
-        this.props.setInput(this.state.props_name, val);
+      if (_this.state.props_name) {
+        _this.props.setInput(_this.state.props_name, val);
       }
 
-      let rawValue = event.target.rawValue || null;
+      var rawValue = event.target.rawValue || null;
 
       if (!isNaN(parseFloat(rawValue)) && !isNaN(parseFloat(val)) && parseFloat(rawValue) !== parseFloat(val)) {
-        this.state.event.setRawValue(val);
+        _this.state.event.setRawValue(val);
       }
     };
 
-    this.onChange = val => {
-      this.setState({
+    _this.onChange = function (val) {
+      _this.setState({
         value: val
       });
 
-      if (this.state.props_name) {
-        this.props.setInput(this.state.props_name, val);
+      if (_this.state.props_name) {
+        _this.props.setInput(_this.state.props_name, val);
       }
     };
 
-    this.onRefresh = () => {
-      let val = '';
+    _this.onRefresh = function () {
+      var val = '';
 
       try {
-        let input_name = findArrayName(this.state.props_name, this.props.input);
-        val = this.props.value ? this.props.value : input_name;
+        var input_name = findArrayName(_this.state.props_name, _this.props.input);
+        val = _this.props.value ? _this.props.value : input_name;
       } catch (e) {}
 
-      let min = this.props.minValue ? Number(this.props.minValue) : null;
-      let max = this.props.maxValue ? Number(this.props.maxValue) : null;
-      let value = val ? parseInt(val) : min;
+      var min = _this.props.minValue ? Number(_this.props.minValue) : null;
+      var max = _this.props.maxValue ? Number(_this.props.maxValue) : null;
+      var value = val ? parseInt(val) : min;
 
-      if (this.props.type == 'decimal') {
+      if (_this.props.type == 'decimal') {
         value = val ? parseFloat(val) : min;
-      } else if (this.props.type == 'percent' || this.props.type == 'range_three' || max || min) {
+      } else if (_this.props.type == 'percent' || _this.props.type == 'range_three' || max || min) {
         value = val ? parseFloat(val) : min;
       }
 
@@ -1218,31 +1358,42 @@ class InputNumber extends React.Component {
         value = min;
       }
 
-      this.setState({
-        value
+      _this.setState({
+        value: value
       });
 
       try {
-        let rawValue = this.state.event.lastInputValue || null;
+        var rawValue = _this.state.event.lastInputValue || null;
 
         if (parseFloat(rawValue) !== parseFloat(value)) {
-          this.state.event.setRawValue(value);
+          _this.state.event.setRawValue(value);
         }
       } catch (e) {}
     };
-    this.state = {
+    _this.state = {
       defaultValue: null,
       options: {
         numeral: true
       },
       event: null,
       value: null,
-      props_name: slug(this.props.name, '_')
+      props_name: slug(_this.props.name, '_')
     };
-    this.onRefresh = debounce(this.onRefresh.bind(this), 200);
+    _this.onRefresh = debounce(_this.onRefresh.bind(_assertThisInitialized(_this)), 200);
+    return _this;
   }
 
-  validate_min_max(val, min = 0, max = 100) {
+  var _proto = InputNumber.prototype;
+
+  _proto.validate_min_max = function validate_min_max(val, min, max) {
+    if (min === void 0) {
+      min = 0;
+    }
+
+    if (max === void 0) {
+      max = 100;
+    }
+
     if (this.props.enableNegative && val < 0) {
       min = -max;
     }
@@ -1260,9 +1411,9 @@ class InputNumber extends React.Component {
     }
 
     return val ? Number(val) : null;
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState, snapshot) {
     if (!isEqual(findArrayName(this.state.props_name, prevProps.input), findArrayName(this.state.props_name, this.props.input)) && !isEqual(this.state.value, findArrayName(this.state.props_name, this.props.input))) {
       this.setState({
         rawValue: findArrayName(this.state.props_name, this.props.input) || null,
@@ -1272,17 +1423,17 @@ class InputNumber extends React.Component {
     }
 
     if (this.props.value && prevProps.value != this.props.value && this.props.value != this.state.value) {
-      let value = this.props.value || null;
+      var value = this.props.value || null;
       this.setState({
         rawValue: value,
         value: value
       });
       this.onRefresh();
     }
-  }
+  };
 
-  componentDidMount() {
-    let options = {
+  _proto.componentDidMount = function componentDidMount() {
+    var options = {
       numeral: true,
       numeralPositiveOnly: true
     };
@@ -1292,20 +1443,20 @@ class InputNumber extends React.Component {
     }
 
     this.setState({
-      options,
+      options: options,
       rawValue: findArrayName(this.state.props_name, this.props.input),
       value: findArrayName(this.state.props_name, this.props.input)
     });
     this.onRefresh();
-  }
+  };
 
-  onInit(cleave) {
+  _proto.onInit = function onInit(cleave) {
     this.setState({
       event: cleave
     });
-  }
+  };
 
-  render() {
+  _proto.render = function render() {
     if (this.props.disabled || this.props.isReadonly) {
       return !isNull(this.state.value) && !isUndefined(this.state.value) ? numberFormat(this.state.value, '') : null;
     }
@@ -1329,40 +1480,35 @@ class InputNumber extends React.Component {
       options: this.state.options,
       className: "form-control"
     });
-  }
+  };
 
-}
+  return InputNumber;
+}(React.Component);
 
-const mapStateToProps$3 = state => ({
-  input: state.core.input || {}
-});
+var mapStateToProps$3 = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {}
+  };
+};
 
-const mapDispatchToProps$3 = dispatch => ({
-  setInput: (key, val) => {
-    dispatch({
-      type: 'SET_INPUT',
-      payload: {
-        key: slug(String(key), '_'),
-        value: val
-      }
-    });
-  }
-});
+var mapDispatchToProps$3 = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
+    }
+  };
+};
 
 var InputNumber$1 = connect(mapStateToProps$3, mapDispatchToProps$3)(InputNumber);
 
-let _$1 = t => t,
-    _t;
-const StyledLoader = styled(LoadingOverlay)(_t || (_t = _$1`
-  overflow: hidden;
-
-  ._loading_overlay_overlay {
-    background: rgba(255, 255, 255, 0.5);
-  }
-  &._loading_overlay_wrapper--active {
-    overflow: hidden;
-  }
-`));
+var _templateObject;
+var StyledLoader = styled(LoadingOverlay)(_templateObject || (_templateObject = _taggedTemplateLiteralLoose(["\n  overflow: hidden;\n\n  ._loading_overlay_overlay {\n    background: rgba(255, 255, 255, 0.5);\n  }\n  &._loading_overlay_wrapper--active {\n    overflow: hidden;\n  }\n"])));
 
 function MyLoadingOvelay(props) {
   return /*#__PURE__*/React.createElement(StyledLoader, {
@@ -1372,36 +1518,40 @@ function MyLoadingOvelay(props) {
   }, props.children);
 }
 
-const Filter = ({
-  column
-}) => {
+var Filter = function Filter(_ref) {
+  var column = _ref.column;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       margin: '4px 0'
     }
   }, column.canFilter && column.render('Filter'));
 };
-const DefaultColumnFilter = props => {
-  let filterValue = props.column.filterValue;
-  let id = props.column.id;
-  let name = props.name;
-  let dispatch = useDispatch();
-  let [data, setData] = React.useState(filterValue);
-  let key = slug('search_' + name + '_' + id, '_');
-  let filter = useSelector(state => state.core.filter);
-  useEffect(() => {
+var DefaultColumnFilter = function DefaultColumnFilter(props) {
+  var filterValue = props.column.filterValue;
+  var id = props.column.id;
+  var name = props.name;
+  var dispatch = useDispatch();
+
+  var _React$useState = React.useState(filterValue),
+      data = _React$useState[0],
+      setData = _React$useState[1];
+
+  var key = slug('search_' + name + '_' + id, '_');
+  var filter = useSelector(function (state) {
+    return state.core.filter;
+  });
+  useEffect(function () {
     setData(filter[key]);
   }, []);
 
   function onChange(e) {
+    var _payload;
+
     e.preventDefault();
     setData(e.target.value);
     dispatch({
       type: 'SET_MULTI_FILTER',
-      payload: {
-        [key]: e.target.value,
-        [slug('loaded_' + name, '_')]: false
-      }
+      payload: (_payload = {}, _payload[key] = e.target.value, _payload[slug('loaded_' + name, '_')] = false, _payload)
     });
   }
 
@@ -1411,30 +1561,31 @@ const DefaultColumnFilter = props => {
     name: key,
     value: data,
     onChange: onChange,
-    placeholder: `Pencarian`
+    placeholder: "Pencarian"
   });
 };
 
-function DataTableContainer({
-  columns,
-  data,
-  renderRowSubComponent,
-  customPageIndex,
-  customPageSize,
-  customPageCount,
-  loading,
-  isColumnsSearchable,
-  primaryKey,
-  name,
-  customPageTotal
-}) {
-  let filter = useSelector(state => state.core.filter) || {};
-  let sortBy = [];
+function DataTableContainer(_ref2) {
+  var columns = _ref2.columns,
+      data = _ref2.data,
+      renderRowSubComponent = _ref2.renderRowSubComponent,
+      customPageIndex = _ref2.customPageIndex,
+      customPageSize = _ref2.customPageSize,
+      customPageCount = _ref2.customPageCount,
+      loading = _ref2.loading,
+      isColumnsSearchable = _ref2.isColumnsSearchable,
+      primaryKey = _ref2.primaryKey,
+      name = _ref2.name,
+      customPageTotal = _ref2.customPageTotal;
+  var filter = useSelector(function (state) {
+    return state.core.filter;
+  }) || {};
+  var sortBy = [];
 
-  for (let i = 0; i < columns.length; i++) {
+  for (var i = 0; i < columns.length; i++) {
     try {
-      let k = slug('sort_' + name + '_' + columns[i][primaryKey], '_');
-      let urut = filter[k];
+      var k = slug('sort_' + name + '_' + columns[i][primaryKey], '_');
+      var urut = filter[k];
 
       if (!isEmpty(urut) && !isNull(urut) && !isUndefined(urut)) {
         sortBy.push({
@@ -1445,54 +1596,49 @@ function DataTableContainer({
     } catch (e) {}
   }
 
-  let {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    prepareRow,
-    visibleColumns,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {
-      pageIndex,
-      pageSize
-    }
-  } = useTable({
-    columns,
-    data,
+  var _useTable = useTable({
+    columns: columns,
+    data: data,
     defaultColumn: {
-      Filter: props => /*#__PURE__*/React.createElement(DefaultColumnFilter, Object.assign({}, props, {
-        name: name
-      }))
+      Filter: function Filter(props) {
+        return /*#__PURE__*/React.createElement(DefaultColumnFilter, _extends({}, props, {
+          name: name
+        }));
+      }
     },
     initialState: {
       pageIndex: customPageIndex,
       pageSize: customPageSize,
-      sortBy
+      sortBy: sortBy
     },
     manualPagination: true,
     pageCount: customPageCount,
     manualSortBy: true,
     defaultCanSort: true,
-    isMultiSortEvent: () => {}
-  }, useFilters, useSortBy, useExpanded, usePagination);
-  let headers = headerGroups[0].headers || [];
-  useDebounce(() => {
-    let sort = {};
+    isMultiSortEvent: function isMultiSortEvent() {}
+  }, useFilters, useSortBy, useExpanded, usePagination),
+      getTableProps = _useTable.getTableProps,
+      getTableBodyProps = _useTable.getTableBodyProps,
+      headerGroups = _useTable.headerGroups,
+      page = _useTable.page,
+      prepareRow = _useTable.prepareRow,
+      visibleColumns = _useTable.visibleColumns,
+      gotoPage = _useTable.gotoPage,
+      setPageSize = _useTable.setPageSize,
+      _useTable$state = _useTable.state,
+      pageIndex = _useTable$state.pageIndex,
+      pageSize = _useTable$state.pageSize;
 
-    for (let i = 0; i < headers.length; i++) {
-      let x = headers[i];
+  var headers = headerGroups[0].headers || [];
+  useDebounce(function () {
+    var sort = {};
+
+    for (var _i = 0; _i < headers.length; _i++) {
+      var x = headers[_i];
 
       if (x) {
-        let mykey = slug('sort_' + name + '_' + x[primaryKey], '_');
-        let mysort = x.isSorted ? x.isSortedDesc ? 'desc' : 'asc' : null;
+        var mykey = slug('sort_' + name + '_' + x[primaryKey], '_');
+        var mysort = x.isSorted ? x.isSortedDesc ? 'desc' : 'asc' : null;
 
         if (mysort != filter[mykey]) {
           sort[mykey] = mysort;
@@ -1501,66 +1647,73 @@ function DataTableContainer({
     }
 
     if (!isEmpty(sort)) {
+      var _extends2;
+
       dispatch({
         type: 'SET_MULTI_FILTER',
-        payload: { ...sort,
-          [slug('loaded_' + name, '_')]: false
-        }
+        payload: _extends({}, sort, (_extends2 = {}, _extends2[slug('loaded_' + name, '_')] = false, _extends2))
       });
     }
   }, 1000, [headers]);
-  let [localLoading, setLocalLoading] = useState(loading);
-  let [curpage, setCurPage] = useState(pageIndex);
-  let dispatch = useDispatch();
 
-  let generateSortingIndicator = column => {
+  var _useState = useState(loading),
+      localLoading = _useState[0],
+      setLocalLoading = _useState[1];
+
+  var _useState2 = useState(pageIndex),
+      curpage = _useState2[0],
+      setCurPage = _useState2[1];
+
+  var dispatch = useDispatch();
+
+  var generateSortingIndicator = function generateSortingIndicator(column) {
     return column.isSorted ? column.isSortedDesc ? ' ↓' : ' ↑' : '';
   };
 
-  let onChangeInSelect = event => {
+  var onChangeInSelect = function onChangeInSelect(event) {
+    var _payload2;
+
     setPageSize(Number(event.target.value));
     dispatch({
       type: 'SET_MULTI_FILTER',
-      payload: {
-        [slug('load_' + name, '_')]: Number(event.target.value),
-        [slug('page_' + name, '_')]: curpage
-      }
+      payload: (_payload2 = {}, _payload2[slug('load_' + name, '_')] = Number(event.target.value), _payload2[slug('page_' + name, '_')] = curpage, _payload2)
     });
   };
 
-  let onChangeInInput = event => {
-    let page = event.target.value ? Number(event.target.value) : 0;
+  var onChangeInInput = function onChangeInInput(event) {
+    var page = event.target.value ? Number(event.target.value) : 0;
     customgotoPage(page);
   };
 
-  let customcanNextPage = pageIndex < customPageCount;
-  let customcanPreviousPage = pageIndex >= 2;
+  var customcanNextPage = pageIndex < customPageCount;
+  var customcanPreviousPage = pageIndex >= 2;
 
-  let customnextPage = () => {
+  var customnextPage = function customnextPage() {
     customgotoPage(curpage + 1);
   };
 
-  let custompreviousPage = () => {
+  var custompreviousPage = function custompreviousPage() {
     customgotoPage(curpage - 1);
   };
 
-  let customgotoPage = isi => {
+  var customgotoPage = function customgotoPage(isi) {
     setCurPage(isi);
   };
 
-  useDebounce(() => {
+  useDebounce(function () {
+    var _payload3;
+
     gotoPage(curpage);
     dispatch({
       type: 'SET_MULTI_FILTER',
-      payload: {
-        [slug('load_' + name, '_')]: pageSize,
-        [slug('page_' + name, '_')]: curpage
-      }
+      payload: (_payload3 = {}, _payload3[slug('load_' + name, '_')] = pageSize, _payload3[slug('page_' + name, '_')] = curpage, _payload3)
     });
   }, 1000, [curpage]);
-  useEffect(() => {
+  useEffect(function () {
     if (setLocalLoading && !loading) {
-      setTimeout(() => setLocalLoading(loading), 1000);
+      setTimeout(function () {
+        return setLocalLoading(loading);
+      }, 1000);
     } else {
       setLocalLoading(loading);
     }
@@ -1580,7 +1733,9 @@ function DataTableContainer({
       border: 'none'
     },
     variant: "primary",
-    onClick: () => customgotoPage(1),
+    onClick: function onClick() {
+      return customgotoPage(1);
+    },
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
     icon: faAngleDoubleLeft
@@ -1641,13 +1796,15 @@ function DataTableContainer({
       border: 'none'
     },
     variant: "primary",
-    onClick: () => customgotoPage(customPageCount),
+    onClick: function onClick() {
+      return customgotoPage(customPageCount);
+    },
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
     icon: faAngleDoubleRight
   })))), /*#__PURE__*/React.createElement("div", {
     className: "text-center mt-2 mb-2"
-  }, /*#__PURE__*/React.createElement("strong", null, numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React.createElement("strong", null, numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React.createElement("strong", null, numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React.createElement(Table, Object.assign({
+  }, /*#__PURE__*/React.createElement("strong", null, numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React.createElement("strong", null, numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React.createElement("strong", null, numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React.createElement(Table, _extends({
     style: {
       minHeight: 120,
       margin: 0,
@@ -1658,28 +1815,32 @@ function DataTableContainer({
     hover: true,
     striped: true,
     vcenter: true
-  }, getTableProps()), /*#__PURE__*/React.createElement("thead", null, headerGroups.map(headerGroup => /*#__PURE__*/React.createElement("tr", headerGroup.getHeaderGroupProps(), headerGroup.headers.map(column => /*#__PURE__*/React.createElement("th", Object.assign({
-    style: {
-      padding: '4px 8px',
-      borderTop: '1px solid #dee2e6'
-    }
-  }, column.getHeaderProps()), /*#__PURE__*/React.createElement("div", column.getSortByToggleProps(), /*#__PURE__*/React.createElement("span", {
-    style: {
-      display: 'inline-block'
-    }
-  }, column.render('Header')), /*#__PURE__*/React.createElement("span", {
-    style: {
-      display: 'inline-block',
-      fontWeight: 'bold'
-    }
-  }, generateSortingIndicator(column))), isColumnsSearchable && /*#__PURE__*/React.createElement(Filter, {
-    column: column
-  })))))), /*#__PURE__*/React.createElement("tbody", getTableBodyProps(), page.length > 0 && !localLoading ? page.map(row => {
+  }, getTableProps()), /*#__PURE__*/React.createElement("thead", null, headerGroups.map(function (headerGroup) {
+    return /*#__PURE__*/React.createElement("tr", headerGroup.getHeaderGroupProps(), headerGroup.headers.map(function (column) {
+      return /*#__PURE__*/React.createElement("th", _extends({
+        style: {
+          padding: '4px 8px',
+          borderTop: '1px solid #dee2e6'
+        }
+      }, column.getHeaderProps()), /*#__PURE__*/React.createElement("div", column.getSortByToggleProps(), /*#__PURE__*/React.createElement("span", {
+        style: {
+          display: 'inline-block'
+        }
+      }, column.render('Header')), /*#__PURE__*/React.createElement("span", {
+        style: {
+          display: 'inline-block',
+          fontWeight: 'bold'
+        }
+      }, generateSortingIndicator(column))), isColumnsSearchable && /*#__PURE__*/React.createElement(Filter, {
+        column: column
+      }));
+    }));
+  })), /*#__PURE__*/React.createElement("tbody", getTableBodyProps(), page.length > 0 && !localLoading ? page.map(function (row) {
     prepareRow(row);
     return /*#__PURE__*/React.createElement(React.Fragment, {
       key: row.getRowProps().key
-    }, /*#__PURE__*/React.createElement("tr", null, row.cells.map((cell, index) => {
-      return /*#__PURE__*/React.createElement("td", Object.assign({
+    }, /*#__PURE__*/React.createElement("tr", null, row.cells.map(function (cell, index) {
+      return /*#__PURE__*/React.createElement("td", _extends({
         style: {
           padding: '4px 8px',
           width: index == 0 ? '10px' : 'auto'
@@ -1691,13 +1852,15 @@ function DataTableContainer({
       },
       colSpan: visibleColumns.length
     }, renderRowSubComponent(row))));
-  }) : headerGroups.map(headerGroup => /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
-    style: {
-      padding: '12px 0',
-      textAlign: 'center'
-    },
-    colSpan: headerGroup.headers.length
-  }, localLoading ? 'MEMPROSES...' : 'TIDAK ADA DATA'))))), /*#__PURE__*/React.createElement("div", {
+  }) : headerGroups.map(function (headerGroup) {
+    return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
+      style: {
+        padding: '12px 0',
+        textAlign: 'center'
+      },
+      colSpan: headerGroup.headers.length
+    }, localLoading ? 'MEMPROSES...' : 'TIDAK ADA DATA'));
+  }))), /*#__PURE__*/React.createElement("div", {
     className: "text-center mt-2 mb-2"
   }, /*#__PURE__*/React.createElement("strong", null, numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React.createElement("strong", null, numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React.createElement("strong", null, numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React.createElement("div", {
     className: "custom-scroll",
@@ -1709,7 +1872,9 @@ function DataTableContainer({
       border: 'none'
     },
     variant: "primary",
-    onClick: () => customgotoPage(1),
+    onClick: function onClick() {
+      return customgotoPage(1);
+    },
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
     icon: faAngleDoubleLeft
@@ -1770,7 +1935,9 @@ function DataTableContainer({
       border: 'none'
     },
     variant: "primary",
-    onClick: () => customgotoPage(customPageCount),
+    onClick: function onClick() {
+      return customgotoPage(customPageCount);
+    },
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
     icon: faAngleDoubleRight
@@ -1778,34 +1945,69 @@ function DataTableContainer({
 }
 
 function DataTable(props) {
-  let [visible, setVisible] = useState(false);
-  let [data, setData] = useState([]);
-  let [temp, setTemp] = useState([]);
-  let [meta, setMeta] = useState({});
-  let [tooltipOpenEx, setTooltipOpenEx] = useState(false);
-  let [tooltipOpenIm, setTooltipOpenIm] = useState(false);
+  var _React$createElement;
 
-  let toggleImport = () => setTooltipOpenIm(!tooltipOpenIm);
+  var _useState = useState(false),
+      visible = _useState[0],
+      setVisible = _useState[1];
 
-  let toggleExport = () => setTooltipOpenEx(!tooltipOpenEx);
+  var _useState2 = useState([]),
+      data = _useState2[0],
+      setData = _useState2[1];
 
-  let dispatch = useDispatch();
-  let parameter = useSelector(state => state.core.parameter) || {};
-  let input = useSelector(state => state.core.input) || {};
-  let user = useSelector(state => state.auth.user) || {};
-  let filter$1 = useSelector(state => state.core.filter) || {};
-  let key_select = slug('selected_' + props.name, '_');
-  let primaryKey = props.primaryKey ? props.primaryKey : 'id';
+  var _useState3 = useState([]),
+      temp = _useState3[0],
+      setTemp = _useState3[1];
 
-  function onChecked(rowInfo, input, exist = false) {
-    let value = rowInfo.row.original || {};
+  var _useState4 = useState({}),
+      meta = _useState4[0],
+      setMeta = _useState4[1];
+
+  var _useState5 = useState(false),
+      tooltipOpenEx = _useState5[0],
+      setTooltipOpenEx = _useState5[1];
+
+  var _useState6 = useState(false),
+      tooltipOpenIm = _useState6[0],
+      setTooltipOpenIm = _useState6[1];
+
+  var toggleImport = function toggleImport() {
+    return setTooltipOpenIm(!tooltipOpenIm);
+  };
+
+  var toggleExport = function toggleExport() {
+    return setTooltipOpenEx(!tooltipOpenEx);
+  };
+
+  var dispatch = useDispatch();
+  var parameter = useSelector(function (state) {
+    return state.core.parameter;
+  }) || {};
+  var input = useSelector(function (state) {
+    return state.core.input;
+  }) || {};
+  var user = useSelector(function (state) {
+    return state.auth.user;
+  }) || {};
+  var filter$1 = useSelector(function (state) {
+    return state.core.filter;
+  }) || {};
+  var key_select = slug('selected_' + props.name, '_');
+  var primaryKey = props.primaryKey ? props.primaryKey : 'id';
+
+  function onChecked(rowInfo, input, exist) {
+    if (exist === void 0) {
+      exist = false;
+    }
+
+    var value = rowInfo.row.original || {};
 
     if (props.selectable == 'single') {
       dispatch({
         type: 'SET_PARAMETER',
         payload: {
           key: key_select,
-          value
+          value: value
         }
       });
       dispatch({
@@ -1816,10 +2018,10 @@ function DataTable(props) {
         }
       });
     } else {
-      let new_input = [];
+      var new_input = [];
 
       if (exist) {
-        new_input = filter(findArrayName(key_select, input), o => {
+        new_input = filter(findArrayName(key_select, input), function (o) {
           return o && value && parseInt(o) != parseInt(value[primaryKey]);
         }) || [];
       } else {
@@ -1843,13 +2045,15 @@ function DataTable(props) {
     }
   }
 
-  let checkComponent = {
+  var checkComponent = {
     Header: '#',
     id: 'select',
     width: '10px',
-    Cell: row => {
-      let local_input = useSelector(state => state.core.input);
-      let checked = false;
+    Cell: function Cell(row) {
+      var local_input = useSelector(function (state) {
+        return state.core.input;
+      });
+      var checked = false;
 
       try {
         if (props.selectable == 'single') {
@@ -1868,25 +2072,29 @@ function DataTable(props) {
         value: 1,
         checked: checked,
         disabled: props.isReadonly,
-        onChange: () => onChecked(row, local_input, checked)
+        onChange: function onChange() {
+          return onChecked(row, local_input, checked);
+        }
       });
     }
   };
-  let nodeRef = useRef();
-  let isVisible = useIsVisible(nodeRef);
-  let col = !isEmpty(props.selectable) ? [checkComponent, ...props.columns] : [...props.columns];
+  var nodeRef = useRef();
+  var isVisible = useIsVisible(nodeRef);
+  var col = !isEmpty(props.selectable) ? [checkComponent].concat(props.columns) : [].concat(props.columns);
 
   if (props.action) {
-    let actionComponent = {
+    var actionComponent = {
       Header: 'Aksi',
       id: 'aksi_' + props.name,
       sortable: false,
-      Cell: row => {
-        let param = useSelector(state => state.core.parameter);
-        let isi = row.row.original[primaryKey];
+      Cell: function Cell(row) {
+        var param = useSelector(function (state) {
+          return state.core.parameter;
+        });
+        var isi = row.row.original[primaryKey];
 
         function openToggle(data) {
-          let current = isEqual(param.dropdown, data) ? null : data;
+          var current = isEqual(param.dropdown, data) ? null : data;
           dispatch({
             type: 'SET_PARAMETER',
             payload: {
@@ -1902,31 +2110,35 @@ function DataTable(props) {
           id: 'dropdown_' + props.name + '_' + isi,
           className: "custom-scroll",
           isOpen: isEqual(param.dropdown, isi),
-          toggle: () => openToggle(isi),
+          toggle: function toggle() {
+            return openToggle(isi);
+          },
           drop: 'end',
           variant: "primary",
           title: ''
         }, filter(props.action, function (o) {
           return isUndefined(o.show) || o.show;
-        }).map((value, index) => {
-          let disabled = isBoolean(value.disabled) ? value.disabled : false;
+        }).map(function (value, index) {
+          var disabled = isBoolean(value.disabled) ? value.disabled : false;
           return /*#__PURE__*/React.createElement(Dropdown.Item, {
             key: 'dropdownitem_' + props.name + '_' + isi + '_' + index,
-            onClick: () => value.onClick(row.row.original),
+            onClick: function onClick() {
+              return value.onClick(row.row.original);
+            },
             disabled: disabled
           }, value.label);
         }));
       }
     };
-    col = !isEmpty(props.selectable) ? [actionComponent, checkComponent, ...props.columns] : [actionComponent, ...props.columns];
+    col = !isEmpty(props.selectable) ? [actionComponent, checkComponent].concat(props.columns) : [actionComponent].concat(props.columns);
   }
 
-  useEffect(() => {
+  useEffect(function () {
     if (isVisible != visible) {
       setVisible(isVisible);
     }
   });
-  useEffect(() => {
+  useEffect(function () {
     dispatch({
       type: 'SET_FILTER',
       payload: {
@@ -1952,7 +2164,7 @@ function DataTable(props) {
     }
   }
 
-  useDebounce(() => {
+  useDebounce(function () {
     if (visible) {
       onReload();
     }
@@ -1960,11 +2172,11 @@ function DataTable(props) {
   useDebounce(onReload, 1000, [findArrayName(slug('keyword_' + props.name, '_'), filter$1), findArrayName(slug('page_' + props.name, '_'), filter$1), findArrayName(slug('load_' + props.name, '_'), filter$1), findArrayName(slug('loaded_' + props.name, '_'), filter$1)]);
 
   function syncParameter() {
-    let new_parameter = null;
-    let new_input = null;
+    var new_parameter = null;
+    var new_input = null;
 
     if (props.selectable == 'single') {
-      new_parameter = new_parameter = find(temp, o => {
+      new_parameter = new_parameter = find(temp, function (o) {
         return o && parseInt(o[primaryKey]) == new_input;
       }) || {};
       new_input = findArrayName(key_select, input) || null;
@@ -1972,14 +2184,18 @@ function DataTable(props) {
       new_parameter = [];
       new_input = findArrayName(key_select, input) || [];
 
-      for (let i = 0; i < new_input.length; i++) {
-        let find_data = find(temp, o => {
+      var _loop = function _loop(i) {
+        var find_data = find(temp, function (o) {
           return o && parseInt(o[primaryKey]) == new_input[i];
         }) || {};
 
         if (!isEmpty(find_data)) {
           new_parameter.push(find_data);
         }
+      };
+
+      for (var i = 0; i < new_input.length; i++) {
+        _loop(i);
       }
     }
 
@@ -1992,26 +2208,32 @@ function DataTable(props) {
     });
   }
 
-  useDebounce(() => {
-    setTemp(val => uniqBy([...val, ...data], primaryKey));
+  useDebounce(function () {
+    setTemp(function (val) {
+      return uniqBy([].concat(val, data), primaryKey);
+    });
 
     if (findArrayName(key_select, input)) {
       syncParameter();
     }
   }, 1000, [findArrayName(key_select, input), filter$1]);
-  useDebounce(() => {
+  useDebounce(function () {
     try {
       setData(props.data.data || []);
     } catch (e) {}
 
-    setTemp(val => uniqBy([...val, ...data], primaryKey));
+    setTemp(function (val) {
+      return uniqBy([].concat(val, data), primaryKey);
+    });
 
     try {
       setMeta(props.data.meta || {});
     } catch (e) {}
   }, 1000, [props.data]);
-  let columns = React.useMemo(() => col, []);
-  let hapus = false;
+  var columns = React.useMemo(function () {
+    return col;
+  }, []);
+  var hapus = false;
 
   try {
     hapus = user.role == 'admin';
@@ -2048,7 +2270,7 @@ function DataTable(props) {
     }
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
     icon: faSearch
-  })), /*#__PURE__*/React.createElement(Form.Control, {
+  })), /*#__PURE__*/React.createElement(Form.Control, (_React$createElement = {
     id: slug('keyword_' + props.name, '_'),
     key: slug('keyword_' + props.name, '_'),
     style: {
@@ -2056,21 +2278,16 @@ function DataTable(props) {
     },
     className: "form-control",
     value: findArrayName(slug('keyword_' + props.name, '_'), filter$1),
-    onChange: e => {
+    onChange: function onChange(e) {
+      var _payload;
+
       dispatch({
         type: 'SET_MULTI_FILTER',
-        payload: {
-          [slug('keyword_' + props.name, '_')]: e.target.value,
-          [slug('page_' + props.name, '_')]: 1,
-          loaded: false
-        }
+        payload: (_payload = {}, _payload[slug('keyword_' + props.name, '_')] = e.target.value, _payload[slug('page_' + props.name, '_')] = 1, _payload.loaded = false, _payload)
       });
     },
-    type: "text",
-    id: slug('keyword_' + key_select),
-    name: "keyword",
-    placeholder: "Pencarian"
-  }), /*#__PURE__*/React.createElement(Button$1, {
+    type: "text"
+  }, _React$createElement["id"] = slug('keyword_' + key_select), _React$createElement.name = "keyword", _React$createElement.placeholder = "Pencarian", _React$createElement)), /*#__PURE__*/React.createElement(Button$1, {
     style: {
       zIndex: 0
     },
@@ -2081,7 +2298,7 @@ function DataTable(props) {
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
     icon: faSync,
     spin: props.isLoading
-  })), (props.export || props.import) && /*#__PURE__*/React.createElement(React.Fragment, null, props.export && /*#__PURE__*/React.createElement(Button$1, {
+  })), (props["export"] || props["import"]) && /*#__PURE__*/React.createElement(React.Fragment, null, props["export"] && /*#__PURE__*/React.createElement(Button$1, {
     id: "exportFile",
     style: {
       zIndex: 0
@@ -2099,7 +2316,7 @@ function DataTable(props) {
     autohide: false,
     target: "exportFile",
     toggle: toggleExport
-  }, "Export")), props.import && /*#__PURE__*/React.createElement(Button$1, {
+  }, "Export")), props["import"] && /*#__PURE__*/React.createElement(Button$1, {
     id: "importFile",
     style: {
       zIndex: 0
@@ -2133,14 +2350,14 @@ function DataTable(props) {
 }
 
 function Field(props) {
-  let message = [];
+  var message = [];
 
   if (isArray(props.errorMessage)) {
-    for (let i = 0; i < props.errorMessage.length; i++) {
-      let isi = props.errorMessage[i];
+    for (var i = 0; i < props.errorMessage.length; i++) {
+      var isi = props.errorMessage[i];
 
       if (isArray(isi)) {
-        for (let y = 0; y < isi.length; y++) {
+        for (var y = 0; y < isi.length; y++) {
           message.push(isi[y]);
         }
       } else {
@@ -2161,15 +2378,17 @@ function Field(props) {
     className: "form-text text-muted"
   }, props.hint)), /*#__PURE__*/React.createElement("div", {
     className: 'col-md-' + (props.inputSize ? props.inputSize : 9)
-  }, props.children, message.length > 0 && message.map((value, index) => /*#__PURE__*/React.createElement(Badge, {
-    color: "danger",
-    style: {
-      marginRight: 10
-    }
-  }, value))));
+  }, props.children, message.length > 0 && message.map(function (value, index) {
+    return /*#__PURE__*/React.createElement(Badge, {
+      color: "danger",
+      style: {
+        marginRight: 10
+      }
+    }, value);
+  })));
 }
 
-const CustomInput$1 = props => {
+var CustomInput$1 = function CustomInput(props) {
   return /*#__PURE__*/React.createElement(InputGroup, {
     size: "sm"
   }, /*#__PURE__*/React.createElement(InputGroup.Text, {
@@ -2187,7 +2406,7 @@ const CustomInput$1 = props => {
       fontSize: 'inherit'
     },
     type: "text",
-    class: "form-control",
+    className: "form-control",
     disabled: props.disabled,
     name: props.name,
     value: props.value || '',
@@ -2202,45 +2421,58 @@ const CustomInput$1 = props => {
   })));
 };
 
-class InputDateTime extends React.Component {
-  constructor(props) {
-    super(props);
+var InputDateTime = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InputDateTime, _React$Component);
 
-    this.handleInputChange = data => {
+  function InputDateTime(props) {
+    var _this;
+
+    _this = _React$Component.call(this, props) || this;
+
+    _this.handleInputChange = function (data) {
       data = moment__default(data).isValid() ? moment__default(data).format('YYYY-MM-DD HH:mm:ss') : null;
-      this.props.setInput(this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput(_this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.handleInputChangeStart = data => {
+    _this.handleInputChangeStart = function (data) {
       data = moment__default(data).isValid() ? moment__default(data).format('YYYY-MM-DD HH:mm:ss') : null;
-      this.props.setInput('start_' + this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput('start_' + _this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.handleInputChangeEnd = data => {
+    _this.handleInputChangeEnd = function (data) {
       data = moment__default(data).isValid() ? moment__default(data).format('YYYY-MM-DD HH:mm:ss:ss') : null;
-      this.props.setInput('end_' + this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput('end_' + _this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.checkTglMerah = date => {
-      const x = moment__default(date).format('d');
+    _this.checkTglMerah = function (date) {
+      var x = moment__default(date).format('d');
       return x == 5 || x == 6 ? 'tglmerah' : undefined;
     };
 
-    this.state = {
+    _this.state = {
       selected: null,
       start_selected: null,
       end_selected: null
     };
-    this.onRefresh = _.debounce(this.onRefresh.bind(this), 200);
+    _this.onRefresh = _.debounce(_this.onRefresh.bind(_assertThisInitialized(_this)), 200);
+    return _this;
   }
 
-  onRefresh() {
+  var _proto = InputDateTime.prototype;
+
+  _proto.onRefresh = function onRefresh() {
     if (this.props.isRange) {
-      let start_selected = null;
-      let end_selected = null;
+      var start_selected = null;
+      var end_selected = null;
 
       try {
         start_selected = this.props.start_selected ? moment__default(this.props.start_selected).toDate() : findArrayName('start_' + this.props.name, this.props.input) ? moment__default(findArrayName('start_' + this.props.name, this.props.input)).toDate() : null;
@@ -2251,27 +2483,27 @@ class InputDateTime extends React.Component {
       } catch (e) {}
 
       this.setState({
-        start_selected,
-        end_selected
+        start_selected: start_selected,
+        end_selected: end_selected
       });
     } else {
-      let selected = null;
+      var selected = null;
 
       try {
         selected = this.props.selected ? moment__default(this.props.selected).toDate() : findArrayName(this.props.name, this.props.input) ? moment__default(findArrayName(this.props.name, this.props.input)).toDate() : null;
       } catch (e) {}
 
       this.setState({
-        selected
+        selected: selected
       });
     }
-  }
+  };
 
-  componentDidMount() {
+  _proto.componentDidMount = function componentDidMount() {
     this.onRefresh();
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState) {
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     if (!this.props.isRange && findArrayName(this.props.name, prevProps.input) != findArrayName(this.props.name, this.props.input) && findArrayName(this.props.name, this.props.input) != this.state.selected) {
       this.onRefresh();
     }
@@ -2283,9 +2515,9 @@ class InputDateTime extends React.Component {
     if (this.props.isRange && findArrayName('end_' + this.props.name, prevProps.input) != findArrayName('end_' + this.props.name, this.props.input) && findArrayName('end_' + this.props.name, this.props.input) != this.state.end_selected) {
       this.onRefresh();
     }
-  }
+  };
 
-  render() {
+  _proto.render = function render() {
     if (this.props.isRange) {
       if (this.props.disabled || this.props.isReadonly) {
         return /*#__PURE__*/React.createElement("div", {
@@ -2393,28 +2625,35 @@ class InputDateTime extends React.Component {
       dropdownMode: "select",
       shouldCloseOnSelect: false
     });
-  }
+  };
 
-}
+  return InputDateTime;
+}(React.Component);
 
-const mapStateToProps$4 = state => ({
-  input: state.core.input || {}
-});
+var mapStateToProps$4 = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {}
+  };
+};
 
-const mapDispatchToProps$4 = dispatch => ({
-  setInput: (key, val) => dispatch({
-    type: 'SET_INPUT',
-    payload: {
-      key: slug(String(key), '_'),
-      value: val
+var mapDispatchToProps$4 = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      return dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
     }
-  })
-});
+  };
+};
 
 var InputDateTime$1 = connect(mapStateToProps$4, mapDispatchToProps$4)(InputDateTime);
 
-let formattime = 'HH:mm:ss';
-let now = moment__default();
+var formattime = 'HH:mm:ss';
+var now = moment__default();
 
 function IconClock() {
   return /*#__PURE__*/React.createElement(FontAwesomeIcon, {
@@ -2428,37 +2667,50 @@ function IconClock() {
   });
 }
 
-class InputTime extends React.Component {
-  constructor(props) {
-    super(props);
+var InputTime = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InputTime, _React$Component);
 
-    this.handleInputChange = data => {
+  function InputTime(props) {
+    var _this;
+
+    _this = _React$Component.call(this, props) || this;
+
+    _this.handleInputChange = function (data) {
       data = data ? moment__default(data).format(formattime) : null;
-      this.props.setInput(this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput(_this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.handleInputChangeStart = data => {
+    _this.handleInputChangeStart = function (data) {
       data = data ? moment__default(data).format(formattime) : null;
-      this.props.setInput('start_' + this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput('start_' + _this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.handleInputChangeEnd = data => {
+    _this.handleInputChangeEnd = function (data) {
       data = data ? moment__default(data).format(formattime) : null;
-      this.props.setInput('end_' + this.props.name, data);
-      this.onRefresh();
+
+      _this.props.setInput('end_' + _this.props.name, data);
+
+      _this.onRefresh();
     };
 
-    this.state = {
+    _this.state = {
       selected: null,
       start_selected: null,
       end_selected: null
     };
-    this.onRefresh = debounce(this.onRefresh.bind(this), 200);
+    _this.onRefresh = debounce(_this.onRefresh.bind(_assertThisInitialized(_this)), 200);
+    return _this;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  var _proto = InputTime.prototype;
+
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     if (!this.props.isRange && findArrayName(this.props.name, prevProps.input) != findArrayName(this.props.name, this.props.input) && findArrayName(this.props.name, this.props.input) != this.state.selected) {
       this.onRefresh();
     }
@@ -2470,12 +2722,12 @@ class InputTime extends React.Component {
     if (this.props.isRange && findArrayName('end_' + this.props.name, prevProps.input) != findArrayName('end_' + this.props.name, this.props.input) && findArrayName('end_' + this.props.name, this.props.input) != this.state.end_selected) {
       this.onRefresh();
     }
-  }
+  };
 
-  onRefresh() {
+  _proto.onRefresh = function onRefresh() {
     if (this.props.isRange) {
-      let start_selected = moment__default();
-      let end_selected = moment__default();
+      var start_selected = moment__default();
+      var end_selected = moment__default();
 
       try {
         start_selected = this.props.start_selected ? moment__default(this.props.start_selected, formattime) : findArrayName('start_' + this.props.name, this.props.input) ? moment__default(findArrayName('start_' + this.props.name, this.props.input), formattime) : null;
@@ -2486,27 +2738,27 @@ class InputTime extends React.Component {
       } catch (e) {}
 
       this.setState({
-        start_selected,
-        end_selected
+        start_selected: start_selected,
+        end_selected: end_selected
       });
     } else {
-      let selected = moment__default();
+      var selected = moment__default();
 
       try {
         selected = this.props.selected ? moment__default(this.props.selected, formattime) : findArrayName(this.props.name, this.props.input) ? moment__default(findArrayName(this.props.name, this.props.input), formattime) : null;
       } catch (e) {}
 
       this.setState({
-        selected
+        selected: selected
       });
     }
-  }
+  };
 
-  componentDidMount() {
+  _proto.componentDidMount = function componentDidMount() {
     this.onRefresh();
-  }
+  };
 
-  render() {
+  _proto.render = function render() {
     if (this.props.isRange) {
       if (this.props.disabled || this.props.isReadonly) {
         return /*#__PURE__*/React.createElement("div", {
@@ -2553,51 +2805,65 @@ class InputTime extends React.Component {
       format: formattime,
       onChange: this.handleInputChange
     });
-  }
+  };
 
-}
+  return InputTime;
+}(React.Component);
 
-const mapStateToProps$5 = state => ({
-  input: state.core.input || {}
-});
+var mapStateToProps$5 = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {}
+  };
+};
 
-const mapDispatchToProps$5 = dispatch => ({
-  setInput: (key, val) => dispatch({
-    type: 'SET_INPUT',
-    payload: {
-      key: slug(String(key), '_'),
-      value: val
+var mapDispatchToProps$5 = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      return dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
     }
-  })
-});
+  };
+};
 
 var InputTime$1 = connect(mapStateToProps$5, mapDispatchToProps$5)(InputTime);
 
-class InputTag extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+var InputTag = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InputTag, _React$Component);
+
+  function InputTag(props) {
+    var _this;
+
+    _this = _React$Component.call(this, props) || this;
+    _this.state = {
       tags: [],
       suggestions: [],
       separator: '|'
     };
-    this.reactTags = React.createRef();
+    _this.reactTags = React.createRef();
+    return _this;
   }
 
-  onDelete(i) {
-    let tags = this.state.tags.slice(0);
+  var _proto = InputTag.prototype;
+
+  _proto.onDelete = function onDelete(i) {
+    var tags = this.state.tags.slice(0);
     tags.splice(i, 1);
     this.setState({
-      tags
+      tags: tags
     });
 
     if (this.props.name) {
       this.props.setInput(this.props.name, _.map(tags, 'name').join(this.state.separator));
     }
-  }
+  };
 
-  onAddition(tag) {
-    let tags = [].concat(this.state.tags, tag);
+  _proto.onAddition = function onAddition(tag) {
+    var tags = [].concat(this.state.tags, tag);
     this.setState({
       tags: _.uniqBy(tags, 'name')
     });
@@ -2605,20 +2871,20 @@ class InputTag extends React.Component {
     if (this.props.name) {
       this.props.setInput(this.props.name, _.map(tags, 'name').join(this.state.separator));
     }
-  }
+  };
 
-  onFocus(tag) {}
+  _proto.onFocus = function onFocus(tag) {};
 
-  onValidate(tag) {
+  _proto.onValidate = function onValidate(tag) {
     return _.findIndex(this.state.tags, ['name', tag.name]) < 0;
-  }
+  };
 
-  componentDidMount() {
-    let suggestions = [];
-    let tags = [];
+  _proto.componentDidMount = function componentDidMount() {
+    var suggestions = [];
+    var tags = [];
 
-    for (let i = 0; i < this.props.options.length; i++) {
-      let isi = this.props.options[i];
+    for (var i = 0; i < this.props.options.length; i++) {
+      var isi = this.props.options[i];
 
       if (!_.isEmpty(isi[this.props.optionValue])) {
         suggestions.push({
@@ -2627,31 +2893,31 @@ class InputTag extends React.Component {
       }
     }
 
-    let value = '';
+    var value = '';
 
     try {
       value = this.props.value ? this.props.value : this.props.input[this.props.name] ? this.props.input[this.props.name] : '';
     } catch (e) {}
 
-    let v = value ? String(value).split(this.state.separator) : [];
+    var v = value ? String(value).split(this.state.separator) : [];
 
-    for (let i = 0; i < v.length; i++) {
-      let isi = v[i];
+    for (var _i = 0; _i < v.length; _i++) {
+      var _isi = v[_i];
 
-      if (!_.isEmpty(isi)) {
+      if (!_.isEmpty(_isi)) {
         tags.push({
-          name: isi
+          name: _isi
         });
       }
     }
 
     this.setState({
-      suggestions,
-      tags
+      suggestions: suggestions,
+      tags: tags
     });
-  }
+  };
 
-  render() {
+  _proto.render = function render() {
     return /*#__PURE__*/React.createElement(ReactTags, {
       minQueryLength: 1,
       noSuggestionsText: 'Tidak ada usulan',
@@ -2668,82 +2934,96 @@ class InputTag extends React.Component {
       onFocus: this.onFocus.bind(this),
       onAddition: this.onAddition.bind(this)
     });
-  }
+  };
 
-}
+  return InputTag;
+}(React.Component);
 
-const mapStateToProps$6 = state => ({
-  input: state.core.input || {}
-});
+var mapStateToProps$6 = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {}
+  };
+};
 
-const mapDispatchToProps$6 = dispatch => ({
-  setInput: (key, val) => dispatch({
-    type: 'SET_INPUT',
-    payload: {
-      key: slug(String(key), '_'),
-      value: val
+var mapDispatchToProps$6 = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      return dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
     }
-  })
-});
+  };
+};
 
 var InputTag$1 = connect(mapStateToProps$6, mapDispatchToProps$6)(InputTag);
 
-class InputSelect extends React.Component {
-  constructor(props) {
-    super(props);
+var InputSelect = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(InputSelect, _React$Component);
 
-    this.labelGenerate = option => {
+  function InputSelect(props) {
+    var _this;
+
+    _this = _React$Component.call(this, props) || this;
+
+    _this.labelGenerate = function (option) {
       if (!isEmpty(option)) {
-        if (isArray(this.props.optionLabel)) {
-          let label = [];
-          let separator = this.props.separator ? this.props.separator : ' | ';
+        if (isArray(_this.props.optionLabel)) {
+          var label = [];
+          var separator = _this.props.separator ? _this.props.separator : ' | ';
 
-          for (let i = 0; i <= this.props.optionLabel.length - 1; i++) {
-            label.push(option[this.props.optionLabel[i]]);
+          for (var i = 0; i <= _this.props.optionLabel.length - 1; i++) {
+            label.push(option[_this.props.optionLabel[i]]);
           }
 
           return label.join(separator);
         } else {
-          return option[this.props.optionLabel];
+          return option[_this.props.optionLabel];
         }
       }
 
       return null;
     };
 
-    this.onChange = selectedOption => {
-      if (this.props.name) {
+    _this.onChange = function (selectedOption) {
+      if (_this.props.name) {
         try {
-          if (this.props.isMultiple) {
-            this.props.setInput(this.props.name, map(selectedOption, this.props.optionValue));
+          if (_this.props.isMultiple) {
+            _this.props.setInput(_this.props.name, map(selectedOption, _this.props.optionValue));
           } else {
-            this.props.setInput(this.props.name, selectedOption[this.props.optionValue]);
+            _this.props.setInput(_this.props.name, selectedOption[_this.props.optionValue]);
           }
         } catch (e) {
-          this.props.setInput(this.props.name, null);
+          _this.props.setInput(_this.props.name, null);
         }
       }
 
-      this.onRefresh();
+      _this.onRefresh();
     };
 
-    this.openModal = () => {
-      this.setState({
-        show: !this.state.show
+    _this.openModal = function () {
+      _this.setState({
+        show: !_this.state.show
       });
     };
 
-    this.state = {
+    _this.state = {
       defaultValue: null,
       options: [],
       show: false
     };
-    this.onRefresh = debounce(this.onRefresh.bind(this), 200);
+    _this.onRefresh = debounce(_this.onRefresh.bind(_assertThisInitialized(_this)), 200);
+    return _this;
   }
 
-  onRefresh() {
-    let val = null;
-    let defaultValue = null;
+  var _proto = InputSelect.prototype;
+
+  _proto.onRefresh = function onRefresh() {
+    var val = null;
+    var defaultValue = null;
 
     if (this.props.value) {
       val = this.props.value;
@@ -2753,10 +3033,10 @@ class InputSelect extends React.Component {
       if (this.props.isMultiple) {
         defaultValue = [];
 
-        for (let i = 0; i < this.props.options.length; i++) {
-          for (let y = 0; y < val.length; y++) {
-            let opt = this.props.options[i];
-            let cur = val[y];
+        for (var i = 0; i < this.props.options.length; i++) {
+          for (var y = 0; y < val.length; y++) {
+            var opt = this.props.options[i];
+            var cur = val[y];
 
             if (String(opt[this.props.optionValue]) == String(cur)) {
               defaultValue.push(opt);
@@ -2772,26 +3052,28 @@ class InputSelect extends React.Component {
 
     defaultValue = !isUndefined(defaultValue) && !isNull(defaultValue) ? defaultValue : null;
     this.setState({
-      defaultValue
+      defaultValue: defaultValue
     });
-  }
+  };
 
-  componentDidUpdate(prevProps, prevState) {
+  _proto.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     if (!isEqual(findArrayName(this.props.name, prevProps.input), findArrayName(this.props.name, this.props.input)) && !isEqual(this.state.defaultValue, findArrayName(this.props.name, this.props.input))) {
       this.onRefresh();
     }
-  }
+  };
 
-  componentDidMount() {
+  _proto.componentDidMount = function componentDidMount() {
     this.onRefresh();
-  }
+  };
 
-  render() {
-    let options = [];
+  _proto.render = function render() {
+    var _this2 = this;
+
+    var options = [];
 
     try {
-      for (let i = 0; i < this.props.options.length; i++) {
-        let y = this.props.options[i];
+      for (var i = 0; i < this.props.options.length; i++) {
+        var y = this.props.options[i];
 
         if (this.props.isHtml) {
           y[this.props.name] = parse(String(y[this.props.name]));
@@ -2837,8 +3119,12 @@ class InputSelect extends React.Component {
       isMulti: this.props.isMultiple,
       placeholder: this.props.placeholder ? this.props.placeholder : 'Pilih',
       getOptionLabel: this.labelGenerate,
-      getOptionValue: option => option[this.props.optionValue],
-      noOptionsMessage: () => 'Data tidak ditemukan',
+      getOptionValue: function getOptionValue(option) {
+        return option[_this2.props.optionValue];
+      },
+      noOptionsMessage: function noOptionsMessage() {
+        return 'Data tidak ditemukan';
+      },
       value: this.state.defaultValue,
       onChange: this.onChange,
       options: options,
@@ -2848,39 +3134,55 @@ class InputSelect extends React.Component {
       menuPortalTarget: document.body,
       menuPosition: "fixed",
       styles: {
-        menuPortal: base => ({ ...base,
-          fontFamily: 'inherit',
-          fontSize: 'inherit',
-          zIndex: 9999
-        }),
-        menu: provided => ({ ...provided,
-          fontFamily: 'inherit',
-          fontSize: 'inherit',
-          zIndex: '9999 !important'
-        }),
-        multiValueRemove: base => ({ ...base,
-          color: '#db2828',
-          cursor: 'pointer'
-        }),
-        placeholder: base => ({ ...base,
-          fontFamily: 'inherit',
-          fontSize: 'inherit'
-        }),
-        multiValue: base => ({ ...base,
-          background: 'none'
-        }),
-        multiValueLabel: base => ({ ...base,
-          fontFamily: 'inherit',
-          fontSize: 'inherit'
-        }),
-        option: base => ({ ...base,
-          fontFamily: 'inherit',
-          fontSize: 'inherit'
-        }),
-        clearIndicator: (base, state) => ({ ...base,
-          cursor: 'pointer',
-          color: state.isFocused ? '#db2828' : '#db2828'
-        })
+        menuPortal: function menuPortal(base) {
+          return _extends({}, base, {
+            fontFamily: 'inherit',
+            fontSize: 'inherit',
+            zIndex: 9999
+          });
+        },
+        menu: function menu(provided) {
+          return _extends({}, provided, {
+            fontFamily: 'inherit',
+            fontSize: 'inherit',
+            zIndex: '9999 !important'
+          });
+        },
+        multiValueRemove: function multiValueRemove(base) {
+          return _extends({}, base, {
+            color: '#db2828',
+            cursor: 'pointer'
+          });
+        },
+        placeholder: function placeholder(base) {
+          return _extends({}, base, {
+            fontFamily: 'inherit',
+            fontSize: 'inherit'
+          });
+        },
+        multiValue: function multiValue(base) {
+          return _extends({}, base, {
+            background: 'none'
+          });
+        },
+        multiValueLabel: function multiValueLabel(base) {
+          return _extends({}, base, {
+            fontFamily: 'inherit',
+            fontSize: 'inherit'
+          });
+        },
+        option: function option(base) {
+          return _extends({}, base, {
+            fontFamily: 'inherit',
+            fontSize: 'inherit'
+          });
+        },
+        clearIndicator: function clearIndicator(base, state) {
+          return _extends({}, base, {
+            cursor: 'pointer',
+            color: state.isFocused ? '#db2828' : '#db2828'
+          });
+        }
       },
       className: "tcomponent-select",
       isClearable: true,
@@ -2890,62 +3192,104 @@ class InputSelect extends React.Component {
       isMulti: this.props.isMultiple,
       placeholder: this.props.placeholder ? this.props.placeholder : 'Pilih',
       getOptionLabel: this.labelGenerate,
-      getOptionValue: option => option[this.props.optionValue],
-      noOptionsMessage: () => 'Data tidak ditemukan',
+      getOptionValue: function getOptionValue(option) {
+        return option[_this2.props.optionValue];
+      },
+      noOptionsMessage: function noOptionsMessage() {
+        return 'Data tidak ditemukan';
+      },
       value: this.state.defaultValue,
       onChange: this.onChange,
       options: options,
       isDisabled: this.props.disabled
     });
-  }
+  };
 
-}
+  return InputSelect;
+}(React.Component);
 
-const mapStateToProps$7 = state => ({
-  input: state.core.input || {}
-});
+var mapStateToProps$7 = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {}
+  };
+};
 
-const mapDispatchToProps$7 = dispatch => ({
-  setInput: (key, val) => dispatch({
-    type: 'SET_INPUT',
-    payload: {
-      key: slug(String(key), '_'),
-      value: val
+var mapDispatchToProps$7 = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      return dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
     }
-  })
-});
+  };
+};
 
 var InputSelect$1 = connect(mapStateToProps$7, mapDispatchToProps$7)(InputSelect);
 
 function InputWorkflow(props) {
-  let [isDelay, setIsDelay] = useState(false);
-  let [listLoading, setListLoading] = useState(false);
-  let [submitLoading, setSubmitLoading] = useState(false);
-  let [responseLoading, setResponseLoading] = useState(false);
-  let auth = useSelector(state => state.auth) || {};
-  let input = useSelector(state => state.core.input) || {};
-  let validation = useSelector(state => state.core.validation) || [];
-  let parameter = useSelector(state => state.core.parameter) || {};
-  let filter$1 = useSelector(state => state.core.filter) || {};
-  let dispatch = useDispatch();
-  let [list, setList] = useState({});
-  let [activity, setActivity] = useState({
+  var _useState = useState(false),
+      isDelay = _useState[0],
+      setIsDelay = _useState[1];
+
+  var _useState2 = useState(false),
+      listLoading = _useState2[0],
+      setListLoading = _useState2[1];
+
+  var _useState3 = useState(false),
+      submitLoading = _useState3[0],
+      setSubmitLoading = _useState3[1];
+
+  var _useState4 = useState(false),
+      responseLoading = _useState4[0],
+      setResponseLoading = _useState4[1];
+
+  var auth = useSelector(function (state) {
+    return state.auth;
+  }) || {};
+  var input = useSelector(function (state) {
+    return state.core.input;
+  }) || {};
+  var validation = useSelector(function (state) {
+    return state.core.validation;
+  }) || [];
+  var parameter = useSelector(function (state) {
+    return state.core.parameter;
+  }) || {};
+  var filter$1 = useSelector(function (state) {
+    return state.core.filter;
+  }) || {};
+  var dispatch = useDispatch();
+
+  var _useState5 = useState({}),
+      list = _useState5[0],
+      setList = _useState5[1];
+
+  var _useState6 = useState({
     activity: {},
     role: '',
     response: []
-  });
-  let {
-    doAfterSubmit,
-    isLoading,
-    doSubmit,
-    doCancel,
-    isReadonly,
-    relation,
-    id,
-    isDelete
-  } = props;
-  let [readonly, setReadonly] = useState(isReadonly);
-  useEffect(() => {
+  }),
+      activity = _useState6[0],
+      setActivity = _useState6[1];
+
+  var doAfterSubmit = props.doAfterSubmit,
+      isLoading = props.isLoading,
+      doSubmit = props.doSubmit,
+      doCancel = props.doCancel,
+      isReadonly = props.isReadonly,
+      relation = props.relation,
+      id = props.id,
+      isDelete = props.isDelete;
+
+  var _useState7 = useState(isReadonly),
+      readonly = _useState7[0],
+      setReadonly = _useState7[1];
+
+  useEffect(function () {
     setReadonly(isReadonly);
   }, [isReadonly]);
 
@@ -2958,31 +3302,33 @@ function InputWorkflow(props) {
     } else {
         setSubmitLoading(true);
         setIsDelay(true);
-        setTimeout(() => setIsDelay(false), 1000);
+        setTimeout(function () {
+          return setIsDelay(false);
+        }, 1000);
         doSubmit && doSubmit();
       }
   }
 
-  useEffect(() => {
+  useEffect(function () {
     reload_response();
   }, []);
-  useEffect(() => {
-    let allowed_role = [];
+  useEffect(function () {
+    var allowed_role = [];
 
     try {
       allowed_role = activity.role.split(',');
     } catch (e) {}
 
-    let user_role = [];
+    var user_role = [];
 
     try {
       user_role = auth.user.role.split(',');
     } catch (e) {}
 
-    let is_allowed = false;
-    let is_admin = false;
+    var is_allowed = false;
+    var is_admin = false;
 
-    for (let i = 0; i < user_role.length; i++) {
+    for (var i = 0; i < user_role.length; i++) {
       if (!is_admin && user_role[i] && isEqual(String(user_role[i]).trim().toLowerCase(), 'admin')) {
         is_admin = true;
         is_allowed = true;
@@ -2997,9 +3343,9 @@ function InputWorkflow(props) {
     }
 
     if (!is_admin) {
-      for (let i = 0; i < allowed_role.length; i++) {
-        for (let y = 0; y < user_role.length; y++) {
-          if (allowed_role[i] && user_role[y] && String(allowed_role[i]).trim().toLowerCase() == String(user_role[y]).trim().toLowerCase() && !is_allowed) {
+      for (var _i = 0; _i < allowed_role.length; _i++) {
+        for (var y = 0; y < user_role.length; y++) {
+          if (allowed_role[_i] && user_role[y] && String(allowed_role[_i]).trim().toLowerCase() == String(user_role[y]).trim().toLowerCase() && !is_allowed) {
             is_allowed = true;
             dispatch({
               type: 'SET_INPUT',
@@ -3013,7 +3359,7 @@ function InputWorkflow(props) {
       }
     }
 
-    let allowed = !isEmpty(activity.activity) && activity.response.length > 0 && is_allowed;
+    var allowed = !isEmpty(activity.activity) && activity.response.length > 0 && is_allowed;
 
     if (allowed && readonly && !isReadonly) {
       setReadonly(false);
@@ -3028,12 +3374,12 @@ function InputWorkflow(props) {
       setReadonly(true);
     }
   }, [activity]);
-  useEffect(() => {
+  useEffect(function () {
     if (submitLoading && !isEmpty(validation)) {
       setSubmitLoading(false);
     }
   }, [validation]);
-  useEffect(() => {
+  useEffect(function () {
     if (submitLoading && !isLoading && !isDelay) {
       setSubmitLoading(false);
 
@@ -3048,19 +3394,19 @@ function InputWorkflow(props) {
   }
 
   function reload_response() {
-    let url = process.env.REACT_APP_API_URL + '/komentar_respon?';
-    let options = {
+    var url = process.env.REACT_APP_API_URL + '/komentar_respon?';
+    var options = {
       data: secureData({
-        relation,
-        id
+        relation: relation,
+        id: id
       }),
       method: 'POST',
       headers: setAuthHeader(auth),
-      url
+      url: url
     };
     setResponseLoading(true);
-    axios(options).then(response => {
-      let newactivity = response.data.data || {};
+    axios(options).then(function (response) {
+      var newactivity = response.data.data || {};
 
       if (isDelete) {
         newactivity.response = filter(newactivity.response, function (o) {
@@ -3070,37 +3416,37 @@ function InputWorkflow(props) {
 
       setActivity(newactivity);
       setResponseLoading(false);
-    }).catch(error => {
+    })["catch"](function (error) {
       fetchErrorDispatch(error, dispatch);
       setResponseLoading(false);
     });
   }
 
   function reload() {
-    let url = process.env.REACT_APP_API_URL + '/komentar?';
-    let columns = ['user', 'role', 'activity', 'comment', 'due_datetime', 'start_datetime', 'end_datetime'];
-    let f = {};
+    var url = process.env.REACT_APP_API_URL + '/komentar?';
+    var columns = ['user', 'role', 'activity', 'comment', 'due_datetime', 'start_datetime', 'end_datetime'];
+    var f = {};
 
     try {
       f = defaultFilterData(filter$1, columns, slug(props.relation, '_'));
     } catch (e) {}
 
-    let isi = {
-      relation,
-      id,
-      ...f
-    };
-    let options = {
+    var isi = _extends({
+      relation: relation,
+      id: id
+    }, f);
+
+    var options = {
       data: secureData(isi),
       method: 'POST',
       headers: setAuthHeader(auth),
-      url
+      url: url
     };
     setListLoading(true);
-    axios(options).then(response => {
+    axios(options).then(function (response) {
       setList(response.data.data);
       setListLoading(false);
-    }).catch(error => {
+    })["catch"](function (error) {
       fetchErrorDispatch(error, dispatch);
       setListLoading(false);
     });
@@ -3165,42 +3511,60 @@ function InputWorkflow(props) {
     columns: [{
       Header: 'Nama',
       id: 'user',
-      accessor: d => d.user
+      accessor: function accessor(d) {
+        return d.user;
+      }
     }, {
       Header: 'Jabatan',
       id: 'role',
-      accessor: d => d.role
+      accessor: function accessor(d) {
+        return d.role;
+      }
     }, {
       Header: 'Aktifitas',
       id: 'activity',
-      accessor: d => d.activity
+      accessor: function accessor(d) {
+        return d.activity;
+      }
     }, {
       Header: 'Respon',
       id: 'response',
-      accessor: d => d.response
+      accessor: function accessor(d) {
+        return d.response;
+      }
     }, {
       Header: 'Komentar',
       id: 'comment',
-      accessor: d => d.comment
+      accessor: function accessor(d) {
+        return d.comment;
+      }
     }, {
       Header: 'Tenggat',
       id: 'due_datetime',
-      accessor: d => d.due_datetime && moment__default(d.due_datetime).format('DD-MM-YYYY HH:mm')
+      accessor: function accessor(d) {
+        return d.due_datetime && moment__default(d.due_datetime).format('DD-MM-YYYY HH:mm');
+      }
     }, {
       Header: 'Mulai',
       id: 'start_datetime',
-      accessor: d => d.start_datetime && moment__default(d.start_datetime).format('DD-MM-YYYY HH:mm')
+      accessor: function accessor(d) {
+        return d.start_datetime && moment__default(d.start_datetime).format('DD-MM-YYYY HH:mm');
+      }
     }, {
       Header: 'Selesai',
       id: 'end_datetime',
-      accessor: d => d.end_datetime && moment__default(d.end_datetime).format('DD-MM-YYYY HH:mm')
+      accessor: function accessor(d) {
+        return d.end_datetime && moment__default(d.end_datetime).format('DD-MM-YYYY HH:mm');
+      }
     }, {
       Header: 'Lampiran',
       id: 'attachment',
-      accessor: d => /*#__PURE__*/React.createElement(InputFile, {
-        value: d.attachment,
-        isReadonly: true
-      })
+      accessor: function accessor(d) {
+        return /*#__PURE__*/React.createElement(InputFile, {
+          value: d.attachment,
+          isReadonly: true
+        });
+      }
     }]
   })), /*#__PURE__*/React.createElement(Row$1, {
     className: "mt-2"
@@ -3216,20 +3580,13 @@ function InputWorkflow(props) {
 }
 
 function InputYear(props) {
-  return /*#__PURE__*/React.createElement(InputDate$1, Object.assign({}, props, {
+  return /*#__PURE__*/React.createElement(InputDate$1, _extends({}, props, {
     yearOnly: true
   }));
 }
 
-let _$2 = t => t,
-    _t$1;
-const override = css(_t$1 || (_t$1 = _$2`
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   margin-top: -25px;
-   margin-left: -50px;
-`));
+var _templateObject$1;
+var override = css(_templateObject$1 || (_templateObject$1 = _taggedTemplateLiteralLoose(["\n   position: absolute;\n   top: 50%;\n   left: 50%;\n   margin-top: -25px;\n   margin-left: -50px;\n"])));
 
 function Loading$1() {
   return /*#__PURE__*/React.createElement(PuffLoader, {
@@ -3239,34 +3596,42 @@ function Loading$1() {
   });
 }
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
+var Main = /*#__PURE__*/function (_React$Component) {
+  _inheritsLoose(Main, _React$Component);
 
-    this.handleInputChange = data => {
-      this.props.setInput(this.props.name, data.hex);
-      this.props.setParameter('selected_' + this.props.name, data);
+  function Main(props) {
+    var _this;
+
+    _this = _React$Component.call(this, props) || this;
+
+    _this.handleInputChange = function (data) {
+      _this.props.setInput(_this.props.name, data.hex);
+
+      _this.props.setParameter('selected_' + _this.props.name, data);
     };
 
-    this.toggle = () => {
-      this.setState({
-        open: !this.state.open
+    _this.toggle = function () {
+      _this.setState({
+        open: !_this.state.open
       });
     };
 
-    this.state = {
+    _this.state = {
       open: false
     };
+    return _this;
   }
 
-  componentDidMount() {
+  var _proto = Main.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
     try {
       this.props.setInput(this.props.name, this.props.parameter['selected_' + this.props.name].hex);
     } catch (e) {}
-  }
+  };
 
-  render() {
-    let val = '';
+  _proto.render = function render() {
+    var val = '';
 
     try {
       val = findArrayName(this.props.name, this.props.input) || '';
@@ -3302,60 +3667,80 @@ class Main extends React.Component {
       onClick: this.toggle,
       type: "button"
     }, "Pilih"));
-  }
+  };
 
-}
+  return Main;
+}(React.Component);
 
-const mapStateToProps$8 = state => ({
-  input: state.core.input || {},
-  parameter: state.core.parameter || {}
-});
+var mapStateToProps$8 = function mapStateToProps(state) {
+  return {
+    input: state.core.input || {},
+    parameter: state.core.parameter || {}
+  };
+};
 
-const mapDispatchToProps$8 = dispatch => ({
-  setInput: (key, val) => dispatch({
-    type: 'SET_INPUT',
-    payload: {
-      key: slug(String(key), '_'),
-      value: val
+var mapDispatchToProps$8 = function mapDispatchToProps(dispatch) {
+  return {
+    setInput: function setInput(key, val) {
+      return dispatch({
+        type: 'SET_INPUT',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
+    },
+    setParameter: function setParameter(key, val) {
+      return dispatch({
+        type: 'SET_PARAMETER',
+        payload: {
+          key: slug(String(key), '_'),
+          value: val
+        }
+      });
     }
-  }),
-  setParameter: (key, val) => dispatch({
-    type: 'SET_PARAMETER',
-    payload: {
-      key: slug(String(key), '_'),
-      value: val
-    }
-  })
-});
+  };
+};
 
 var InputColor = connect(mapStateToProps$8, mapDispatchToProps$8)(Main);
 
 function ShowData(props) {
-  let [val, setVal] = useState({});
-  let [loading, setLoading] = useState(false);
-  let {
-    isMultiple,
-    defaultValue,
-    optionLabel,
-    separator,
-    primaryKey,
-    id,
-    param
-  } = props;
-  let props_name = slug(props.name, '_');
-  let key_select = slug('selected_' + props_name, '_');
-  let dispatch = useDispatch();
-  let auth = useSelector(state => state.auth) || {};
-  let input = useSelector(state => state.core.input) || {};
-  let filter$1 = useSelector(state => state.core.filter) || {};
-  let parameter = useSelector(state => state.core.parameter) || {};
+  var _useState = useState({}),
+      val = _useState[0],
+      setVal = _useState[1];
+
+  var _useState2 = useState(false),
+      loading = _useState2[0],
+      setLoading = _useState2[1];
+
+  var isMultiple = props.isMultiple,
+      optionLabel = props.optionLabel,
+      separator = props.separator,
+      primaryKey = props.primaryKey,
+      id = props.id,
+      param = props.param;
+  var props_name = slug(props.name, '_');
+  var key_select = slug('selected_' + props_name, '_');
+  var dispatch = useDispatch();
+  var auth = useSelector(function (state) {
+    return state.auth;
+  }) || {};
+  var input = useSelector(function (state) {
+    return state.core.input;
+  }) || {};
+  var filter$1 = useSelector(function (state) {
+    return state.core.filter;
+  }) || {};
+  var parameter = useSelector(function (state) {
+    return state.core.parameter;
+  }) || {};
 
   function labelGenerate(option) {
     if (isArray(optionLabel)) {
-      let label = [];
+      var label = [];
       separator = separator || ' | ';
 
-      for (let i = 0; i <= optionLabel.length - 1; i++) {
+      for (var i = 0; i <= optionLabel.length - 1; i++) {
         if (option[optionLabel[i]] && !isUndefined(option[optionLabel[i]])) {
           label.push(option[optionLabel[i]]);
         }
@@ -3367,29 +3752,29 @@ function ShowData(props) {
     }
   }
 
-  useEffect(() => {
-    let url = process.env.REACT_APP_API_URL + '/' + props.url;
-    let {
-      keyword
-    } = defaultFilterData(filter$1, [], props_name);
-    let data = secureData({
+  useEffect(function () {
+    var url = process.env.REACT_APP_API_URL + '/' + props.url;
+
+    var _defaultFilterData = defaultFilterData(filter$1, [], props_name),
+        keyword = _defaultFilterData.keyword;
+
+    var data = secureData(_extends({
       selected: [id],
-      keyword,
+      keyword: keyword,
       load: 1,
-      page: 1,
-      ...param
-    });
-    let options = {
+      page: 1
+    }, param));
+    var options = {
       method: 'POST',
       headers: setAuthHeader(auth),
-      url,
-      data
+      url: url,
+      data: data
     };
     setLoading(true);
-    axios(options).then(resp => {
+    axios(options).then(function (resp) {
       setVal(resp.data.data.data[0]);
       setLoading(false);
-    }).catch(error => {
+    })["catch"](function (error) {
       setLoading(false);
     });
   }, [id]);
@@ -3399,7 +3784,7 @@ function ShowData(props) {
 
     if (isObject(props.optionValue)) {
       Object.keys(props.optionValue).map(function (key, index) {
-        let val = props.optionValue[key];
+        var val = props.optionValue[key];
         dispatch({
           type: 'SET_INPUT',
           payload: {
@@ -3411,15 +3796,15 @@ function ShowData(props) {
     }
 
     if (isMultiple) {
-      let new_input = filter(findArrayName(props_name, input), function (o) {
+      var new_input = filter(findArrayName(props_name, input), function (o) {
         return o != d;
       });
 
-      let new_input_key = filter(findArrayName(key_select, input), function (o) {
+      var new_input_key = filter(findArrayName(key_select, input), function (o) {
         return o != d;
       });
 
-      let new_parameter = filter(findArrayName(key_select, parameter), function (o) {
+      var new_parameter = filter(findArrayName(key_select, parameter), function (o) {
         return o[primaryKey] != d;
       });
 
@@ -3484,41 +3869,77 @@ function ShowData(props) {
 }
 
 function InputSelectFetch(props) {
-  let {
-    isMultiple,
-    defaultValue,
-    optionLabel,
-    separator
-  } = props;
-  let dispatch = useDispatch();
-  let auth = useSelector(state => state.auth) || {};
-  let input = useSelector(state => state.core.input) || {};
-  let filter$1 = useSelector(state => state.core.filter) || {};
-  let parameter = useSelector(state => state.core.parameter) || {};
-  let [visible, setVisible] = useState(false);
-  let [show, setShow] = useState(false);
-  let [loading, setLoading] = useState(false);
-  let [listLoading, setListLoading] = useState(false);
-  let [localParameter, setLocalParameter] = useState({});
-  let [value, setValue] = useState(isMultiple ? [] : {});
-  let [last, setLast] = useState(0);
-  let [open, setOpen] = useState(false);
-  let [currentPage, setCurrentPage] = useState(1);
-  let props_name = slug(props.name, '_');
-  let key_select = slug('selected_' + props_name, '_');
-  let [label, setLabel] = useState(props.label ? props.label : findArrayName(props_name, input));
-  let nodeRef = useRef();
-  let isVisible = useIsVisible(nodeRef);
-  let [data, setData] = useState([]);
-  let [meta, setMeta] = useState({});
-  let primaryKey = props.primaryKey ? props.primaryKey : 'id';
+  var isMultiple = props.isMultiple,
+      defaultValue = props.defaultValue,
+      optionLabel = props.optionLabel,
+      separator = props.separator;
+  var dispatch = useDispatch();
+  var auth = useSelector(function (state) {
+    return state.auth;
+  }) || {};
+  var input = useSelector(function (state) {
+    return state.core.input;
+  }) || {};
+  var filter$1 = useSelector(function (state) {
+    return state.core.filter;
+  }) || {};
+  var parameter = useSelector(function (state) {
+    return state.core.parameter;
+  }) || {};
+
+  var _useState3 = useState(false),
+      visible = _useState3[0],
+      setVisible = _useState3[1];
+
+  var _useState4 = useState(false);
+
+  var _useState5 = useState(false),
+      loading = _useState5[0],
+      setLoading = _useState5[1];
+
+  var _useState6 = useState(false),
+      listLoading = _useState6[0],
+      setListLoading = _useState6[1];
+
+  var _useState7 = useState({}),
+      localParameter = _useState7[0],
+      setLocalParameter = _useState7[1];
+
+  var _useState8 = useState(isMultiple ? [] : {});
+
+  var _useState9 = useState(0),
+      setLast = _useState9[1];
+
+  var _useState10 = useState(false),
+      open = _useState10[0],
+      setOpen = _useState10[1];
+
+  var _useState11 = useState(1);
+
+  var props_name = slug(props.name, '_');
+  var key_select = slug('selected_' + props_name, '_');
+
+  var _useState12 = useState(props.label ? props.label : findArrayName(props_name, input));
+
+  var nodeRef = useRef();
+  var isVisible = useIsVisible(nodeRef);
+
+  var _useState13 = useState([]),
+      data = _useState13[0],
+      setData = _useState13[1];
+
+  var _useState14 = useState({}),
+      meta = _useState14[0],
+      setMeta = _useState14[1];
+
+  var primaryKey = props.primaryKey ? props.primaryKey : 'id';
 
   function labelGenerate(option) {
-    let label = [];
+    var label = [];
     separator = separator || ' | ';
 
     if (isArray(optionLabel)) {
-      for (let i = 0; i <= optionLabel.length - 1; i++) {
+      for (var i = 0; i <= optionLabel.length - 1; i++) {
         if (option[optionLabel[i]] && !isUndefined(option[optionLabel[i]])) {
           label.push(option[optionLabel[i]]);
         }
@@ -3530,8 +3951,12 @@ function InputSelectFetch(props) {
     }
   }
 
-  function onChecked(rowInfo, local_input, exist = false) {
-    let _value = rowInfo.row.original || {};
+  function onChecked(rowInfo, local_input, exist) {
+    if (exist === void 0) {
+      exist = false;
+    }
+
+    var _value = rowInfo.row.original || {};
 
     if (!isMultiple) {
       dispatch({
@@ -3542,12 +3967,12 @@ function InputSelectFetch(props) {
         }
       });
     } else {
-      let new_input = [];
+      var new_input = [];
 
-      let _local_input = findArrayName(key_select, local_input);
+      var _local_input = findArrayName(key_select, local_input);
 
       if (exist) {
-        new_input = filter(_local_input, o => {
+        new_input = filter(_local_input, function (o) {
           return o && _value && String(o) != String(_value[primaryKey]);
         }) || [];
       } else {
@@ -3563,7 +3988,7 @@ function InputSelectFetch(props) {
       }
 
       new_input = uniq(new_input);
-      new_input = filter(new_input, o => {
+      new_input = filter(new_input, function (o) {
         return !isNull(o) && !isUndefined(o);
       }) || [];
       dispatch({
@@ -3576,13 +4001,15 @@ function InputSelectFetch(props) {
     }
   }
 
-  let checkComponent = {
+  var checkComponent = {
     Header: '#',
     id: props_name + '_check',
-    Cell: row => {
-      let local_input = useSelector(state => state.core.input);
-      let checked = false;
-      let val = findArrayName(key_select, local_input);
+    Cell: function Cell(row) {
+      var local_input = useSelector(function (state) {
+        return state.core.input;
+      });
+      var checked = false;
+      var val = findArrayName(key_select, local_input);
 
       try {
         if (!isMultiple) {
@@ -3608,16 +4035,20 @@ function InputSelectFetch(props) {
         value: 1,
         checked: checked,
         disabled: props.isReadonly,
-        onChange: () => onChecked(row, local_input, checked)
+        onChange: function onChange() {
+          return onChecked(row, local_input, checked);
+        }
       })));
     }
   };
-  let _columns = [{
+  var _columns = [{
     Header: 'Keterangan',
     id: 'label',
-    accessor: d => labelGenerate(d)
+    accessor: function accessor(d) {
+      return labelGenerate(d);
+    }
   }];
-  let col = [checkComponent, ..._columns];
+  var col = [checkComponent].concat(_columns);
 
   function onReload() {
     if (open) {
@@ -3630,31 +4061,30 @@ function InputSelectFetch(props) {
 
   function syncParameter() {
     if (!isMultiple) {
-      let new_input = findArrayName(key_select, input) || null;
+      var new_input = findArrayName(key_select, input) || null;
 
       if (new_input) {
-        let url = process.env.REACT_APP_API_URL + '/' + props.url;
-        let {
-          page,
-          load,
-          keyword
-        } = defaultFilterData(filter$1, [], props_name);
-        let data = secureData({
+        var url = process.env.REACT_APP_API_URL + '/' + props.url;
+
+        var _defaultFilterData2 = defaultFilterData(filter$1, [], props_name),
+            keyword = _defaultFilterData2.keyword;
+
+        var _data = secureData(_extends({
           selected: [new_input],
-          keyword,
+          keyword: keyword,
           load: 1,
-          page: 1,
-          ...props.parameter
-        });
-        let options = {
+          page: 1
+        }, props.parameter));
+
+        var options = {
           method: 'POST',
           headers: setAuthHeader(auth),
-          url,
-          data
+          url: url,
+          data: _data
         };
         setLoading(true);
-        axios(options).then(resp => {
-          let new_parameter = resp.data.data.data[0] || {};
+        axios(options).then(function (resp) {
+          var new_parameter = resp.data.data.data[0] || {};
           dispatch({
             type: 'SET_PARAMETER',
             payload: {
@@ -3664,7 +4094,7 @@ function InputSelectFetch(props) {
           });
           handleInputChange(new_parameter);
           setLoading(false);
-        }).catch(error => {
+        })["catch"](function (error) {
           setLoading(false);
         });
       } else {
@@ -3677,30 +4107,31 @@ function InputSelectFetch(props) {
         });
       }
     } else {
-      let new_input = filter(findArrayName(key_select, input), function (o) {
+      var _new_input = filter(findArrayName(key_select, input), function (o) {
         return !isNull(o) && !isUndefined(o);
       }) || [];
 
-      if (new_input.length > 0) {
-        let url = process.env.REACT_APP_API_URL + '/' + props.url;
-        let {
-          keyword
-        } = defaultFilterData(filter$1, [], props_name);
-        let data = secureData({
-          selected: new_input,
-          keyword,
-          load: new_input.length,
-          page: 1,
-          ...props.parameter
-        });
-        let options = {
+      if (_new_input.length > 0) {
+        var _url = process.env.REACT_APP_API_URL + '/' + props.url;
+
+        var _defaultFilterData3 = defaultFilterData(filter$1, [], props_name),
+            _keyword = _defaultFilterData3.keyword;
+
+        var _data2 = secureData(_extends({
+          selected: _new_input,
+          keyword: _keyword,
+          load: _new_input.length,
+          page: 1
+        }, props.parameter));
+
+        var _options = {
           method: 'POST',
           headers: setAuthHeader(auth),
-          url,
-          data
+          url: _url,
+          data: _data2
         };
         setLoading(true);
-        axios(options).then(resp => {
+        axios(_options).then(function (resp) {
           dispatch({
             type: 'SET_PARAMETER',
             payload: {
@@ -3710,7 +4141,7 @@ function InputSelectFetch(props) {
           });
           handleInputChange(resp.data.data.data);
           setLoading(false);
-        }).catch(error => {
+        })["catch"](function (error) {
           setLoading(false);
         });
       } else {
@@ -3725,8 +4156,10 @@ function InputSelectFetch(props) {
     }
   }
 
-  let columns = React.useMemo(() => col, []);
-  useEffect(() => {
+  var columns = React.useMemo(function () {
+    return col;
+  }, []);
+  useEffect(function () {
     if (!isEqual(props.parameter, localParameter)) {
       setLocalParameter(props.parameter);
       onReload();
@@ -3745,7 +4178,9 @@ function InputSelectFetch(props) {
         value: 1
       }
     });
-    setOpen(data => !data);
+    setOpen(function (data) {
+      return !data;
+    });
     loadOptions();
   }
 
@@ -3755,12 +4190,12 @@ function InputSelectFetch(props) {
 
   function reloader() {
     if (visible) {
-      let val = null;
+      var val = null;
 
       try {
         if (isMultiple) {
           val = map(defaultValue, 'value');
-          val = filter(val, o => {
+          val = filter(val, function (o) {
             return o;
           }) || [];
         } else {
@@ -3768,18 +4203,18 @@ function InputSelectFetch(props) {
         }
       } catch (e) {}
 
-      let _input = findArrayName(key_select, input) || null;
+      var _input2 = findArrayName(key_select, input) || null;
 
-      if (!isEqual(val, _input)) {
-        if (isNull(val) && !isNull(_input)) {
+      if (!isEqual(val, _input2)) {
+        if (isNull(val) && !isNull(_input2)) {
           dispatch({
             type: 'SET_INPUT',
             payload: {
               key: key_select,
-              value: _input
+              value: _input2
             }
           });
-        } else if (!isNull(val) && isNull(_input)) {
+        } else if (!isNull(val) && isNull(_input2)) {
           dispatch({
             type: 'SET_INPUT',
             payload: {
@@ -3787,7 +4222,7 @@ function InputSelectFetch(props) {
               value: val
             }
           });
-        } else if (!isNull(val) && !isNull(_input)) {
+        } else if (!isNull(val) && !isNull(_input2)) {
           dispatch({
             type: 'SET_INPUT',
             payload: {
@@ -3809,12 +4244,12 @@ function InputSelectFetch(props) {
   }
 
   useEffect(reloader, [visible]);
-  useEffect(() => {
-    let val = null;
+  useEffect(function () {
+    var val = null;
 
     try {
       if (isMultiple) {
-        val = filter(map(defaultValue, 'value'), o => {
+        val = filter(map(defaultValue, 'value'), function (o) {
           return o;
         }) || null;
       } else {
@@ -3834,31 +4269,31 @@ function InputSelectFetch(props) {
   }, []);
 
   function loadOptions() {
-    let url = process.env.REACT_APP_API_URL + '/' + props.url;
-    let {
-      page,
-      load,
-      keyword,
-      sorted,
-      search
-    } = defaultFilterData(filter$1, [], props_name);
-    let data = secureData({
-      page,
-      load,
-      keyword,
-      sorted,
-      search,
-      ...props.parameter
-    });
-    let options = {
+    var url = process.env.REACT_APP_API_URL + '/' + props.url;
+
+    var _defaultFilterData4 = defaultFilterData(filter$1, [], props_name),
+        page = _defaultFilterData4.page,
+        load = _defaultFilterData4.load,
+        keyword = _defaultFilterData4.keyword,
+        sorted = _defaultFilterData4.sorted,
+        search = _defaultFilterData4.search;
+
+    var data = secureData(_extends({
+      page: page,
+      load: load,
+      keyword: keyword,
+      sorted: sorted,
+      search: search
+    }, props.parameter));
+    var options = {
       method: 'POST',
       headers: setAuthHeader(auth),
-      url,
-      data
+      url: url,
+      data: data
     };
     setListLoading(true);
-    return axios(options).then(resp => {
-      let responseJSON = resp.data || {};
+    return axios(options).then(function (resp) {
+      var responseJSON = resp.data || {};
 
       if (typeof responseJSON.data.data !== 'undefined') {
         setLast(responseJSON.data.meta.last_page);
@@ -3883,7 +4318,7 @@ function InputSelectFetch(props) {
       }
 
       setListLoading(false);
-    }).catch(error => {
+    })["catch"](function (error) {
       setListLoading(false);
     });
   }
@@ -3891,8 +4326,8 @@ function InputSelectFetch(props) {
   function generateInputMultiple(event) {
     if (isObject(props.optionValue)) {
       Object.keys(props.optionValue).map(function (key, index) {
-        let k = props.optionValue[key];
-        let v = null;
+        var k = props.optionValue[key];
+        var v = null;
 
         if (event) {
           try {
@@ -3911,8 +4346,8 @@ function InputSelectFetch(props) {
         }
       });
     } else {
-      let k = props_name;
-      let v = null;
+      var k = props_name;
+      var v = null;
 
       if (event) {
         v = uniq(map(event, primaryKey));
@@ -3933,8 +4368,8 @@ function InputSelectFetch(props) {
   function generateInput(event) {
     if (isObject(props.optionValue)) {
       Object.keys(props.optionValue).map(function (key, index) {
-        let k = props.optionValue[key];
-        let v = null;
+        var k = props.optionValue[key];
+        var v = null;
 
         if (event) {
           try {
@@ -3953,8 +4388,8 @@ function InputSelectFetch(props) {
         }
       });
     } else {
-      let k = props_name;
-      let v = null;
+      var k = props_name;
+      var v = null;
 
       if (event) {
         v = event[primaryKey];
@@ -3980,9 +4415,9 @@ function InputSelectFetch(props) {
     }
   }
 
-  let isi = [];
+  var isi = [];
 
-  let _input = findArrayName(key_select, input);
+  var _input = findArrayName(key_select, input);
 
   try {
     if (isMultiple) {
@@ -3992,9 +4427,9 @@ function InputSelectFetch(props) {
     }
   } catch (e) {}
 
-  let _parameter = findArrayName(key_select, parameter);
+  var _parameter = findArrayName(key_select, parameter);
 
-  let isi_param = null;
+  var isi_param = null;
 
   try {
     if (isMultiple) {
@@ -4024,7 +4459,7 @@ function InputSelectFetch(props) {
     md: "10",
     sm: "8",
     xs: "12"
-  }, loading ? /*#__PURE__*/React.createElement(Loading, null) : isi.map((val, index) => {
+  }, loading ? /*#__PURE__*/React.createElement(Loading, null) : isi.map(function (val, index) {
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ShowData, {
       isReadonly: props.isReadonly,
       name: props_name,
@@ -4061,13 +4496,12 @@ function InputSelectFetch(props) {
     },
     className: "form-control",
     value: findArrayName('keyword_' + props_name, filter$1),
-    onChange: e => {
+    onChange: function onChange(e) {
+      var _payload;
+
       dispatch({
         type: 'SET_MULTI_FILTER',
-        payload: {
-          ['keyword_' + props_name]: e.target.value,
-          ['page_' + props_name]: 1
-        }
+        payload: (_payload = {}, _payload['keyword_' + props_name] = e.target.value, _payload['page_' + props_name] = 1, _payload)
       });
     },
     type: "text",
@@ -4101,7 +4535,7 @@ function InputSelectFetch(props) {
     style: {
       marginTop: 12
     }
-  }, /*#__PURE__*/React.createElement("p", null, "Dipilih : "), loading && /*#__PURE__*/React.createElement(Loading, null), /*#__PURE__*/React.createElement("ul", null, isMultiple ? isi_param && isi_param.map((val, index) => {
+  }, /*#__PURE__*/React.createElement("p", null, "Dipilih : "), loading && /*#__PURE__*/React.createElement(Loading, null), /*#__PURE__*/React.createElement("ul", null, isMultiple ? isi_param && isi_param.map(function (val, index) {
     return /*#__PURE__*/React.createElement("li", null, !isUndefined(val) && !isEmpty(val) ? labelGenerate(val) : '');
   }) : isi_param && /*#__PURE__*/React.createElement("li", null, !isUndefined(isi_param) && !isEmpty(isi_param) ? labelGenerate(isi_param) : ''))))));
 }

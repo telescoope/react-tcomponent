@@ -111,6 +111,14 @@ function App() {
       dispatch({
         type: 'SET_INPUT',
         payload: {
+          key: 'texteditor',
+          value: Math.floor(Math.random() * 1001)
+        }
+      })
+
+      dispatch({
+        type: 'SET_INPUT',
+        payload: {
           key: 'coba[221]',
           value: Math.floor(Math.random() * 101)
         }
@@ -500,6 +508,12 @@ function App() {
       />
       <h4>Contoh Text Editor</h4>
       <InputText name='texteditor' type='texteditor' className='form-control' />
+      <InputText
+        name='texteditor'
+        isReadonly
+        type='texteditor'
+        className='form-control'
+      />
       <InputText
         name='texteditor_multi[satu]'
         type='texteditor'
