@@ -18,7 +18,7 @@ import { findArrayName, slug } from 'tcomponent'
 
 import parse from 'html-react-parser'
 
-import { Input } from 'reactstrap'
+import { Form } from 'react-bootstrap'
 
 import * as MathType from '@wiris/mathtype-generic'
 
@@ -372,7 +372,7 @@ class InputText extends React.Component {
         : this.state.type
 
     return (
-      <Input
+      <Form.Control
         id={this.props.id}
         type={defaultType}
         placeholder={this.state.placeholder}

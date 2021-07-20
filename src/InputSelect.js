@@ -15,8 +15,6 @@ import './InputSelect.module.css'
 
 import { slug, findArrayName } from 'tcomponent'
 
-import { Modal, ModalHeader, ModalBody, Row, Col } from 'reactstrap'
-
 import Select from 'react-select'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -169,13 +167,13 @@ class InputSelect extends React.Component {
           <Row>
             {!this.props.isReadonly && (
               <Col lg='1' md='1' sm='3' xs='1'>
-                <button
+                <Button
                   type='button'
                   className='btn btn-icon btn-primary btn-sm'
                   onClick={this.openModal}
                 >
                   <FontAwesomeIcon size='sm' icon={faSearch} /> Pilih
-                </button>
+                </Button>
               </Col>
             )}
 
@@ -187,9 +185,9 @@ class InputSelect extends React.Component {
                 : ''}
             </Col>
           </Row>
-          <Modal size='lg' isOpen={this.state.show} toggle={this.openModal}>
-            <ModalHeader toggle={this.openModal}>
-              {this.props.placeholder || 'Pilih'}
+          <Modal size='lg' show={this.state.show} onHide={this.openModal}>
+            <ModalHeader closeButton toggle={this.openModal}>
+              <Modal.Title>{this.props.placeholder || 'Pilih'}</Modal.Title>
             </ModalHeader>
             <ModalBody>
               <Select

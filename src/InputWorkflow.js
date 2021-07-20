@@ -10,17 +10,7 @@ import axios from 'axios'
 
 import moment from 'moment'
 
-import {
-  Button,
-  Row,
-  Col,
-  FormGroup,
-  Label,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText
-} from 'reactstrap'
+import { Card, Row, Col, Form, Button } from 'react-bootstrap'
 
 import InputSelect from './InputSelect'
 
@@ -298,19 +288,19 @@ function InputWorkflow(props) {
   return (
     <LoadingOverlay isLoading={isLoading || submitLoading}>
       <Card>
-        <CardBody>
-          <CardTitle tag='h5'>
+        <Card.Body>
+          <Card.Title tag='h5'>
             {activity.activity.name || 'Alur tidak ditemukan'}
-          </CardTitle>
-          <CardText>
+          </Card.Title>
+          <Card.Text>
             {!readonly && (
               <Row>
                 <Col lg='6'>
-                  <FormGroup row>
+                  <Form.Group as={Row}>
                     <Col lg='3'>
-                      <Label>
+                      <Form.Label>
                         Respon <span className='text-danger'>*</span>
-                      </Label>
+                      </Form.Label>
                     </Col>
                     <Col lg='9'>
                       <InputSelect
@@ -321,11 +311,11 @@ function InputWorkflow(props) {
                         optionValue='code'
                       />
                     </Col>
-                  </FormGroup>
+                  </Form.Group>
 
-                  <FormGroup row>
+                  <Form.Group as={Row}>
                     <Col lg='3'>
-                      <Label>Lampiran</Label>
+                      <Form.Label>Lampiran</Form.Label>
                     </Col>
 
                     <Col lg='5'>
@@ -335,13 +325,13 @@ function InputWorkflow(props) {
                         id='response_attachment'
                       />
                     </Col>
-                  </FormGroup>
+                  </Form.Group>
                 </Col>
 
                 <Col lg='6'>
-                  <FormGroup row>
+                  <Form.Group as={Row}>
                     <Col lg='3' style={{ marginBottom: 35 }}>
-                      <Label>Komentar</Label>
+                      <Form.Label>Komentar</Form.Label>
                     </Col>
 
                     <Col lg='9'>
@@ -353,7 +343,7 @@ function InputWorkflow(props) {
                         rows='3'
                       />
                     </Col>
-                  </FormGroup>
+                  </Form.Group>
                 </Col>
               </Row>
             )}
@@ -421,28 +411,28 @@ function InputWorkflow(props) {
                 }
               ]}
             />
-          </CardText>
-          <div className='row mt-2'>
-            <div className='col-md-12'>
-              <button
+          </Card.Text>
+          <Row className='mt-2'>
+            <Col>
+              <Button
                 type='button'
                 className='btn btn-icon btn-primary btn-sm float-left'
                 onClick={cancel}
               >
                 Kembali
-              </button>
+              </Button>
               {!readonly && (
-                <button
+                <Button
                   type='button'
                   className='btn btn-icon btn-primary btn-sm float-right'
                   onClick={submit}
                 >
                   Proses
-                </button>
+                </Button>
               )}
-            </div>
-          </div>
-        </CardBody>
+            </Col>
+          </Row>
+        </Card.Body>
       </Card>
     </LoadingOverlay>
   )

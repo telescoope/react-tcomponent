@@ -16,17 +16,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faCalendar } from '@fortawesome/free-regular-svg-icons'
 
-import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
+import { InputGroup, Form } from 'react-bootstrap'
 
 const CustomInput = (props) => {
   return (
     <InputGroup size='sm'>
-      <InputGroupAddon style={{ borderRight: 'none' }} addonType='prepend'>
-        <InputGroupText style={{ background: 'none' }}>
-          <FontAwesomeIcon size='sm' icon={faCalendar} />
-        </InputGroupText>
-      </InputGroupAddon>
-      <Input
+      <InputGroup.Text style={{ background: 'none' }}>
+        <FontAwesomeIcon size='sm' icon={faCalendar} />
+      </InputGroup.Text>
+      <Form.Control
         style={{
           borderLeft: 'none',
           fontFamily: 'inherit',

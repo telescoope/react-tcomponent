@@ -18,15 +18,7 @@ import {
 
 import { isEmpty, isNull, isUndefined } from 'lodash'
 
-import {
-  InputGroup,
-  DropdownItem,
-  InputGroupAddon,
-  Button,
-  InputGroupText,
-  Input,
-  Table
-} from 'reactstrap'
+import { Form, InputGroup, Button, Table } from 'react-bootstrap'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -82,7 +74,7 @@ export const DefaultColumnFilter = (props) => {
   }
 
   return (
-    <Input
+    <Form.Control
       key={key}
       id={key}
       name={key}
@@ -304,34 +296,29 @@ function DataTableContainer({
     <div>
       <div className='custom-scroll' style={{ overflow: 'auto' }}>
         <InputGroup>
-          <InputGroupAddon addonType='prepend'>
-            <Button
-              style={{ border: 'none' }}
-              color='primary'
-              onClick={() => customgotoPage(1)}
-              disabled={!customcanPreviousPage || loading}
-            >
-              <FontAwesomeIcon icon={faAngleDoubleLeft} />
-            </Button>
-          </InputGroupAddon>
+          <Button
+            style={{ border: 'none' }}
+            variant='primary'
+            onClick={() => customgotoPage(1)}
+            disabled={!customcanPreviousPage || loading}
+          >
+            <FontAwesomeIcon icon={faAngleDoubleLeft} />
+          </Button>
 
-          <InputGroupAddon addonType='prepend'>
-            <Button
-              style={{ border: 'none' }}
-              color='info'
-              onClick={custompreviousPage}
-              disabled={!customcanPreviousPage || loading}
-            >
-              <FontAwesomeIcon icon={faAngleLeft} />
-            </Button>
-          </InputGroupAddon>
+          <Button
+            style={{ border: 'none' }}
+            variant='info'
+            onClick={custompreviousPage}
+            disabled={!customcanPreviousPage || loading}
+          >
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </Button>
 
-          <InputGroupAddon addonType='prepend'>
-            <InputGroupText style={{ background: 'none' }}>
-              <FontAwesomeIcon icon={faFile} /> &nbsp; Hal :{' '}
-            </InputGroupText>
-          </InputGroupAddon>
-          <Input
+          <InputGroup.Text style={{ background: 'none' }}>
+            <FontAwesomeIcon icon={faFile} /> &nbsp; Hal :{' '}
+          </InputGroup.Text>
+
+          <Form.Control
             style={{ borderLeft: 'none', borderRight: 'none', minWidth: 72 }}
             type='number'
             min={1}
@@ -340,12 +327,11 @@ function DataTableContainer({
             onChange={onChangeInInput}
           />
 
-          <InputGroupAddon addonType='prepend'>
-            <InputGroupText style={{ background: 'none' }}>
-              <FontAwesomeIcon icon={faColumns} /> &nbsp; Lihat :{' '}
-            </InputGroupText>
-          </InputGroupAddon>
-          <Input
+          <InputGroup.Text style={{ background: 'none' }}>
+            <FontAwesomeIcon icon={faColumns} /> &nbsp; Lihat :{' '}
+          </InputGroup.Text>
+
+          <Form.Control
             type='number'
             min={1}
             style={{ borderLeft: 'none', borderRight: 'none', minWidth: 72 }}
@@ -354,24 +340,22 @@ function DataTableContainer({
             onChange={onChangeInSelect}
           />
 
-          <InputGroupAddon addonType='append'>
-            <Button
-              style={{ border: 'none' }}
-              color='info'
-              onClick={customnextPage}
-              disabled={!customcanNextPage || loading}
-            >
-              <FontAwesomeIcon icon={faAngleRight} />
-            </Button>
-            <Button
-              style={{ border: 'none' }}
-              color='primary'
-              onClick={() => customgotoPage(customPageCount)}
-              disabled={!customcanNextPage || loading}
-            >
-              <FontAwesomeIcon icon={faAngleDoubleRight} />
-            </Button>
-          </InputGroupAddon>
+          <Button
+            style={{ border: 'none' }}
+            variant='info'
+            onClick={customnextPage}
+            disabled={!customcanNextPage || loading}
+          >
+            <FontAwesomeIcon icon={faAngleRight} />
+          </Button>
+          <Button
+            style={{ border: 'none' }}
+            variant='primary'
+            onClick={() => customgotoPage(customPageCount)}
+            disabled={!customcanNextPage || loading}
+          >
+            <FontAwesomeIcon icon={faAngleDoubleRight} />
+          </Button>
         </InputGroup>
       </div>
 
@@ -432,11 +416,12 @@ function DataTableContainer({
                 return (
                   <React.Fragment key={row.getRowProps().key}>
                     <tr>
-                      {row.cells.map((cell) => {
+                      {row.cells.map((cell, index) => {
                         return (
                           <td
                             style={{
-                              padding: '4px 8px'
+                              padding: '4px 8px',
+                              width: index == 0 ? '10px' : 'auto'
                             }}
                             {...cell.getCellProps()}
                           >
@@ -483,34 +468,29 @@ function DataTableContainer({
       </div>
       <div className='custom-scroll' style={{ overflow: 'auto' }}>
         <InputGroup>
-          <InputGroupAddon addonType='prepend'>
-            <Button
-              style={{ border: 'none' }}
-              color='primary'
-              onClick={() => customgotoPage(1)}
-              disabled={!customcanPreviousPage || loading}
-            >
-              <FontAwesomeIcon icon={faAngleDoubleLeft} />
-            </Button>
-          </InputGroupAddon>
+          <Button
+            style={{ border: 'none' }}
+            variant='primary'
+            onClick={() => customgotoPage(1)}
+            disabled={!customcanPreviousPage || loading}
+          >
+            <FontAwesomeIcon icon={faAngleDoubleLeft} />
+          </Button>
 
-          <InputGroupAddon addonType='prepend'>
-            <Button
-              style={{ border: 'none' }}
-              color='info'
-              onClick={custompreviousPage}
-              disabled={!customcanPreviousPage || loading}
-            >
-              <FontAwesomeIcon icon={faAngleLeft} />
-            </Button>
-          </InputGroupAddon>
+          <Button
+            style={{ border: 'none' }}
+            variant='info'
+            onClick={custompreviousPage}
+            disabled={!customcanPreviousPage || loading}
+          >
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </Button>
 
-          <InputGroupAddon addonType='prepend'>
-            <InputGroupText style={{ background: 'none' }}>
-              <FontAwesomeIcon icon={faFile} /> &nbsp; Hal :{' '}
-            </InputGroupText>
-          </InputGroupAddon>
-          <Input
+          <InputGroup.Text style={{ background: 'none' }}>
+            <FontAwesomeIcon icon={faFile} /> &nbsp; Hal :{' '}
+          </InputGroup.Text>
+
+          <Form.Control
             style={{ borderLeft: 'none', borderRight: 'none', minWidth: 72 }}
             type='number'
             min={1}
@@ -519,12 +499,11 @@ function DataTableContainer({
             onChange={onChangeInInput}
           />
 
-          <InputGroupAddon addonType='prepend'>
-            <InputGroupText style={{ background: 'none' }}>
-              <FontAwesomeIcon icon={faColumns} /> &nbsp; Lihat :{' '}
-            </InputGroupText>
-          </InputGroupAddon>
-          <Input
+          <InputGroup.Text style={{ background: 'none' }}>
+            <FontAwesomeIcon icon={faColumns} /> &nbsp; Lihat :{' '}
+          </InputGroup.Text>
+
+          <Form.Control
             type='number'
             min={1}
             style={{ borderLeft: 'none', borderRight: 'none', minWidth: 72 }}
@@ -533,24 +512,22 @@ function DataTableContainer({
             onChange={onChangeInSelect}
           />
 
-          <InputGroupAddon addonType='append'>
-            <Button
-              style={{ border: 'none' }}
-              color='info'
-              onClick={customnextPage}
-              disabled={!customcanNextPage || loading}
-            >
-              <FontAwesomeIcon icon={faAngleRight} />
-            </Button>
-            <Button
-              style={{ border: 'none' }}
-              color='primary'
-              onClick={() => customgotoPage(customPageCount)}
-              disabled={!customcanNextPage || loading}
-            >
-              <FontAwesomeIcon icon={faAngleDoubleRight} />
-            </Button>
-          </InputGroupAddon>
+          <Button
+            style={{ border: 'none' }}
+            variant='info'
+            onClick={customnextPage}
+            disabled={!customcanNextPage || loading}
+          >
+            <FontAwesomeIcon icon={faAngleRight} />
+          </Button>
+          <Button
+            style={{ border: 'none' }}
+            variant='primary'
+            onClick={() => customgotoPage(customPageCount)}
+            disabled={!customcanNextPage || loading}
+          >
+            <FontAwesomeIcon icon={faAngleDoubleRight} />
+          </Button>
         </InputGroup>
       </div>
     </div>

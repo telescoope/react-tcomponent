@@ -43,21 +43,15 @@ import {
 import './DataTable.module.css'
 
 import {
-  InputGroupText,
   Row,
-  Col,
-  Button,
-  Input,
   InputGroup,
-  InputGroupAddon,
-  Label,
-  FormGroup,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Tooltip
-} from 'reactstrap'
+  Col,
+  Form,
+  Button,
+  DropdownButton,
+  ButtonGroup,
+  Dropdown
+} from 'react-bootstrap'
 
 function DataTable(props) {
   let [visible, setVisible] = useState(false)
@@ -142,6 +136,7 @@ function DataTable(props) {
   let checkComponent = {
     Header: '#',
     id: 'select',
+    width: '10px',
     Cell: (row) => {
       let local_input = useSelector((state) => state.core.input)
 
@@ -161,26 +156,18 @@ function DataTable(props) {
       } catch (e) {}
 
       return (
-        <FormGroup check>
-          <Label check>
-            <Input
-              id={slug(
-                props.name + '_check_' + row.row.original[primaryKey],
-                '_'
-              )}
-              name={slug(
-                props.name + '_check_' + row.row.original[primaryKey],
-                '_'
-              )}
-              style={{ marginTop: -11 }}
-              type={props.selectable == 'single' ? 'radio' : 'checkbox'}
-              value={1}
-              checked={checked}
-              disabled={props.isReadonly}
-              onChange={() => onChecked(row, local_input, checked)}
-            />
-          </Label>
-        </FormGroup>
+        <Form.Check
+          id={slug(props.name + '_check_' + row.row.original[primaryKey], '_')}
+          name={slug(
+            props.name + '_check_' + row.row.original[primaryKey],
+            '_'
+          )}
+          type={props.selectable == 'single' ? 'radio' : 'checkbox'}
+          value={1}
+          checked={checked}
+          disabled={props.isReadonly}
+          onChange={() => onChecked(row, local_input, checked)}
+        />
       )
     }
   }
@@ -215,65 +202,34 @@ function DataTable(props) {
           })
         }
 
-        // // console.log(props.name, isi)
-
         return (
-          <Dropdown
-            key={'dropdown_' + props.name + '_' + isi}
-            direction='right'
-            className='selector custom-scroll'
+          <DropdownButton
+            key={'end'}
+            size='sm'
+            id={'dropdown_' + props.name + '_' + isi}
+            className='custom-scroll'
             isOpen={isEqual(param.dropdown, isi)}
             toggle={() => openToggle(isi)}
+            drop={'end'}
+            variant='primary'
+            title={''}
           >
-            <DropdownToggle caret></DropdownToggle>
-            <DropdownMenu
-              modifiers={{
-                setMaxHeight: {
-                  enabled: true,
-                  order: 890,
-                  fn: (data) => {
-                    return {
-                      ...data,
-                      styles: {
-                        ...data.styles,
-                        overflow: 'auto',
-                        maxHeight: '120px'
-                      }
-                    }
-                  }
-                }
-              }}
-            >
-              {_filter(props.action, function (o) {
-                return isUndefined(o.show) || o.show
-              }).map((value, index) => {
-                let disabled = isBoolean(value.disabled)
-                  ? value.disabled
-                  : false
-                // console.log('disabled', disabled)
-                // console.log('value', value)
-                /*
-                if (isEqual(value.label, 'Hapus')) {
-                  //kondisi delete
-                  if (!isEqual(user.role, 'admin')) {
-                    disabled = true //disable untuk soal yang sedang dipakai ujian
-                  } else {
-                    disabled = false
-                  }
-                }
-                */
-                return (
-                  <DropdownItem
-                    key={'dropdownitem_' + props.name + '_' + isi + '_' + index}
-                    onClick={() => value.onClick(row.row.original)}
-                    disabled={disabled}
-                  >
-                    {value.label}
-                  </DropdownItem>
-                )
-              })}
-            </DropdownMenu>
-          </Dropdown>
+            {_filter(props.action, function (o) {
+              return isUndefined(o.show) || o.show
+            }).map((value, index) => {
+              let disabled = isBoolean(value.disabled) ? value.disabled : false
+
+              return (
+                <Dropdown.Item
+                  key={'dropdownitem_' + props.name + '_' + isi + '_' + index}
+                  onClick={() => value.onClick(row.row.original)}
+                  disabled={disabled}
+                >
+                  {value.label}
+                </Dropdown.Item>
+              )
+            })}
+          </DropdownButton>
         )
       }
     }
@@ -464,15 +420,11 @@ Import
                 {props.isSearchable && (
                   <div>
                     <InputGroup>
-                      <InputGroupAddon
-                        style={{ borderRight: 'none' }}
-                        addonType='prepend'
-                      >
-                        <InputGroupText style={{ background: 'none' }}>
-                          <FontAwesomeIcon icon={faSearch} />
-                        </InputGroupText>
-                      </InputGroupAddon>
-                      <Input
+                      <InputGroup.Text style={{ background: 'none' }}>
+                        <FontAwesomeIcon icon={faSearch} />
+                      </InputGroup.Text>
+
+                      <Form.Control
                         id={slug('keyword_' + props.name, '_')}
                         key={slug('keyword_' + props.name, '_')}
                         style={{ borderLeft: 'none' }}
@@ -498,27 +450,24 @@ Import
                         placeholder='Pencarian'
                       />
 
-                      <InputGroupAddon addonType='append'>
-                        <Button
-                          style={{ zIndex: 0 }}
-                          className='btn btn-primary'
-                          onClick={onReload}
-                          type='button'
-                          disabled={props.isLoading}
-                        >
-                          <FontAwesomeIcon
-                            icon={faSync}
-                            spin={props.isLoading}
-                          />
-                        </Button>
-                      </InputGroupAddon>
+                      <Button
+                        style={{ zIndex: 0 }}
+                        variant='primary'
+                        onClick={onReload}
+                        type='button'
+                        disabled={props.isLoading}
+                      >
+                        <FontAwesomeIcon icon={faSync} spin={props.isLoading} />
+                      </Button>
+
                       {(props.export || props.import) && (
-                        <InputGroupAddon addonType='append'>
+                        <React.Fragment>
                           {props.export && (
                             <Button
                               id='exportFile'
                               style={{ zIndex: 0 }}
-                              className='mr-1 btn btn-primary'
+                              variant='primary'
+                              className='mr-1'
                               onClick={props.exportReload}
                               type='button'
                               disabled={props.disabledButton}
@@ -540,7 +489,8 @@ Import
                             <Button
                               id='importFile'
                               style={{ zIndex: 0 }}
-                              className='mr-1 btn btn-primary'
+                              variant='primary'
+                              className='mr-1'
                               onClick={props.importReload}
                               type='button'
                               disabled={props.disabledButton}
@@ -557,7 +507,7 @@ Import
                               </Tooltip>
                             </Button>
                           )}
-                        </InputGroupAddon>
+                        </React.Fragment>
                       )}
                     </InputGroup>
                   </div>

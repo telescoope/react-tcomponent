@@ -32,14 +32,7 @@ import {
 
 import Loading from './Loading'
 
-import {
-  Input,
-  Button,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  ButtonGroup
-} from 'reactstrap'
+import { Form, Button, Modal, ButtonGroup } from 'react-bootstrap'
 
 let moment = momentImported
 
@@ -409,7 +402,7 @@ function InputFile(props) {
         <div>
           {!props.isMultiple && (
             <div style={{ display: 'inline-block' }}>
-              <Input
+              <Form.Control
                 className={props.className}
                 accept={acceptedFiles}
                 label={props.name}
@@ -461,11 +454,11 @@ function InputFile(props) {
                 </React.Fragment>
               )}
               <ButtonGroup>
-                <Button color='primary' size='sm' onClick={() => toggle(val)}>
+                <Button variant='primary' size='sm' onClick={() => toggle(val)}>
                   <FontAwesomeIcon icon={faSearch} /> Lihat
                 </Button>
                 <Button
-                  color='success'
+                  vendor='success'
                   onClick={() =>
                     (window.location.href =
                       process.env.REACT_APP_API_URL + '/file/download/' + val)
@@ -477,7 +470,7 @@ function InputFile(props) {
 
                 {!props.isReadonly && (
                   <Button
-                    color='danger'
+                    variant='danger'
                     onClick={() => onDelete(val)}
                     size='sm'
                   >
@@ -488,15 +481,15 @@ function InputFile(props) {
               <Modal
                 size='lg'
                 id={'modal_' + val}
-                isOpen={open[val]}
-                toggle={() => toggle(val)}
+                show={open[val]}
+                onHide={() => toggle(val)}
               >
-                <ModalHeader toggle={() => toggle(val)}>
-                  Lampiran {val}
-                </ModalHeader>
-                <ModalBody>
+                <Modal.Header closeButton onHide={() => toggle(val)}>
+                  <Modal.Title>Lampiran {val}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                   <Preview key={val} type={type[val]} file={val} />
-                </ModalBody>
+                </Modal.Body>
               </Modal>
             </div>
           )

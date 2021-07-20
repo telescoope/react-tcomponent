@@ -10,7 +10,7 @@ var Mousetrap = _interopDefault(require('mousetrap'));
 var SunEditor = _interopDefault(require('suneditor-react'));
 var tcomponent = require('tcomponent');
 var parse = _interopDefault(require('html-react-parser'));
-var reactstrap = require('reactstrap');
+var reactBootstrap = require('react-bootstrap');
 require('@wiris/mathtype-generic');
 var ContentEditable = _interopDefault(require('react-contenteditable'));
 var axios = _interopDefault(require('axios'));
@@ -367,7 +367,7 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
     }
 
     var defaultType = this.state.type === 'text' || lodash.isUndefined(this.state.type) ? 'search' : this.state.type;
-    return /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+    return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
       id: this.props.id,
       type: defaultType,
       placeholder: this.state.placeholder,
@@ -607,7 +607,7 @@ function InputFile(props) {
     openFile(loading);
   }, [loading]);
 
-  function _toggle(val) {
+  function toggle(val) {
     var _extends2;
 
     setOpen(_extends({}, open, (_extends2 = {}, _extends2[val] = !open[val], _extends2)));
@@ -752,7 +752,7 @@ function InputFile(props) {
     style: {
       display: 'inline-block'
     }
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     className: props.className,
     accept: acceptedFiles,
     label: props.name,
@@ -791,42 +791,43 @@ function InputFile(props) {
       key: val,
       type: type[val],
       file: val
-    }), /*#__PURE__*/React__default.createElement("br", null)), /*#__PURE__*/React__default.createElement(reactstrap.ButtonGroup, null, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
-      color: "primary",
+    }), /*#__PURE__*/React__default.createElement("br", null)), /*#__PURE__*/React__default.createElement(reactBootstrap.ButtonGroup, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
+      variant: "primary",
       size: "sm",
       onClick: function onClick() {
-        return _toggle(val);
+        return toggle(val);
       }
     }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
       icon: freeSolidSvgIcons.faSearch
-    }), " Lihat"), /*#__PURE__*/React__default.createElement(reactstrap.Button, {
-      color: "success",
+    }), " Lihat"), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
+      vendor: "success",
       onClick: function onClick() {
         return window.location.href = process.env.REACT_APP_API_URL + '/file/download/' + val;
       },
       size: "sm"
     }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
       icon: freeSolidSvgIcons.faDownload
-    }), " Unduh"), !props.isReadonly && /*#__PURE__*/React__default.createElement(reactstrap.Button, {
-      color: "danger",
+    }), " Unduh"), !props.isReadonly && /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
+      variant: "danger",
       onClick: function onClick() {
         return onDelete(val);
       },
       size: "sm"
     }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
       icon: freeSolidSvgIcons.faTimes
-    }), " Hapus")), /*#__PURE__*/React__default.createElement(reactstrap.Modal, {
+    }), " Hapus")), /*#__PURE__*/React__default.createElement(reactBootstrap.Modal, {
       size: "lg",
       id: 'modal_' + val,
-      isOpen: open[val],
-      toggle: function toggle() {
-        return _toggle(val);
+      show: open[val],
+      onHide: function onHide() {
+        return toggle(val);
       }
-    }, /*#__PURE__*/React__default.createElement(reactstrap.ModalHeader, {
-      toggle: function toggle() {
-        return _toggle(val);
+    }, /*#__PURE__*/React__default.createElement(reactBootstrap.Modal.Header, {
+      closeButton: true,
+      onHide: function onHide() {
+        return toggle(val);
       }
-    }, "Lampiran ", val), /*#__PURE__*/React__default.createElement(reactstrap.ModalBody, null, /*#__PURE__*/React__default.createElement(Preview, {
+    }, /*#__PURE__*/React__default.createElement(reactBootstrap.Modal.Title, null, "Lampiran ", val)), /*#__PURE__*/React__default.createElement(reactBootstrap.Modal.Body, null, /*#__PURE__*/React__default.createElement(Preview, {
       key: val,
       type: type[val],
       file: val
@@ -859,8 +860,6 @@ var InputChoose = /*#__PURE__*/function (_React$Component) {
     };
 
     _this.onChange = function (selectedOption) {
-      console.log(selectedOption);
-
       if (!_this.props.isReadonly && _this.props.name) {
         try {
           if (_this.props.isMultiple) {
@@ -884,17 +883,19 @@ var InputChoose = /*#__PURE__*/function (_React$Component) {
 
             _this.props.setInput(_this.props.name, new_val);
           } else {
+            var val = tcomponent.findArrayName(_this.props.name, _this.props.input) || null;
+
             if (_this.props.value) {
               val = _this.props.value;
-            } else {
-              val = tcomponent.findArrayName(_this.props.name, _this.props.input) || null;
             }
 
-            if (val == selectedOption[_this.props.optionValue]) {
-              _this.props.setInput(_this.props.name, null);
-            } else {
-              _this.props.setInput(_this.props.name, selectedOption[_this.props.optionValue]);
+            var _new_val = null;
+
+            if (val != selectedOption[_this.props.optionValue]) {
+              _new_val = selectedOption[_this.props.optionValue];
             }
+
+            _this.props.setInput(_this.props.name, _new_val);
           }
         } catch (e) {
           _this.props.setInput(_this.props.name, null);
@@ -905,7 +906,8 @@ var InputChoose = /*#__PURE__*/function (_React$Component) {
     };
 
     _this.state = {
-      defaultValue: null
+      defaultValue: null,
+      type: _this.props.type || 'inline'
     };
     _this.onRefresh = lodash.debounce(_this.onRefresh.bind(_assertThisInitialized(_this)), 200);
     return _this;
@@ -923,7 +925,7 @@ var InputChoose = /*#__PURE__*/function (_React$Component) {
       val = tcomponent.findArrayName(this.props.name, this.props.input) || null;
     }
 
-    if (val) {
+    if (!lodash.isNull(val)) {
       if (this.props.isMultiple) {
         defaultValue = [];
 
@@ -982,31 +984,26 @@ var InputChoose = /*#__PURE__*/function (_React$Component) {
         }
       } catch (e) {}
 
-      return /*#__PURE__*/React__default.createElement("div", {
-        className: "form-check-inline"
-      }, /*#__PURE__*/React__default.createElement("label", {
-        className: 'custom-control custom-' + (_this2.props.isMultiple ? 'checkbox' : 'radio') + ' custom-control-inline'
-      }, /*#__PURE__*/React__default.createElement("input", {
+      return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Check, {
+        inline: _this2.state.type == 'inline',
         disabled: _this2.props.disabled || _this2.props.isReadonly,
         type: _this2.props.isMultiple ? 'checkbox' : 'radio',
-        className: "custom-control-input",
         name: _this2.props.name,
         onChange: _this2.onChange.bind(_this2, value),
-        value: "1",
-        checked: isChecked
-      }), /*#__PURE__*/React__default.createElement("span", {
-        className: "custom-control-label"
-      }, _this2.labelGenerate(value).map(function (val, i) {
-        if (lodash.isEqual(String(val).substring(0, 3), 'AT-')) {
-          return /*#__PURE__*/React__default.createElement(InputFile, {
-            value: val,
-            isReadonly: true,
-            preview: true
-          });
-        } else {
-          return _this2.props.isHtml ? parse(String(val)) : val;
-        }
-      }))));
+        value: value,
+        checked: isChecked,
+        label: _this2.labelGenerate(value).map(function (val, i) {
+          if (lodash.isEqual(String(val).substring(0, 3), 'AT-')) {
+            return /*#__PURE__*/React__default.createElement(InputFile, {
+              value: val,
+              isReadonly: true,
+              preview: true
+            });
+          } else {
+            return _this2.props.isHtml ? parse(String(val)) : val;
+          }
+        })
+      }));
     }));
   };
 
@@ -1036,21 +1033,16 @@ var mapDispatchToProps$1 = function mapDispatchToProps(dispatch) {
 var InputChoose$1 = reactRedux.connect(mapStateToProps$1, mapDispatchToProps$1)(InputChoose);
 
 var CustomInput = function CustomInput(props) {
-  return /*#__PURE__*/React__default.createElement(reactstrap.InputGroup, {
+  return /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup, {
     size: "sm"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    style: {
-      borderRight: 'none'
-    },
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     size: "sm",
     icon: freeRegularSvgIcons.faCalendar
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     style: {
       borderLeft: 'none',
       fontFamily: 'inherit',
@@ -1570,7 +1562,7 @@ var DefaultColumnFilter = function DefaultColumnFilter(props) {
     });
   }
 
-  return /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     key: key,
     id: key,
     name: key,
@@ -1743,39 +1735,33 @@ function DataTableContainer(_ref2) {
     style: {
       overflow: 'auto'
     }
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroup, null, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       border: 'none'
     },
-    color: "primary",
+    variant: "primary",
     onClick: function onClick() {
       return customgotoPage(1);
     },
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faAngleDoubleLeft
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       border: 'none'
     },
-    color: "info",
+    variant: "info",
     onClick: custompreviousPage,
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faAngleLeft
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeRegularSvgIcons.faFile
-  }), " \xA0 Hal :", ' ')), /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  }), " \xA0 Hal :", ' '), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     style: {
       borderLeft: 'none',
       borderRight: 'none',
@@ -1786,15 +1772,13 @@ function DataTableContainer(_ref2) {
     max: customPageCount,
     value: curpage,
     onChange: onChangeInInput
-  }), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  }), /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faColumns
-  }), " \xA0 Lihat :", ' ')), /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  }), " \xA0 Lihat :", ' '), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     type: "number",
     min: 1,
     style: {
@@ -1805,31 +1789,29 @@ function DataTableContainer(_ref2) {
     max: 50,
     value: pageSize,
     onChange: onChangeInSelect
-  }), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "append"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  }), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       border: 'none'
     },
-    color: "info",
+    variant: "info",
     onClick: customnextPage,
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faAngleRight
-  })), /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       border: 'none'
     },
-    color: "primary",
+    variant: "primary",
     onClick: function onClick() {
       return customgotoPage(customPageCount);
     },
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faAngleDoubleRight
-  }))))), /*#__PURE__*/React__default.createElement("div", {
+  })))), /*#__PURE__*/React__default.createElement("div", {
     className: "text-center mt-2 mb-2"
-  }, /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React__default.createElement(reactstrap.Table, _extends({
+  }, /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React__default.createElement(reactBootstrap.Table, _extends({
     style: {
       minHeight: 120,
       margin: 0,
@@ -1864,10 +1846,11 @@ function DataTableContainer(_ref2) {
     prepareRow(row);
     return /*#__PURE__*/React__default.createElement(React__default.Fragment, {
       key: row.getRowProps().key
-    }, /*#__PURE__*/React__default.createElement("tr", null, row.cells.map(function (cell) {
+    }, /*#__PURE__*/React__default.createElement("tr", null, row.cells.map(function (cell, index) {
       return /*#__PURE__*/React__default.createElement("td", _extends({
         style: {
-          padding: '4px 8px'
+          padding: '4px 8px',
+          width: index == 0 ? '10px' : 'auto'
         }
       }, cell.getCellProps()), cell.render('Cell'));
     })), row.isExpanded && /*#__PURE__*/React__default.createElement("tr", null, /*#__PURE__*/React__default.createElement("td", {
@@ -1891,39 +1874,33 @@ function DataTableContainer(_ref2) {
     style: {
       overflow: 'auto'
     }
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroup, null, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       border: 'none'
     },
-    color: "primary",
+    variant: "primary",
     onClick: function onClick() {
       return customgotoPage(1);
     },
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faAngleDoubleLeft
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       border: 'none'
     },
-    color: "info",
+    variant: "info",
     onClick: custompreviousPage,
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faAngleLeft
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeRegularSvgIcons.faFile
-  }), " \xA0 Hal :", ' ')), /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  }), " \xA0 Hal :", ' '), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     style: {
       borderLeft: 'none',
       borderRight: 'none',
@@ -1934,15 +1911,13 @@ function DataTableContainer(_ref2) {
     max: customPageCount,
     value: curpage,
     onChange: onChangeInInput
-  }), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  }), /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faColumns
-  }), " \xA0 Lihat :", ' ')), /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  }), " \xA0 Lihat :", ' '), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     type: "number",
     min: 1,
     style: {
@@ -1953,29 +1928,27 @@ function DataTableContainer(_ref2) {
     max: 50,
     value: pageSize,
     onChange: onChangeInSelect
-  }), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "append"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  }), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       border: 'none'
     },
-    color: "info",
+    variant: "info",
     onClick: customnextPage,
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faAngleRight
-  })), /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       border: 'none'
     },
-    color: "primary",
+    variant: "primary",
     onClick: function onClick() {
       return customgotoPage(customPageCount);
     },
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faAngleDoubleRight
-  }))))));
+  })))));
 }
 
 function DataTable(props) {
@@ -2082,6 +2055,7 @@ function DataTable(props) {
   var checkComponent = {
     Header: '#',
     id: 'select',
+    width: '10px',
     Cell: function Cell(row) {
       var local_input = reactRedux.useSelector(function (state) {
         return state.core.input;
@@ -2098,16 +2072,9 @@ function DataTable(props) {
         }
       } catch (e) {}
 
-      return /*#__PURE__*/React__default.createElement(reactstrap.FormGroup, {
-        check: true
-      }, /*#__PURE__*/React__default.createElement(reactstrap.Label, {
-        check: true
-      }, /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+      return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Check, {
         id: tcomponent.slug(props.name + '_check_' + row.row.original[primaryKey], '_'),
         name: tcomponent.slug(props.name + '_check_' + row.row.original[primaryKey], '_'),
-        style: {
-          marginTop: -11
-        },
         type: props.selectable == 'single' ? 'radio' : 'checkbox',
         value: 1,
         checked: checked,
@@ -2115,7 +2082,7 @@ function DataTable(props) {
         onChange: function onChange() {
           return onChecked(row, local_input, checked);
         }
-      })));
+      });
     }
   };
   var nodeRef = React.useRef();
@@ -2144,43 +2111,30 @@ function DataTable(props) {
           });
         }
 
-        return /*#__PURE__*/React__default.createElement(reactstrap.Dropdown, {
-          key: 'dropdown_' + props.name + '_' + isi,
-          direction: "right",
-          className: "selector custom-scroll",
+        return /*#__PURE__*/React__default.createElement(reactBootstrap.DropdownButton, {
+          key: 'end',
+          size: "sm",
+          id: 'dropdown_' + props.name + '_' + isi,
+          className: "custom-scroll",
           isOpen: lodash.isEqual(param.dropdown, isi),
           toggle: function toggle() {
             return openToggle(isi);
-          }
-        }, /*#__PURE__*/React__default.createElement(reactstrap.DropdownToggle, {
-          caret: true
-        }), /*#__PURE__*/React__default.createElement(reactstrap.DropdownMenu, {
-          modifiers: {
-            setMaxHeight: {
-              enabled: true,
-              order: 890,
-              fn: function fn(data) {
-                return _extends({}, data, {
-                  styles: _extends({}, data.styles, {
-                    overflow: 'auto',
-                    maxHeight: '120px'
-                  })
-                });
-              }
-            }
-          }
+          },
+          drop: 'end',
+          variant: "primary",
+          title: ''
         }, lodash.filter(props.action, function (o) {
           return lodash.isUndefined(o.show) || o.show;
         }).map(function (value, index) {
           var disabled = lodash.isBoolean(value.disabled) ? value.disabled : false;
-          return /*#__PURE__*/React__default.createElement(reactstrap.DropdownItem, {
+          return /*#__PURE__*/React__default.createElement(reactBootstrap.Dropdown.Item, {
             key: 'dropdownitem_' + props.name + '_' + isi + '_' + index,
             onClick: function onClick() {
               return value.onClick(row.row.original);
             },
             disabled: disabled
           }, value.label);
-        })));
+        }));
       }
     };
     col = !lodash.isEmpty(props.selectable) ? [actionComponent, checkComponent].concat(props.columns) : [actionComponent].concat(props.columns);
@@ -2303,32 +2257,27 @@ function DataTable(props) {
     style: {
       marginBottom: '12px'
     }
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Row, null, /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Row, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     xs: "12",
     sm: "12",
     md: "8",
     lg: "8"
-  }, /*#__PURE__*/React__default.createElement("div", null, props.renderFilter ? props.renderFilter : null))), /*#__PURE__*/React__default.createElement(reactstrap.Row, {
+  }, /*#__PURE__*/React__default.createElement("div", null, props.renderFilter ? props.renderFilter : null))), /*#__PURE__*/React__default.createElement(reactBootstrap.Row, {
     style: {
       justifyContent: 'flex-end'
     }
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     xs: "12",
     sm: "12",
     md: "4",
     lg: "4"
-  }, /*#__PURE__*/React__default.createElement("div", null, props.isSearchable && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(reactstrap.InputGroup, null, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    style: {
-      borderRight: 'none'
-    },
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  }, /*#__PURE__*/React__default.createElement("div", null, props.isSearchable && /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup, null, /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faSearch
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.Input, (_React$createElement = {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, (_React$createElement = {
     id: tcomponent.slug('keyword_' + props.name, '_'),
     key: tcomponent.slug('keyword_' + props.name, '_'),
     style: {
@@ -2345,50 +2294,48 @@ function DataTable(props) {
       });
     },
     type: "text"
-  }, _React$createElement["id"] = tcomponent.slug('keyword_' + key_select), _React$createElement.name = "keyword", _React$createElement.placeholder = "Pencarian", _React$createElement)), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "append"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  }, _React$createElement["id"] = tcomponent.slug('keyword_' + key_select), _React$createElement.name = "keyword", _React$createElement.placeholder = "Pencarian", _React$createElement)), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       zIndex: 0
     },
-    className: "btn btn-primary",
+    variant: "primary",
     onClick: onReload,
     type: "button",
     disabled: props.isLoading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faSync,
     spin: props.isLoading
-  }))), (props["export"] || props["import"]) && /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "append"
-  }, props["export"] && /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  })), (props["export"] || props["import"]) && /*#__PURE__*/React__default.createElement(React__default.Fragment, null, props["export"] && /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     id: "exportFile",
     style: {
       zIndex: 0
     },
-    className: "mr-1 btn btn-primary",
+    variant: "primary",
+    className: "mr-1",
     onClick: props.exportReload,
     type: "button",
     disabled: props.disabledButton
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeRegularSvgIcons.faArrowAltCircleDown
-  }), /*#__PURE__*/React__default.createElement(reactstrap.Tooltip, {
+  }), /*#__PURE__*/React__default.createElement(Tooltip, {
     placement: "top",
     isOpen: tooltipOpenEx,
     autohide: false,
     target: "exportFile",
     toggle: toggleExport
-  }, "Export")), props["import"] && /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  }, "Export")), props["import"] && /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     id: "importFile",
     style: {
       zIndex: 0
     },
-    className: "mr-1 btn btn-primary",
+    variant: "primary",
+    className: "mr-1",
     onClick: props.importReload,
     type: "button",
     disabled: props.disabledButton
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeRegularSvgIcons.faArrowAltCircleUp
-  }), /*#__PURE__*/React__default.createElement(reactstrap.Tooltip, {
+  }), /*#__PURE__*/React__default.createElement(Tooltip, {
     placement: "top",
     isOpen: tooltipOpenIm,
     autohide: false,
@@ -2439,7 +2386,7 @@ function Field(props) {
   }, props.hint)), /*#__PURE__*/React__default.createElement("div", {
     className: 'col-md-' + (props.inputSize ? props.inputSize : 9)
   }, props.children, message.length > 0 && message.map(function (value, index) {
-    return /*#__PURE__*/React__default.createElement(reactstrap.Badge, {
+    return /*#__PURE__*/React__default.createElement(reactBootstrap.Badge, {
       color: "danger",
       style: {
         marginRight: 10
@@ -2449,21 +2396,16 @@ function Field(props) {
 }
 
 var CustomInput$1 = function CustomInput(props) {
-  return /*#__PURE__*/React__default.createElement(reactstrap.InputGroup, {
+  return /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup, {
     size: "sm"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    style: {
-      borderRight: 'none'
-    },
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     size: "sm",
     icon: freeRegularSvgIcons.faCalendar
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     style: {
       borderLeft: 'none',
       borderRight: 'none',
@@ -2476,19 +2418,14 @@ var CustomInput$1 = function CustomInput(props) {
     name: props.name,
     value: props.value || '',
     onClick: props.onClick
-  }), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    style: {
-      borderLeft: 'none'
-    },
-    addonType: "append"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  }), /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     size: "sm",
     icon: freeRegularSvgIcons.faClock
-  }))));
+  })));
 };
 
 var InputDateTime = /*#__PURE__*/function (_React$Component) {
@@ -3157,30 +3094,31 @@ var InputSelect = /*#__PURE__*/function (_React$Component) {
       return this.labelGenerate(this.state.defaultValue);
     }
 
-    if (this.props.withModal) return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(reactstrap.Row, null, !this.props.isReadonly && /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+    if (this.props.withModal) return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, /*#__PURE__*/React__default.createElement(Row, null, !this.props.isReadonly && /*#__PURE__*/React__default.createElement(Col, {
       lg: "1",
       md: "1",
       sm: "3",
       xs: "1"
-    }, /*#__PURE__*/React__default.createElement("button", {
+    }, /*#__PURE__*/React__default.createElement(Button, {
       type: "button",
       className: "btn btn-icon btn-primary btn-sm",
       onClick: this.openModal
     }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
       size: "sm",
       icon: freeSolidSvgIcons.faSearch
-    }), " Pilih")), /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+    }), " Pilih")), /*#__PURE__*/React__default.createElement(Col, {
       lg: "11",
       md: "11",
       sm: "9",
       xs: "11"
-    }, this.state.defaultValue && !lodash.isUndefined(this.state.defaultValue) && !lodash.isEmpty(this.state.defaultValue) ? this.labelGenerate(this.state.defaultValue) : '')), /*#__PURE__*/React__default.createElement(reactstrap.Modal, {
+    }, this.state.defaultValue && !lodash.isUndefined(this.state.defaultValue) && !lodash.isEmpty(this.state.defaultValue) ? this.labelGenerate(this.state.defaultValue) : '')), /*#__PURE__*/React__default.createElement(Modal, {
       size: "lg",
-      isOpen: this.state.show,
+      show: this.state.show,
+      onHide: this.openModal
+    }, /*#__PURE__*/React__default.createElement(ModalHeader, {
+      closeButton: true,
       toggle: this.openModal
-    }, /*#__PURE__*/React__default.createElement(reactstrap.ModalHeader, {
-      toggle: this.openModal
-    }, this.props.placeholder || 'Pilih'), /*#__PURE__*/React__default.createElement(reactstrap.ModalBody, null, /*#__PURE__*/React__default.createElement(Select, {
+    }, /*#__PURE__*/React__default.createElement(Modal.Title, null, this.props.placeholder || 'Pilih')), /*#__PURE__*/React__default.createElement(ModalBody, null, /*#__PURE__*/React__default.createElement(Select, {
       isClearable: true,
       id: this.props.id ? this.props.id : this.props.name,
       isSearchable: true,
@@ -3524,17 +3462,17 @@ function InputWorkflow(props) {
   if (responseLoading) return /*#__PURE__*/React__default.createElement(Loading, null);
   return /*#__PURE__*/React__default.createElement(MyLoadingOvelay, {
     isLoading: isLoading || submitLoading
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Card, null, /*#__PURE__*/React__default.createElement(reactstrap.CardBody, null, /*#__PURE__*/React__default.createElement(reactstrap.CardTitle, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Card, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Card.Body, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Card.Title, {
     tag: "h5"
-  }, activity.activity.name || 'Alur tidak ditemukan'), /*#__PURE__*/React__default.createElement(reactstrap.CardText, null, !readonly && /*#__PURE__*/React__default.createElement(reactstrap.Row, null, /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, activity.activity.name || 'Alur tidak ditemukan'), /*#__PURE__*/React__default.createElement(reactBootstrap.Card.Text, null, !readonly && /*#__PURE__*/React__default.createElement(reactBootstrap.Row, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "6"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.FormGroup, {
-    row: true
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Group, {
+    as: reactBootstrap.Row
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "3"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Label, null, "Respon ", /*#__PURE__*/React__default.createElement("span", {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Label, null, "Respon ", /*#__PURE__*/React__default.createElement("span", {
     className: "text-danger"
-  }, "*"))), /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, "*"))), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "9"
   }, /*#__PURE__*/React__default.createElement(InputSelect$1, {
     name: "response_activity",
@@ -3542,26 +3480,26 @@ function InputWorkflow(props) {
     separator: " | ",
     optionLabel: ['name'],
     optionValue: "code"
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.FormGroup, {
-    row: true
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }))), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Group, {
+    as: reactBootstrap.Row
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "3"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Label, null, "Lampiran")), /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Label, null, "Lampiran")), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "5"
   }, /*#__PURE__*/React__default.createElement(InputFile, {
     value: input.attachment,
     name: "response_attachment",
     id: "response_attachment"
-  })))), /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  })))), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "6"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.FormGroup, {
-    row: true
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Group, {
+    as: reactBootstrap.Row
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "3",
     style: {
       marginBottom: 35
     }
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Label, null, "Komentar")), /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Label, null, "Komentar")), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "9"
   }, /*#__PURE__*/React__default.createElement(InputText$1, {
     type: "textarea",
@@ -3635,15 +3573,13 @@ function InputWorkflow(props) {
         });
       }
     }]
-  })), /*#__PURE__*/React__default.createElement("div", {
-    className: "row mt-2"
-  }, /*#__PURE__*/React__default.createElement("div", {
-    className: "col-md-12"
-  }, /*#__PURE__*/React__default.createElement("button", {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Row, {
+    className: "mt-2"
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Col, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     type: "button",
     className: "btn btn-icon btn-primary btn-sm float-left",
     onClick: cancel
-  }, "Kembali"), !readonly && /*#__PURE__*/React__default.createElement("button", {
+  }, "Kembali"), !readonly && /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     type: "button",
     className: "btn btn-icon btn-primary btn-sm float-right",
     onClick: submit
@@ -3719,7 +3655,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
     }, /*#__PURE__*/React__default.createElement(reactColor.SketchPicker, {
       color: val,
       onChangeComplete: this.handleInputChange
-    }), /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+    }), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
       style: {
         marginTop: 10,
         backgroundColor: val,
@@ -3728,7 +3664,7 @@ var Main = /*#__PURE__*/function (_React$Component) {
       className: "btn btn-primary",
       onClick: this.toggle,
       type: "button"
-    }, "Pilih")) : /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+    }, "Pilih")) : /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
       style: {
         zIndex: 0,
         backgroundColor: val,
@@ -3925,8 +3861,9 @@ function ShowData(props) {
     }
   }
 
-  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, val && !lodash.isUndefined(val) && !lodash.isEmpty(val) ? [labelGenerate(val), !props.isReadonly && /*#__PURE__*/React__default.createElement(reactstrap.Button, {
-    color: "link",
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, val && !lodash.isUndefined(val) && !lodash.isEmpty(val) ? [labelGenerate(val), !props.isReadonly && /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
+    variant: "link",
+    size: "sm",
     onClick: deleteData.bind(null, val[primaryKey]),
     style: {
       borderRadius: 100
@@ -4095,17 +4032,11 @@ function InputSelectFetch(props) {
         return null;
       }
 
-      return /*#__PURE__*/React__default.createElement(reactstrap.FormGroup, {
-        check: true
-      }, /*#__PURE__*/React__default.createElement(reactstrap.Label, {
-        check: true
-      }, /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+      return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Group, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Label, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Check, {
         id: tcomponent.slug(props_name + '_check_' + row.row.original[primaryKey], '_'),
         name: tcomponent.slug(props_name + '_check_' + row.row.original[primaryKey], '_'),
         style: {
-          marginTop: -11,
-          zIndex: 100,
-          width: '100%'
+          zIndex: 100
         },
         type: !isMultiple ? 'radio' : 'checkbox',
         value: 1,
@@ -4258,6 +4189,10 @@ function InputSelectFetch(props) {
       return !data;
     });
     loadOptions();
+  }
+
+  function closeModal() {
+    setOpen(false);
   }
 
   function reloader() {
@@ -4513,18 +4448,20 @@ function InputSelectFetch(props) {
 
   return /*#__PURE__*/React__default.createElement("div", {
     ref: nodeRef
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Row, null, !props.isReadonly && /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Row, null, !props.isReadonly && /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "2",
     md: "2",
     sm: "4",
     xs: "12"
-  }, /*#__PURE__*/React__default.createElement("button", {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
+    size: "sm",
+    variant: "primary",
     type: "button",
-    className: "btn btn-icon btn-primary btn-sm",
+    className: "btn-icon",
     onClick: openModal
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faSearch
-  }), " Pilih")), /*#__PURE__*/React__default.createElement(reactstrap.Col, {
+  }), " Pilih")), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
     lg: "10",
     md: "10",
     sm: "8",
@@ -4541,30 +4478,26 @@ function InputSelectFetch(props) {
       isMultiple: isMultiple,
       id: val
     }), props.isReadonly ? isi.length - 1 == index ? null : ', ' : null);
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.Modal, {
+  }))), /*#__PURE__*/React__default.createElement(reactBootstrap.Modal, {
     size: "lg",
-    isOpen: open,
-    toggle: openModal
-  }, /*#__PURE__*/React__default.createElement(reactstrap.ModalHeader, {
-    toggle: openModal
-  }, props.placeholder || 'Pilih'), /*#__PURE__*/React__default.createElement(reactstrap.ModalBody, null, /*#__PURE__*/React__default.createElement(MyLoadingOvelay, {
+    show: open,
+    onHide: closeModal
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Modal.Header, {
+    onHide: closeModal,
+    closeButton: true
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Modal.Title, null, props.placeholder || 'Pilih')), /*#__PURE__*/React__default.createElement(reactBootstrap.Modal.Body, null, /*#__PURE__*/React__default.createElement(MyLoadingOvelay, {
     isLoading: listLoading
-  }, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(reactstrap.InputGroup, {
+  }, /*#__PURE__*/React__default.createElement("div", null, /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup, {
     style: {
       marginBottom: 12
     }
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    style: {
-      borderRight: 'none'
-    },
-    addonType: "prepend"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.InputGroupText, {
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.InputGroup.Text, {
     style: {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faSearch
-  }))), /*#__PURE__*/React__default.createElement(reactstrap.Input, {
+  })), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     style: {
       borderLeft: 'none'
     },
@@ -4582,20 +4515,18 @@ function InputSelectFetch(props) {
     id: 'search_' + key_select,
     name: "search",
     placeholder: "Pencarian"
-  }), /*#__PURE__*/React__default.createElement(reactstrap.InputGroupAddon, {
-    addonType: "append"
-  }, /*#__PURE__*/React__default.createElement(reactstrap.Button, {
+  }), /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
     style: {
       zIndex: 0
     },
-    className: "btn btn-primary",
+    variant: "primary",
     onClick: onReload,
     type: "button",
     disabled: props.isLoading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faSync,
     spin: props.isLoading
-  })))), !listLoading && /*#__PURE__*/React__default.createElement(DataTableContainer, {
+  }))), !listLoading && /*#__PURE__*/React__default.createElement(DataTableContainer, {
     name: props_name,
     columns: columns,
     data: data,

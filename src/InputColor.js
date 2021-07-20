@@ -2,7 +2,7 @@ import React from 'react'
 
 import { SketchPicker } from 'react-color'
 
-import { Button } from 'reactstrap'
+import { Button } from 'react-bootstrap'
 
 import { connect } from 'react-redux'
 

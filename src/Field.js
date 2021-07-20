@@ -1,5 +1,5 @@
 import React from 'react'
-import { Badge } from 'reactstrap'
+import { Badge } from 'react-bootstrap'
 import { isArray } from 'lodash'
 
 function Field(props) {

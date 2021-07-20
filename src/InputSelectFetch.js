@@ -30,20 +30,7 @@ import LoadingOverlay from './LoadingOverlay'
 
 import { useIsVisible } from 'react-is-visible'
 
-import {
-  Button,
-  Col,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Row,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  Label,
-  FormGroup,
-  InputGroupText
-} from 'reactstrap'
+import { Button, Col, Row, Modal, Form, InputGroup } from 'react-bootstrap'
 
 import { connect, useSelector, useDispatch } from 'react-redux'
 
@@ -209,7 +196,8 @@ function ShowData(props) {
           labelGenerate(val),
           !props.isReadonly && (
             <Button
-              color='link'
+              variant='link'
+              size="sm"
               onClick={deleteData.bind(null, val[primaryKey])}
               style={{ borderRadius: 100 }}
             >
@@ -371,9 +359,9 @@ function InputSelectFetch(props) {
       }
 
       return (
-        <FormGroup check>
-          <Label check>
-            <Input
+        <Form.Group>
+          <Form.Label>
+            <Form.Check
               id={slug(
                 props_name + '_check_' + row.row.original[primaryKey],
                 '_'
@@ -382,15 +370,15 @@ function InputSelectFetch(props) {
                 props_name + '_check_' + row.row.original[primaryKey],
                 '_'
               )}
-              style={{ marginTop: -11, zIndex: 100, width: '100%' }}
+              style={{ zIndex: 100 }}
               type={!isMultiple ? 'radio' : 'checkbox'}
               value={1}
               checked={checked}
               disabled={props.isReadonly}
               onChange={() => onChecked(row, local_input, checked)}
             />
-          </Label>
-        </FormGroup>
+          </Form.Label>
+        </Form.Group>
       )
     }
   }
@@ -556,6 +544,10 @@ function InputSelectFetch(props) {
     setOpen((data) => !data)
 
     loadOptions()
+  }
+
+  function closeModal() {
+    setOpen(false)
   }
 
   function reloader() {
@@ -823,13 +815,15 @@ function InputSelectFetch(props) {
       <Row>
         {!props.isReadonly && (
           <Col lg='2' md='2' sm='4' xs='12'>
-            <button
+            <Button
+              size='sm'
+              variant='primary'
               type='button'
-              className='btn btn-icon btn-primary btn-sm'
+              className='btn-icon'
               onClick={openModal}
             >
               <FontAwesomeIcon icon={faSearch} /> Pilih
-            </button>
+            </Button>
           </Col>
         )}
 
@@ -862,23 +856,18 @@ function InputSelectFetch(props) {
           )}
         </Col>
       </Row>
-      <Modal size='lg' isOpen={open} toggle={openModal}>
-        <ModalHeader toggle={openModal}>
-          {props.placeholder || 'Pilih'}
-        </ModalHeader>
-        <ModalBody>
+      <Modal size='lg' show={open} onHide={closeModal}>
+        <Modal.Header onHide={closeModal} closeButton>
+          <Modal.Title>{props.placeholder || 'Pilih'}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <LoadingOverlay isLoading={listLoading}>
             <div>
               <InputGroup style={{ marginBottom: 12 }}>
-                <InputGroupAddon
-                  style={{ borderRight: 'none' }}
-                  addonType='prepend'
-                >
-                  <InputGroupText style={{ background: 'none' }}>
-                    <FontAwesomeIcon icon={faSearch} />
-                  </InputGroupText>
-                </InputGroupAddon>
-                <Input
+                <InputGroup.Text style={{ background: 'none' }}>
+                  <FontAwesomeIcon icon={faSearch} />
+                </InputGroup.Text>
+                <Form.Control
                   style={{ borderLeft: 'none' }}
                   className='form-control'
                   value={findArrayName('keyword_' + props_name, filter)}
@@ -897,17 +886,15 @@ function InputSelectFetch(props) {
                   placeholder='Pencarian'
                 />
 
-                <InputGroupAddon addonType='append'>
-                  <Button
-                    style={{ zIndex: 0 }}
-                    className='btn btn-primary'
-                    onClick={onReload}
-                    type='button'
-                    disabled={props.isLoading}
-                  >
-                    <FontAwesomeIcon icon={faSync} spin={props.isLoading} />
-                  </Button>
-                </InputGroupAddon>
+                <Button
+                  style={{ zIndex: 0 }}
+                  variant='primary'
+                  onClick={onReload}
+                  type='button'
+                  disabled={props.isLoading}
+                >
+                  <FontAwesomeIcon icon={faSync} spin={props.isLoading} />
+                </Button>
               </InputGroup>
 
               {!listLoading && (
@@ -966,7 +953,7 @@ function InputSelectFetch(props) {
               </ul>
             </div>
           )}
-        </ModalBody>
+        </Modal.Body>
       </Modal>
     </div>
   )

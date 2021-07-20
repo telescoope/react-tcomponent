@@ -368,8 +368,9 @@ function App() {
           {
             Header: 'Kode',
             id: 'kode',
-            accessor: (d) => d.kode + d.kode + d.kode
+            accessor: (d) => d.kode
           },
+          /*
           {
             Header: 'Slide',
             id: 'slide',
@@ -419,7 +420,7 @@ function App() {
             id: 'slide8',
             accessor: (d) => d.kode + d.kode + d.kode
           },
-
+          */
           {
             Header: 'Lampiran',
             id: 'slider_foto_attachment',
@@ -440,7 +441,7 @@ function App() {
       <InputFile preview name='filemultiple_multi[a]' isMultiple />
       <h4>Contoh Choose Single</h4>
       <InputChoose
-        name='choose_multi[satu]'
+        name='choose_single[satu]'
         options={[
           { id: '1', nama: 'Disetujui' },
           { id: '2', nama: 'Ditolak' },
