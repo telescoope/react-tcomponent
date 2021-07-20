@@ -139,7 +139,8 @@ class InputText extends React.Component {
       value: this.props.value ? String(this.props.value) : '',
       props_name: this.props.name ? slug(String(this.props.name), '_') : '',
       config: {
-        readonly: false
+        readonly: false,
+        toolbarButtonSize: "small"
       }
     }
 
@@ -164,7 +165,7 @@ class InputText extends React.Component {
 
         this.setState({ value })
 
-        console.log('COND 1', value)
+        // console.log('COND 1', value)
       }
     } catch (e) {}
 
@@ -173,7 +174,7 @@ class InputText extends React.Component {
 
       this.setState({ value })
 
-      console.log('COND 2')
+      // console.log('COND 2')
     }
   }
 
@@ -243,7 +244,7 @@ class InputText extends React.Component {
   }
 
   onChange = (data) => {
-    console.log(data)
+    // console.log(data)
 
     this.setState({ value: data })
 
@@ -264,13 +265,13 @@ class InputText extends React.Component {
 
   /*
   instanceSunEditor = (sunEditor) => {
-    console.log("sunEditor",sunEditor)
+    // console.log("sunEditor",sunEditor)
     this.editorRef.current = sunEditor
   }
   */
 
   render() {
-    // console.log('value', this.state.value)
+    // // console.log('value', this.state.value)
 
     if (!this.state.props_name) return 'Name is Required'
 
@@ -323,7 +324,7 @@ class InputText extends React.Component {
           value={String(this.state.value)}
           config={this.state.config}
           tabIndex={1}
-          // onBlur={(newContent) => console.log('onBlur',newContent)}
+          // onBlur={(newContent) => // console.log('onBlur',newContent)}
           onChange={this.onChange}
         />
       )

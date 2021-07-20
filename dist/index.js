@@ -172,8 +172,6 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
     };
 
     _this2.onChange = function (data) {
-      console.log(data);
-
       _this2.setState({
         value: data
       });
@@ -237,7 +235,8 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
       value: _this2.props.value ? String(_this2.props.value) : '',
       props_name: _this2.props.name ? tcomponent.slug(String(_this2.props.name), '_') : '',
       config: {
-        readonly: false
+        readonly: false,
+        toolbarButtonSize: "small"
       }
     };
     _this2.toolbarRef = React__default.createRef();
@@ -254,7 +253,6 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
         this.setState({
           value: value
         });
-        console.log('COND 1', value);
       }
     } catch (e) {}
 
@@ -264,7 +262,6 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
       this.setState({
         value: _value
       });
-      console.log('COND 2');
     }
   };
 
