@@ -153,7 +153,7 @@ function App() {
 
   return (
     <div style={{ padding: '0px 20px' }}>
-      <h1>tcomponent - telescoope.org</h1>
+      <h1>react-tcomponent - telescoope.org</h1>
       <h4>Clear Data</h4>
       <button onClick={clearData}>Hapus data</button>
       <h4>Contoh Color</h4>

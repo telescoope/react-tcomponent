@@ -1,7 +1,7 @@
 {
   "name": "react-tcomponent-example",
   "homepage": ".",
-  "version": "0.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
@@ -14,7 +14,8 @@
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
     "react-scripts": "file:../node_modules/react-scripts",
-    "redux": "4.1.0",
+    "redux": "file:../node_modules/redux",
+    "react-redux": "file:../node_modules/react-redux",
     "redux-logger": "3.0.6",
     "redux-persist": "6.0.0",
     "redux-thunk": "2.3.0",

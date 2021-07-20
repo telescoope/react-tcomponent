@@ -1,12 +1,12 @@
 {
   "name": "react-tcomponent",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reusable react tcomponent for rapid react development",
   "author": "aldoetobex",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://telescoope.org/giting/telescoope/tcomponent.git"
+    "url": "https://github.com/telescoope/react-tcomponent.git"
   },
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
