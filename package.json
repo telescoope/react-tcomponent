@@ -1,6 +1,6 @@
 {
   "name": "react-tcomponent",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Reusable react tcomponent for rapid react development",
   "author": "aldoetobex",
   "license": "MIT",
@@ -63,7 +63,7 @@
     "cleave.js": "1.6.0",
     "dropzone": "5.9.2",
     "html-react-parser": "1.2.7",
-    "jodit-react": "^1.1.1",
+    "jodit-react": "1.1.1",
     "lodash": "4.17.21",
     "moment": "2.29.1",
     "mousetrap": "1.6.5",

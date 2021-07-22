@@ -95,14 +95,12 @@ class InputText extends React.Component {
         blocks: [2, 2, 2, 6, 4],
         numericOnly: true
       }
-
       default_placeholder = this.props.placeholder || 'Nomor Induk Kependudukan'
     } else if (type.toLowerCase() == 'kip') {
       options_cleave = {
         delimiter: ' ',
         blocks: [4, 4, 4, 4]
       }
-
       default_placeholder = this.props.placeholder || 'Kartu Indonesia Pintar'
     } else if (type.toLowerCase() == 'npwp') {
       options_cleave = {
@@ -110,7 +108,6 @@ class InputText extends React.Component {
         blocks: [2, 3, 3, 1, 3, 3],
         numericOnly: true
       }
-
       default_placeholder = this.props.placeholder || 'Nomor Pokok Wajib Pajak'
     } else if (type.toLowerCase() == 'postcode') {
       options_cleave = {
@@ -118,17 +115,8 @@ class InputText extends React.Component {
         delimiter: ' ',
         numericOnly: true
       }
-
       default_placeholder = this.props.placeholder || 'Kode Pos'
     } else if (type.toLowerCase() == 'phone') {
-      /*
-      options_cleave = {
-        delimiter: ' ',
-        blocks: [4, 4, 4, 1],
-        numericOnly: true
-      }
-      */
-
       default_placeholder = this.props.placeholder || 'Telepon'
     }
 
@@ -140,7 +128,7 @@ class InputText extends React.Component {
       props_name: this.props.name ? slug(String(this.props.name), '_') : '',
       config: {
         readonly: false,
-        toolbarButtonSize: "small"
+        toolbarButtonSize: 'small'
       }
     }
 
@@ -164,8 +152,6 @@ class InputText extends React.Component {
         let value = this.props.input[this.state.props_name] || ''
 
         this.setState({ value })
-
-        // console.log('COND 1', value)
       }
     } catch (e) {}
 
@@ -173,8 +159,6 @@ class InputText extends React.Component {
       let value = this.props.value || ''
 
       this.setState({ value })
-
-      // console.log('COND 2')
     }
   }
 
@@ -218,8 +202,6 @@ class InputText extends React.Component {
     this.setState({ value })
   }
 
-  componentWillUnmount() {}
-
   handleInputChange = (event) => {
     event.preventDefault()
 
@@ -244,35 +226,12 @@ class InputText extends React.Component {
   }
 
   onChange = (data) => {
-    // console.log(data)
-
     this.setState({ value: data })
 
     this.props.setInput(this.state.props_name, data)
   }
 
-  onChangeEditor = (value) => {
-    if (value) {
-      this.setState({ value })
-
-      this.props.setInput(this.state.props_name, value.toString('html'))
-    }
-  }
-
-  onBlur = (evt) => {}
-
-  afterPaste = (evt) => {}
-
-  /*
-  instanceSunEditor = (sunEditor) => {
-    // console.log("sunEditor",sunEditor)
-    this.editorRef.current = sunEditor
-  }
-  */
-
   render() {
-    // // console.log('value', this.state.value)
-
     if (!this.state.props_name) return 'Name is Required'
 
     if (this.props.disabled || this.props.isReadonly) {
@@ -321,68 +280,12 @@ class InputText extends React.Component {
           key={this.props.name + '_editor'}
           id={this.props.id}
           ref={this.editorRef}
-          value={String(this.state.value)}
+          value={!isEmpty(this.state.value) ? String(this.state.value) : ''}
           config={this.state.config}
           tabIndex={1}
-          // onBlur={(newContent) => // console.log('onBlur',newContent)}
           onChange={this.onChange}
         />
       )
-      /*
-      return (
-        <SunEditor
-          // getSunEditorInstance={this.instanceSunEditor}
-          key={this.props.id + '_editor'}
-          id={this.props.id}
-          value={this.state.value}
-          onChange={this.onChangeEditor}
-          enableToolbar={true}
-          // autoFocus={true}
-          setContents={this.state.value}
-          enable={true}
-          defaultValue={this.state.value}
-          setOptions={{
-            buttonList: [
-              [
-                'undo',
-                'redo',
-                // 'font',
-                'fontSize',
-                'formatBlock',
-                'bold',
-                'underline',
-                'italic',
-                'strike',
-                'subscript',
-                'superscript',
-                'fontColor',
-                'hiliteColor',
-                'outdent',
-                'indent',
-                'align',
-                'list',
-                'table',
-                'image',
-                'video',
-                'fullScreen',
-                'link',
-                'removeFormat',
-                'showBlocks',
-                'codeView',
-                'preview'
-              ]
-            ]
-          }}
-          attributesWhitelist={{
-            table: 'style',
-            tbody: 'style',
-            thead: 'style',
-            tr: 'style',
-            td: 'style'
-          }}
-        />
-      )
-      */
     } else if (this.state.type == 'equation') {
       return (
         <div id={this.props.id} ref={this.toolbarRef}>

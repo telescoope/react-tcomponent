@@ -179,20 +179,6 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
       _this2.props.setInput(_this2.state.props_name, data);
     };
 
-    _this2.onChangeEditor = function (value) {
-      if (value) {
-        _this2.setState({
-          value: value
-        });
-
-        _this2.props.setInput(_this2.state.props_name, value.toString('html'));
-      }
-    };
-
-    _this2.onBlur = function (evt) {};
-
-    _this2.afterPaste = function (evt) {};
-
     var default_placeholder = _this2.props.placeholder;
     var options_cleave = {};
     var type = _this2.props.type ? String(_this2.props.type) : '';
@@ -236,7 +222,7 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
       props_name: _this2.props.name ? tcomponent.slug(String(_this2.props.name), '_') : '',
       config: {
         readonly: false,
-        toolbarButtonSize: "small"
+        toolbarButtonSize: 'small'
       }
     };
     _this2.toolbarRef = React__default.createRef();
@@ -303,8 +289,6 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
     });
   };
 
-  _proto2.componentWillUnmount = function componentWillUnmount() {};
-
   _proto2.render = function render() {
     if (!this.state.props_name) return 'Name is Required';
 
@@ -342,7 +326,7 @@ var InputText = /*#__PURE__*/function (_React$Component2) {
         key: this.props.name + '_editor',
         id: this.props.id,
         ref: this.editorRef,
-        value: String(this.state.value),
+        value: !lodash.isEmpty(this.state.value) ? String(this.state.value) : '',
         config: this.state.config,
         tabIndex: 1,
         onChange: this.onChange
@@ -1806,7 +1790,6 @@ function DataTableContainer(_ref2) {
     className: "text-center mt-2 mb-2"
   }, /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React__default.createElement(reactBootstrap.Table, _extends({
     style: {
-      minHeight: 120,
       margin: 0,
       zIndex: 0
     },
@@ -1859,7 +1842,7 @@ function DataTableContainer(_ref2) {
         textAlign: 'center'
       },
       colSpan: headerGroup.headers.length
-    }, localLoading ? 'MEMPROSES...' : 'TIDAK ADA DATA'));
+    }, localLoading ? 'Memproses...' : 'Tidak ada data'));
   }))), /*#__PURE__*/React__default.createElement("div", {
     className: "text-center mt-2 mb-2"
   }, /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React__default.createElement("div", {
@@ -2368,24 +2351,20 @@ function Field(props) {
     message.push(props.errorMessage);
   }
 
-  return /*#__PURE__*/React__default.createElement("div", {
-    className: "form-group row"
-  }, /*#__PURE__*/React__default.createElement("label", {
-    className: 'col-md-' + (props.labelSize ? props.labelSize : 3) + ' col-form-label'
+  return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Group, {
+    as: reactBootstrap.Row
+  }, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Label, {
+    column: true,
+    md: props.labelSize ? props.labelSize : 3
   }, props.label ? props.label : 'Label', props.isRequired && /*#__PURE__*/React__default.createElement("span", {
     className: "text-danger"
   }, "\xA0*"), props.hint && /*#__PURE__*/React__default.createElement("small", {
     className: "form-text text-muted"
-  }, props.hint)), /*#__PURE__*/React__default.createElement("div", {
-    className: 'col-md-' + (props.inputSize ? props.inputSize : 9)
-  }, props.children, message.length > 0 && message.map(function (value, index) {
-    return /*#__PURE__*/React__default.createElement(reactBootstrap.Badge, {
-      color: "danger",
-      style: {
-        marginRight: 10
-      }
-    }, value);
-  })));
+  }, props.hint)), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
+    md: props.inputSize ? props.inputSize : 9
+  }, props.children, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Text, {
+    className: "text-danger"
+  }, message.length > 0 && message.join(', '))));
 }
 
 var CustomInput$1 = function CustomInput(props) {
@@ -4442,8 +4421,8 @@ function InputSelectFetch(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     ref: nodeRef
   }, /*#__PURE__*/React__default.createElement(reactBootstrap.Row, null, !props.isReadonly && /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
-    lg: "2",
-    md: "2",
+    lg: "1",
+    md: "1",
     sm: "4",
     xs: "12"
   }, /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
@@ -4454,9 +4433,9 @@ function InputSelectFetch(props) {
     onClick: openModal
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faSearch
-  }), " Pilih")), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
-    lg: "10",
-    md: "10",
+  }))), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
+    lg: "11",
+    md: "11",
     sm: "8",
     xs: "12"
   }, loading ? /*#__PURE__*/React__default.createElement(Loading, null) : isi.map(function (val, index) {

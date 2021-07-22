@@ -46,8 +46,6 @@ import 'dropzone/dist/min/dropzone.min.css'
 
 import 'video-react/dist/video-react.css'
 
-import 'suneditor/dist/css/suneditor.min.css'
-
 import 'rc-time-picker/assets/index.css'
 
 import 'react-datepicker/dist/react-datepicker.css'

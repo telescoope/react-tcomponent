@@ -197,7 +197,7 @@ function ShowData(props) {
           !props.isReadonly && (
             <Button
               variant='link'
-              size="sm"
+              size='sm'
               onClick={deleteData.bind(null, val[primaryKey])}
               style={{ borderRadius: 100 }}
             >
@@ -814,7 +814,7 @@ function InputSelectFetch(props) {
     <div ref={nodeRef}>
       <Row>
         {!props.isReadonly && (
-          <Col lg='2' md='2' sm='4' xs='12'>
+          <Col lg='1' md='1' sm='4' xs='12'>
             <Button
               size='sm'
               variant='primary'
@@ -822,12 +822,12 @@ function InputSelectFetch(props) {
               className='btn-icon'
               onClick={openModal}
             >
-              <FontAwesomeIcon icon={faSearch} /> Pilih
+              <FontAwesomeIcon icon={faSearch} />
             </Button>
           </Col>
         )}
 
-        <Col lg='10' md='10' sm='8' xs='12'>
+        <Col lg='11' md='11' sm='8' xs='12'>
           {loading ? (
             <Loading />
           ) : (

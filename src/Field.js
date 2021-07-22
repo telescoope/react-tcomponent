@@ -1,5 +1,5 @@
 import React from 'react'
-import { Badge } from 'react-bootstrap'
+import { Form, Col, Row } from 'react-bootstrap'
 import { isArray } from 'lodash'
 
 function Field(props) {
@@ -22,31 +22,21 @@ function Field(props) {
   }
 
   return (
-    <div className='form-group row'>
-      <label
-        className={
-          'col-md-' +
-          (props.labelSize ? props.labelSize : 3) +
-          ' col-form-label'
-        }
-      >
+    <Form.Group as={Row}>
+      <Form.Label column md={props.labelSize ? props.labelSize : 3}>
         {props.label ? props.label : 'Label'}
         {props.isRequired && <span className='text-danger'>&nbsp;*</span>}
         {props.hint && (
           <small className='form-text text-muted'>{props.hint}</small>
         )}
-      </label>
-      <div className={'col-md-' + (props.inputSize ? props.inputSize : 9)}>
+      </Form.Label>
+      <Col md={props.inputSize ? props.inputSize : 9}>
         {props.children}
-
-        {message.length > 0 &&
-          message.map((value, index) => (
-            <Badge color='danger' style={{ marginRight: 10 }}>
-              {value}
-            </Badge>
-          ))}
-      </div>
-    </div>
+        <Form.Text className='text-danger'>
+          {message.length > 0 && message.join(', ')}
+        </Form.Text>
+      </Col>
+    </Form.Group>
   )
 }
 

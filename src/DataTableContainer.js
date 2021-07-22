@@ -366,7 +366,7 @@ function DataTableContainer({
       </div>
 
       <Table
-        style={{ minHeight: 120, margin: 0, zIndex: 0 }}
+        style={{ margin: 0, zIndex: 0 }}
         responsive
         bordered
         hover
@@ -454,7 +454,7 @@ function DataTableContainer({
                     }}
                     colSpan={headerGroup.headers.length}
                   >
-                    {localLoading ? 'MEMPROSES...' : 'TIDAK ADA DATA'}
+                    {localLoading ? 'Memproses...' : 'Tidak ada data'}
                   </td>
                 </tr>
               ))}

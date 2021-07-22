@@ -497,7 +497,14 @@ function App() {
         optionValue='nama'
       />
       <h4>Contoh Text</h4>
-      <InputText name='teks' type='text' className='form-control' />
+      <Field
+        labelSize={5}
+        inputSize={7}
+        label='Nomor Telepon'
+        errorMessage='Error disini'
+      >
+        <InputText name='teks' type='text' className='form-control' />
+      </Field>
       <InputText name='teks_multi[satu]' type='text' className='form-control' />
       <h4>Contoh Text Area</h4>
       <InputText name='teksarea' type='textarea' className='form-control' />
@@ -535,28 +542,28 @@ function App() {
         errorMessage='Error disini'
       >
         <InputText name='phone' type='phone' className='form-control' />
-        <InputNumber
-          name='field'
-          // maxValue={10000}
-          isReadonly
-          type='text'
-          className='form-control'
-        />
-        <InputNumber
-          name='coba[221]'
-          // maxValue={10000}
-          type='text'
-          className='form-control'
-        />
-
-        <InputNumber
-          name='coba[221]'
-          // maxValue={10000}
-          isReadonly
-          type='text'
-          className='form-control'
-        />
       </Field>
+      <InputNumber
+        name='field'
+        // maxValue={10000}
+        isReadonly
+        type='text'
+        className='form-control'
+      />
+      <InputNumber
+        name='coba[221]'
+        // maxValue={10000}
+        type='text'
+        className='form-control'
+      />
+
+      <InputNumber
+        name='coba[221]'
+        // maxValue={10000}
+        isReadonly
+        type='text'
+        className='form-control'
+      />
     </div>
   )
 }
