@@ -359,26 +359,19 @@ function InputSelectFetch(props) {
       }
 
       return (
-        <Form.Group>
-          <Form.Label>
-            <Form.Check
-              id={slug(
-                props_name + '_check_' + row.row.original[primaryKey],
-                '_'
-              )}
-              name={slug(
-                props_name + '_check_' + row.row.original[primaryKey],
-                '_'
-              )}
-              style={{ zIndex: 100 }}
-              type={!isMultiple ? 'radio' : 'checkbox'}
-              value={1}
-              checked={checked}
-              disabled={props.isReadonly}
-              onChange={() => onChecked(row, local_input, checked)}
-            />
-          </Form.Label>
-        </Form.Group>
+        <Form.Check
+          id={slug(props_name + '_check_' + row.row.original[primaryKey], '_')}
+          name={slug(
+            props_name + '_check_' + row.row.original[primaryKey],
+            '_'
+          )}
+          style={{ zIndex: 100 }}
+          type={!isMultiple ? 'radio' : 'checkbox'}
+          value={1}
+          checked={checked}
+          disabled={props.isReadonly}
+          onChange={() => onChecked(row, local_input, checked)}
+        />
       )
     }
   }
@@ -814,7 +807,7 @@ function InputSelectFetch(props) {
     <div ref={nodeRef}>
       <Row>
         {!props.isReadonly && (
-          <Col lg='1' md='1' sm='4' xs='12'>
+          <Col lg='2' md='2' sm='4' xs='12'>
             <Button
               size='sm'
               variant='primary'
@@ -827,7 +820,7 @@ function InputSelectFetch(props) {
           </Col>
         )}
 
-        <Col lg='11' md='11' sm='8' xs='12'>
+        <Col lg='10' md='10' sm='8' xs='12'>
           {loading ? (
             <Loading />
           ) : (

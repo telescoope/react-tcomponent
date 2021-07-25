@@ -4004,7 +4004,7 @@ function InputSelectFetch(props) {
         return null;
       }
 
-      return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Group, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Label, null, /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Check, {
+      return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Check, {
         id: tcomponent.slug(props_name + '_check_' + row.row.original[primaryKey], '_'),
         name: tcomponent.slug(props_name + '_check_' + row.row.original[primaryKey], '_'),
         style: {
@@ -4017,7 +4017,7 @@ function InputSelectFetch(props) {
         onChange: function onChange() {
           return onChecked(row, local_input, checked);
         }
-      })));
+      });
     }
   };
   var _columns = [{
@@ -4421,8 +4421,8 @@ function InputSelectFetch(props) {
   return /*#__PURE__*/React__default.createElement("div", {
     ref: nodeRef
   }, /*#__PURE__*/React__default.createElement(reactBootstrap.Row, null, !props.isReadonly && /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
-    lg: "1",
-    md: "1",
+    lg: "2",
+    md: "2",
     sm: "4",
     xs: "12"
   }, /*#__PURE__*/React__default.createElement(reactBootstrap.Button, {
@@ -4434,8 +4434,8 @@ function InputSelectFetch(props) {
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
     icon: freeSolidSvgIcons.faSearch
   }))), /*#__PURE__*/React__default.createElement(reactBootstrap.Col, {
-    lg: "11",
-    md: "11",
+    lg: "10",
+    md: "10",
     sm: "8",
     xs: "12"
   }, loading ? /*#__PURE__*/React__default.createElement(Loading, null) : isi.map(function (val, index) {
