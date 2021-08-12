@@ -130,6 +130,8 @@ function DataTableContainer({
   name,
   customPageTotal
 }) {
+  // console.log(customPageIndex)
+
   let filter = useSelector((state) => state.core.filter) || {}
 
   let sortBy = []
@@ -249,9 +251,9 @@ function DataTableContainer({
     customgotoPage(page)
   }
 
-  let customcanNextPage = pageIndex < customPageCount
+  let customcanNextPage = customPageIndex < customPageCount
 
-  let customcanPreviousPage = pageIndex >= 2
+  let customcanPreviousPage = customPageIndex >= 2
 
   let customnextPage = () => {
     customgotoPage(curpage + 1)
@@ -360,7 +362,7 @@ function DataTableContainer({
       </div>
 
       <div className='text-center mt-2 mb-2'>
-        <strong>{numberFormat(pageIndex, '')}</strong> dari{' '}
+        <strong>{numberFormat(customPageIndex, '')}</strong> dari{' '}
         <strong>{numberFormat(customPageCount, '')}</strong> hal. Total{' : '}
         <strong>{numberFormat(customPageTotal, '')}</strong> hal
       </div>
@@ -462,7 +464,7 @@ function DataTableContainer({
       </Table>
 
       <div className='text-center mt-2 mb-2'>
-        <strong>{numberFormat(pageIndex, '')}</strong> dari{' '}
+        <strong>{numberFormat(customPageIndex, '')}</strong> dari{' '}
         <strong>{numberFormat(customPageCount, '')}</strong> hal. Total{' : '}
         <strong>{numberFormat(customPageTotal, '')}</strong> hal
       </div>

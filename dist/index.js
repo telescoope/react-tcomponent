@@ -1669,8 +1669,8 @@ function DataTableContainer(_ref2) {
     customgotoPage(page);
   };
 
-  var customcanNextPage = pageIndex < customPageCount;
-  var customcanPreviousPage = pageIndex >= 2;
+  var customcanNextPage = customPageIndex < customPageCount;
+  var customcanPreviousPage = customPageIndex >= 2;
 
   var customnextPage = function customnextPage() {
     customgotoPage(curpage + 1);
@@ -1788,7 +1788,7 @@ function DataTableContainer(_ref2) {
     icon: freeSolidSvgIcons.faAngleDoubleRight
   })))), /*#__PURE__*/React__default.createElement("div", {
     className: "text-center mt-2 mb-2"
-  }, /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React__default.createElement(reactBootstrap.Table, _extends({
+  }, /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageIndex, '')), " dari", ' ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React__default.createElement(reactBootstrap.Table, _extends({
     style: {
       margin: 0,
       zIndex: 0
@@ -1845,7 +1845,7 @@ function DataTableContainer(_ref2) {
     }, localLoading ? 'Memproses...' : 'Tidak ada data'));
   }))), /*#__PURE__*/React__default.createElement("div", {
     className: "text-center mt-2 mb-2"
-  }, /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(pageIndex, '')), " dari", ' ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React__default.createElement("div", {
+  }, /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageIndex, '')), " dari", ' ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageCount, '')), " hal. Total", ' : ', /*#__PURE__*/React__default.createElement("strong", null, tcomponent.numberFormat(customPageTotal, '')), " hal"), /*#__PURE__*/React__default.createElement("div", {
     className: "custom-scroll",
     style: {
       overflow: 'auto'
@@ -3279,13 +3279,13 @@ function InputWorkflow(props) {
         payload: 'Respon wajib diisi'
       });
     } else {
-        setSubmitLoading(true);
-        setIsDelay(true);
-        setTimeout(function () {
-          return setIsDelay(false);
-        }, 1000);
-        doSubmit && doSubmit();
-      }
+      setSubmitLoading(true);
+      setIsDelay(true);
+      setTimeout(function () {
+        return setIsDelay(false);
+      }, 1000);
+      doSubmit && doSubmit();
+    }
   }
 
   React.useEffect(function () {
@@ -3738,6 +3738,7 @@ function ShowData(props) {
         keyword = _defaultFilterData.keyword;
 
     var data = tcomponent.secureData(_extends({
+      pkey: primaryKey,
       selected: [id],
       keyword: keyword,
       load: 1,
@@ -4049,6 +4050,7 @@ function InputSelectFetch(props) {
             keyword = _defaultFilterData2.keyword;
 
         var _data = tcomponent.secureData(_extends({
+          pkey: primaryKey,
           selected: [new_input],
           keyword: keyword,
           load: 1,
@@ -4097,6 +4099,7 @@ function InputSelectFetch(props) {
             _keyword = _defaultFilterData3.keyword;
 
         var _data2 = tcomponent.secureData(_extends({
+          pkey: primaryKey,
           selected: _new_input,
           keyword: _keyword,
           load: _new_input.length,
@@ -4258,6 +4261,7 @@ function InputSelectFetch(props) {
         search = _defaultFilterData4.search;
 
     var data = tcomponent.secureData(_extends({
+      pkey: primaryKey,
       page: page,
       load: load,
       keyword: keyword,

@@ -99,6 +99,7 @@ function App() {
   }
 
   useEffect(() => {
+    /*
     setInterval(() => {
       dispatch({
         type: 'SET_INPUT',
@@ -138,6 +139,7 @@ function App() {
         }
       ])
     }, 5000)
+    */
   }, [])
 
   // console.log(dataSatu)
@@ -263,7 +265,7 @@ function App() {
         parameter={{}}
         optionValue={{ id: 'slider_id' }}
         defaultValue={dataSatu[0]}
-        primaryKey='id'
+        primaryKey='kode'
         url='slider'
         separator=' - '
         optionLabel={['kode', 'slider_foto_attachment']}

@@ -93,6 +93,7 @@ function ShowData(props) {
     let { keyword } = defaultFilterData(filter, [], props_name)
 
     let data = secureData({
+      pkey: primaryKey,
       selected: [id],
       keyword,
       load: 1,
@@ -410,6 +411,7 @@ function InputSelectFetch(props) {
         let { page, load, keyword } = defaultFilterData(filter, [], props_name)
 
         let data = secureData({
+          pkey: primaryKey,
           selected: [new_input],
           keyword,
           load: 1,
@@ -466,6 +468,7 @@ function InputSelectFetch(props) {
         let { keyword } = defaultFilterData(filter, [], props_name)
 
         let data = secureData({
+          pkey: primaryKey,
           selected: new_input,
           keyword,
           load: new_input.length,
@@ -645,6 +648,7 @@ function InputSelectFetch(props) {
     )
 
     let data = secureData({
+      pkey: primaryKey,
       page,
       load,
       keyword,
