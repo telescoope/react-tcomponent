@@ -1727,7 +1727,7 @@ function DataTableContainer(_ref2) {
     style: {
       border: 'none'
     },
-    variant: "info",
+    variant: "primary",
     onClick: custompreviousPage,
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
@@ -1754,7 +1754,7 @@ function DataTableContainer(_ref2) {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
-    icon: freeSolidSvgIcons.faColumns
+    icon: freeSolidSvgIcons.faBars
   }), " \xA0 Lihat :", ' '), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     type: "number",
     min: 1,
@@ -1770,7 +1770,7 @@ function DataTableContainer(_ref2) {
     style: {
       border: 'none'
     },
-    variant: "info",
+    variant: "primary",
     onClick: customnextPage,
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
@@ -1865,7 +1865,7 @@ function DataTableContainer(_ref2) {
     style: {
       border: 'none'
     },
-    variant: "info",
+    variant: "primary",
     onClick: custompreviousPage,
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
@@ -1892,7 +1892,7 @@ function DataTableContainer(_ref2) {
       background: 'none'
     }
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
-    icon: freeSolidSvgIcons.faColumns
+    icon: freeSolidSvgIcons.faBars
   }), " \xA0 Lihat :", ' '), /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Control, {
     type: "number",
     min: 1,
@@ -1908,7 +1908,7 @@ function DataTableContainer(_ref2) {
     style: {
       border: 'none'
     },
-    variant: "info",
+    variant: "primary",
     onClick: customnextPage,
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React__default.createElement(reactFontawesome.FontAwesomeIcon, {
@@ -2049,6 +2049,7 @@ function DataTable(props) {
       } catch (e) {}
 
       return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Check, {
+        inline: true,
         id: tcomponent.slug(props.name + '_check_' + row.row.original[primaryKey], '_'),
         name: tcomponent.slug(props.name + '_check_' + row.row.original[primaryKey], '_'),
         type: props.selectable == 'single' ? 'radio' : 'checkbox',

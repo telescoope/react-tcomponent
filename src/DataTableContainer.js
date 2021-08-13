@@ -23,7 +23,7 @@ import { Form, InputGroup, Button, Table } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
-  faColumns,
+  faBars,
   faAngleDoubleLeft,
   faAngleDoubleRight,
   faAngleRight,
@@ -298,6 +298,7 @@ function DataTableContainer({
     <div>
       <div className='custom-scroll' style={{ overflow: 'auto' }}>
         <InputGroup>
+
           <Button
             style={{ border: 'none' }}
             variant='primary'
@@ -309,7 +310,7 @@ function DataTableContainer({
 
           <Button
             style={{ border: 'none' }}
-            variant='info'
+            variant='primary'
             onClick={custompreviousPage}
             disabled={!customcanPreviousPage || loading}
           >
@@ -330,7 +331,7 @@ function DataTableContainer({
           />
 
           <InputGroup.Text style={{ background: 'none' }}>
-            <FontAwesomeIcon icon={faColumns} /> &nbsp; Lihat :{' '}
+            <FontAwesomeIcon icon={faBars} /> &nbsp; Lihat :{' '}
           </InputGroup.Text>
 
           <Form.Control
@@ -344,7 +345,7 @@ function DataTableContainer({
 
           <Button
             style={{ border: 'none' }}
-            variant='info'
+            variant='primary'
             onClick={customnextPage}
             disabled={!customcanNextPage || loading}
           >
@@ -481,7 +482,7 @@ function DataTableContainer({
 
           <Button
             style={{ border: 'none' }}
-            variant='info'
+            variant='primary'
             onClick={custompreviousPage}
             disabled={!customcanPreviousPage || loading}
           >
@@ -502,7 +503,7 @@ function DataTableContainer({
           />
 
           <InputGroup.Text style={{ background: 'none' }}>
-            <FontAwesomeIcon icon={faColumns} /> &nbsp; Lihat :{' '}
+            <FontAwesomeIcon icon={faBars} /> &nbsp; Lihat :{' '}
           </InputGroup.Text>
 
           <Form.Control
@@ -516,7 +517,7 @@ function DataTableContainer({
 
           <Button
             style={{ border: 'none' }}
-            variant='info'
+            variant='primary'
             onClick={customnextPage}
             disabled={!customcanNextPage || loading}
           >

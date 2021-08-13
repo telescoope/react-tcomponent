@@ -16,7 +16,7 @@ import { Player } from 'video-react';
 import * as moment$1 from 'moment';
 import moment__default from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faDownload, faTimes, faAngleDoubleLeft, faAngleLeft, faColumns, faAngleRight, faAngleDoubleRight, faSync } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faDownload, faTimes, faAngleDoubleLeft, faAngleLeft, faBars, faAngleRight, faAngleDoubleRight, faSync } from '@fortawesome/free-solid-svg-icons';
 import PuffLoader from 'react-spinners/PuffLoader';
 import DatePicker from 'react-datepicker';
 import { faCalendar, faFile, faArrowAltCircleDown, faArrowAltCircleUp, faClock } from '@fortawesome/free-regular-svg-icons';
@@ -1566,7 +1566,7 @@ function DataTableContainer({
     style: {
       border: 'none'
     },
-    variant: "info",
+    variant: "primary",
     onClick: custompreviousPage,
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
@@ -1593,7 +1593,7 @@ function DataTableContainer({
       background: 'none'
     }
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
-    icon: faColumns
+    icon: faBars
   }), " \xA0 Lihat :", ' '), /*#__PURE__*/React.createElement(Form.Control, {
     type: "number",
     min: 1,
@@ -1609,7 +1609,7 @@ function DataTableContainer({
     style: {
       border: 'none'
     },
-    variant: "info",
+    variant: "primary",
     onClick: customnextPage,
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
@@ -1694,7 +1694,7 @@ function DataTableContainer({
     style: {
       border: 'none'
     },
-    variant: "info",
+    variant: "primary",
     onClick: custompreviousPage,
     disabled: !customcanPreviousPage || loading
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
@@ -1721,7 +1721,7 @@ function DataTableContainer({
       background: 'none'
     }
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
-    icon: faColumns
+    icon: faBars
   }), " \xA0 Lihat :", ' '), /*#__PURE__*/React.createElement(Form.Control, {
     type: "number",
     min: 1,
@@ -1737,7 +1737,7 @@ function DataTableContainer({
     style: {
       border: 'none'
     },
-    variant: "info",
+    variant: "primary",
     onClick: customnextPage,
     disabled: !customcanNextPage || loading
   }, /*#__PURE__*/React.createElement(FontAwesomeIcon, {
@@ -1839,6 +1839,7 @@ function DataTable(props) {
       } catch (e) {}
 
       return /*#__PURE__*/React.createElement(Form.Check, {
+        inline: true,
         id: slug(props.name + '_check_' + row.row.original[primaryKey], '_'),
         name: slug(props.name + '_check_' + row.row.original[primaryKey], '_'),
         type: props.selectable == 'single' ? 'radio' : 'checkbox',

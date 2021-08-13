@@ -157,6 +157,7 @@ function DataTable(props) {
 
       return (
         <Form.Check
+          inline
           id={slug(props.name + '_check_' + row.row.original[primaryKey], '_')}
           name={slug(
             props.name + '_check_' + row.row.original[primaryKey],
