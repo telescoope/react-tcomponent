@@ -26,7 +26,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import axios from 'axios'
 
-import 'tcomponent/dist/index.css'
+import 'react-tcomponent/dist/index.css'
 
 function App() {
   const dispatch = useDispatch()
@@ -361,6 +361,18 @@ function App() {
         isColumnsSearchable
         onReload={onReload}
         action={[
+          {
+            label: 'Lihat',
+            onClick: (data) => console.log('LIHAT', data)
+          },
+          {
+            label: 'Ubah',
+            onClick: (data) => console.log('UBAH', data)
+          },
+          {
+            label: 'Hapus',
+            onClick: (data) => console.log('HAPUS', data)
+          },
           {
             label: 'Lihat',
             onClick: (data) => console.log('LIHAT', data)

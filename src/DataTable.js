@@ -4,6 +4,8 @@ import { useDispatch, useSelector, connect } from 'react-redux'
 
 import { findArrayName, slug, useDebounce } from 'tcomponent'
 
+import './DataTable.module.css'
+
 import LoadingOverlay from './LoadingOverlay'
 
 import DataTableContainer from './DataTableContainer'
@@ -205,10 +207,10 @@ function DataTable(props) {
 
         return (
           <DropdownButton
-            key={'end'}
+            key={'dropdown_' + props.name + '_' + isi}
             size='sm'
             id={'dropdown_' + props.name + '_' + isi}
-            className='custom-scroll'
+            // className='custom-scroll'
             isOpen={isEqual(param.dropdown, isi)}
             toggle={() => openToggle(isi)}
             drop={'end'}

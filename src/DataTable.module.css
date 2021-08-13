@@ -1,14 +1,3 @@
-.custom-scroll::-webkit-scrollbar-track, .table-responsive::-webkit-scrollbar-track, .selector .dropdown-menu::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
-  background-color: #fafafa;
-}
-
-.custom-scroll::-webkit-scrollbar, .table-responsive::-webkit-scrollbar, .selector .dropdown-menu::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-.custom-scroll::-webkit-scrollbar-thumb, .table-responsive::-webkit-scrollbar-thumb, .selector .dropdown-menu::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+.dropdown, .dropend, .dropstart, .dropup {
+  position: static !important
 }

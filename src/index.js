@@ -1,5 +1,19 @@
 import React from 'react'
 
+import 'react-phone-number-input/style.css'
+
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import 'dropzone/dist/min/dropzone.min.css'
+
+import 'video-react/dist/video-react.css'
+
+import 'rc-time-picker/assets/index.css'
+
+import 'react-datepicker/dist/react-datepicker.css'
+
+import 'react-input-range/lib/css/index.css'
+
 import InputText from './InputText'
 
 import InputChoose from './InputChoose'
@@ -37,20 +51,6 @@ import InputSelect from './InputSelect'
 import InputColor from './InputColor'
 
 import InputSelectFetch from './InputSelectFetch'
-
-import 'react-phone-number-input/style.css'
-
-import 'bootstrap/dist/css/bootstrap.min.css'
-
-import 'dropzone/dist/min/dropzone.min.css'
-
-import 'video-react/dist/video-react.css'
-
-import 'rc-time-picker/assets/index.css'
-
-import 'react-datepicker/dist/react-datepicker.css'
-
-import 'react-input-range/lib/css/index.css'
 
 export {
   InputColor,

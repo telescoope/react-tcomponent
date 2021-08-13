@@ -4,6 +4,8 @@ import { useDispatch, useSelector, connect } from 'react-redux'
 
 import { findArrayName, slug, useDebounce, numberFormat } from 'tcomponent'
 
+import './DataTableContainer.module.css'
+
 import LoadingOverlay from './LoadingOverlay'
 
 import { useIsVisible } from 'react-is-visible'
