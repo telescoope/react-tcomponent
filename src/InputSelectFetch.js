@@ -361,6 +361,7 @@ function InputSelectFetch(props) {
 
       return (
         <Form.Check
+          inline
           id={slug(props_name + '_check_' + row.row.original[primaryKey], '_')}
           name={slug(
             props_name + '_check_' + row.row.original[primaryKey],

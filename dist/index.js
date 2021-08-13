@@ -4007,6 +4007,7 @@ function InputSelectFetch(props) {
       }
 
       return /*#__PURE__*/React__default.createElement(reactBootstrap.Form.Check, {
+        inline: true,
         id: tcomponent.slug(props_name + '_check_' + row.row.original[primaryKey], '_'),
         name: tcomponent.slug(props_name + '_check_' + row.row.original[primaryKey], '_'),
         style: {
