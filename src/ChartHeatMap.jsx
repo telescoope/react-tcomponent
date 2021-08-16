@@ -1,12 +1,12 @@
 import React from 'react'
 import ApexCharts from 'react-apexcharts'
 
-function ChartCandleStick(props) {
+function ChartHeatMap(props) {
   return (
     <ApexCharts
       options={{
         chart: {
-          id: 'basic-candlestick'
+          id: 'basic-heatmap'
         },
         candlestick: {
           wick: {
@@ -64,4 +64,4 @@ function ChartCandleStick(props) {
   )
 }
 
-export default ChartCandleStick
+export default ChartHeatMap

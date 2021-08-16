@@ -64,6 +64,24 @@ import ChartHeatMap from './ChartHeatMap'
 
 import ChartTreeMap from './ChartTreeMap'
 
+import ChartPie from './ChartPie'
+
+import ChartDonut from './ChartDonut'
+
+import ChartRadar from './ChartRadar'
+
+import ChartRangeBar from './ChartRangeBar'
+
+import ChartBubble from './ChartBubble'
+
+import ChartPolarArea from './ChartPolarArea'
+
+import ChartRadial from './ChartRadial'
+
+import ChartScatter from './ChartScatter'
+
+import ChartWhisker from './ChartWhisker'
+
 export {
   InputColor,
   InputText,
@@ -89,5 +107,14 @@ export {
   ChartBar,
   ChartCandleStick,
   ChartHeatMap,
-  ChartTreeMap
+  ChartTreeMap,
+  ChartPie,
+  ChartDonut,
+  ChartRadar,
+  ChartRangeBar,
+  ChartBubble,
+  ChartPolarArea,
+  ChartRadial,
+  ChartScatter,
+  ChartWhisker
 }

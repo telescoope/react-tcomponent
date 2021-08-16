@@ -5,17 +5,80 @@ function ChartBar(props) {
   return (
     <ApexCharts
       options={{
+        colors: ['#7638ff', '#fda600'],
         chart: {
-          id: 'basic-bar'
+          type: 'bar',
+          fontFamily: 'Poppins, sans-serif',
+          height: 350,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: '60%',
+            endingShape: 'rounded'
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ['transparent']
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-        }
+          categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct'
+          ]
+        },
+        yaxis: {
+          title: {
+            text: 'IDR (juta)'
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return 'IDR ' + val + ' '
+            }
+          }
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }
+        ]
       }}
       series={[
         {
-          name: 'series-1',
-          data: [30, 40, 45, 50, 49, 60, 70, 91]
+          name: 'Received',
+          type: 'column',
+          data: [70, 150, 80, 180, 150, 175, 201, 60, 200, 120, 190, 160, 50]
+        },
+        {
+          name: 'Pending',
+          type: 'column',
+          data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16, 80]
         }
       ]}
       type='bar'

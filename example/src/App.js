@@ -23,7 +23,16 @@ import {
   ChartArea,
   ChartCandleStick,
   ChartHeatMap,
-  ChartTreeMap
+  ChartTreeMap,
+  ChartPie,
+  ChartDonut,
+  ChartRadar,
+  ChartRangeBar,
+  ChartBubble,
+  ChartPolarArea,
+  ChartRadial,
+  ChartScatter,
+  ChartWhisker
 } from 'react-tcomponent'
 
 import { defaultFilterData, secureData, setAuthHeader } from 'tcomponent'
@@ -590,6 +599,15 @@ function App() {
       <ChartCandleStick />
       <ChartHeatMap />
       <ChartTreeMap />
+      <ChartPie />
+      <ChartDonut />
+      <ChartRadar />
+      <ChartRangeBar />
+      <ChartBubble />
+      <ChartPolarArea />
+      <ChartRadial />
+      <ChartScatter />
+      <ChartWhisker />
     </div>
   )
 }
