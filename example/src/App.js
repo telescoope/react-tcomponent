@@ -17,7 +17,13 @@ import {
   Loading,
   LoadingOverlay,
   InputSelectFetch,
-  Field
+  Field,
+  ChartLine,
+  ChartBar,
+  ChartArea,
+  ChartCandleStick,
+  ChartHeatMap,
+  ChartTreeMap
 } from 'react-tcomponent'
 
 import { defaultFilterData, secureData, setAuthHeader } from 'tcomponent'
@@ -578,6 +584,12 @@ function App() {
         type='text'
         className='form-control'
       />
+      <ChartLine />
+      <ChartBar />
+      <ChartArea />
+      <ChartCandleStick />
+      <ChartHeatMap />
+      <ChartTreeMap />
     </div>
   )
 }

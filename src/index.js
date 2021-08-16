@@ -52,6 +52,18 @@ import InputColor from './InputColor'
 
 import InputSelectFetch from './InputSelectFetch'
 
+import ChartLine from './ChartLine'
+
+import ChartBar from './ChartBar'
+
+import ChartArea from './ChartArea'
+
+import ChartCandleStick from './ChartCandleStick'
+
+import ChartHeatMap from './ChartHeatMap'
+
+import ChartTreeMap from './ChartTreeMap'
+
 export {
   InputColor,
   InputText,
@@ -71,5 +83,11 @@ export {
   InputSelect,
   InputSelectFetch,
   Field,
-  InputNumber
+  InputNumber,
+  ChartLine,
+  ChartArea,
+  ChartBar,
+  ChartCandleStick,
+  ChartHeatMap,
+  ChartTreeMap
 }
