@@ -8,9 +8,7 @@ function ChartArea(props) {
         chart: {
           id: 'basic-area'
         },
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-        }
+        labels: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
       }}
       series={[
         {

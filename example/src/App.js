@@ -600,7 +600,22 @@ function App() {
       <ChartHeatMap />
       <ChartTreeMap />
       <ChartPie />
-      <ChartDonut />
+      <ChartDonut
+        data={[
+          { color: '#7638ff', id: '1', nama: 10, data: [10, 20, 30] },
+          { color: '#ff737b', id: '2', nama: 20, data: [10, 20, 30] },
+          { color: '#fda600', id: '3', nama: 30, data: [10, 20, 30] }
+        ]}
+        labels={['Paid', 'Unpaid', 'Overdue', 'Draft']}
+        colors={['#7638ff', '#ff737b', '#fda600', '#1ec1b0']}
+        // series={[44, 55, 13, 33]}
+        // dataValue={{ nama: 'name', data: 'data' }}
+        //dataValue={['nama', 'id']}
+        dataValue={'nama'}
+        optionLabel={['nama']}
+        separator=' - '
+        optionColor='color'
+      />
       <ChartRadar />
       <ChartRangeBar />
       <ChartBubble />
