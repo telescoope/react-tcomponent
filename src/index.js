@@ -54,7 +54,7 @@ import InputSelectFetch from './InputSelectFetch'
 
 import ChartLine from './ChartLine'
 
-import ChartBar from './ChartBar'
+import ChartBar from './ChartBar.jsx'
 
 import ChartArea from './ChartArea'
 
@@ -70,7 +70,7 @@ import ChartDonut from './ChartDonut'
 
 import ChartRadar from './ChartRadar'
 
-import ChartRangeBar from './ChartRangeBar'
+import ChartRange from './ChartRange'
 
 import ChartBubble from './ChartBubble'
 
@@ -80,7 +80,9 @@ import ChartRadial from './ChartRadial'
 
 import ChartScatter from './ChartScatter'
 
-import ChartWhisker from './ChartWhisker'
+import ChartBoxPlot from './ChartBoxPlot'
+
+import ChartHistogram from './ChartHistogram'
 
 export {
   InputColor,
@@ -111,10 +113,11 @@ export {
   ChartPie,
   ChartDonut,
   ChartRadar,
-  ChartRangeBar,
+  ChartRange,
   ChartBubble,
   ChartPolarArea,
   ChartRadial,
   ChartScatter,
-  ChartWhisker
+  ChartBoxPlot,
+  ChartHistogram
 }

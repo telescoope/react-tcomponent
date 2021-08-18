@@ -1,20 +1,9 @@
 import React from 'react'
-import ApexCharts from 'react-apexcharts'
+
+import Chart from './Chart'
 
 function ChartPie(props) {
-  return (
-    <ApexCharts
-      options={{
-        chart: {
-          id: 'basic-pie'
-        },
-        labels: ['Apple', 'Mango', 'Orange', 'Watermelon']
-      }}
-      series={[44, 55, 13, 33]}
-      type='pie'
-      width='50%'
-    />
-  )
+  return <Chart {...props} type='line' />
 }
 
 export default ChartPie
