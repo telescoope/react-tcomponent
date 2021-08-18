@@ -602,19 +602,77 @@ function App() {
       <ChartPie />
       <ChartDonut
         data={[
-          { color: '#7638ff', id: '1', nama: 10, data: [10, 20, 30] },
+          { color: '#7638ff', id: '1', nama: 60, data: [10, 20, 30] },
           { color: '#ff737b', id: '2', nama: 20, data: [10, 20, 30] },
           { color: '#fda600', id: '3', nama: 30, data: [10, 20, 30] }
         ]}
-        labels={['Paid', 'Unpaid', 'Overdue', 'Draft']}
-        colors={['#7638ff', '#ff737b', '#fda600', '#1ec1b0']}
+        // background='orange'
+        title={{
+          text: 'Judul'
+        }}
+        locales={[
+          {
+            name: 'id',
+            options: {
+              months: [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'
+              ],
+              shortMonths: [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec'
+              ],
+              days: [
+                'Sunday',
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday'
+              ],
+              shortDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+              toolbar: {
+                download: 'Download SVG',
+                selection: 'Selection',
+                selectionZoom: 'Selection Zoom',
+                zoomIn: 'Zoom In',
+                zoomOut: 'Zoom Out',
+                pan: 'Panning',
+                reset: 'Reset Zoom'
+              }
+            }
+          }
+        ]}
+        //labels={['Paid', 'Unpaid', 'Overdue', 'Draft']}
+        //colors={['#7638ff', '#ff737b', '#fda600', '#1ec1b0']}
         // series={[44, 55, 13, 33]}
         // dataValue={{ nama: 'name', data: 'data' }}
         //dataValue={['nama', 'id']}
         dataValue={'nama'}
-        optionLabel={['nama']}
+        dataLabel={['nama']}
         separator=' - '
-        optionColor='color'
+        dataColor='color'
       />
       <ChartRadar />
       <ChartRangeBar />
