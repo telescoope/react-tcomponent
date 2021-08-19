@@ -1117,7 +1117,24 @@ function App() {
         optionValue={{ data: 'data' }}
         separator=' - '
       />
-      <ChartPie />
+      <ChartPie
+        options={[
+          { warna: '#7638ff', nama: 'Pizza', jumlah: 60 },
+          { warna: '#ff737b', nama: 'Ketoprak', jumlah: 20 },
+          { warna: '#fda600', nama: 'Nasi Goreng', jumlah: 30 },
+          { warna: '#ccc', nama: 'Batu', jumlah: 10 }
+        ]}
+        title={{
+          text: 'Chart Pie'
+        }}
+        subtitle={{
+          text: 'Peminat berdasarkan makanan'
+        }}
+        optionValue='jumlah'
+        optionLabel='nama'
+        separator=' - '
+        optionColor='warna'
+      />
       <ChartDonut
         options={[
           { warna: '#7638ff', nama: 'Pizza', jumlah: 60 },
@@ -1129,7 +1146,7 @@ function App() {
           text: 'Chart Donut'
         }}
         subtitle={{
-          text: 'Peminat berdasarkan manakan'
+          text: 'Peminat berdasarkan makanan'
         }}
         optionValue='jumlah'
         optionLabel='nama'
