@@ -52,7 +52,8 @@ import {
   Button,
   DropdownButton,
   ButtonGroup,
-  Dropdown
+  Dropdown,
+  Tooltip
 } from 'react-bootstrap'
 
 function DataTable(props) {
