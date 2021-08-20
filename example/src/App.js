@@ -679,6 +679,10 @@ function App() {
         title={{
           text: 'Chart Bar'
         }}
+        plotOptions={{
+          borderRadius: 4,
+          horizontal: true
+        }}
         subtitle={{
           text: 'Keuntungan dan Kerugian'
         }}

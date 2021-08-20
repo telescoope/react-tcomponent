@@ -422,7 +422,7 @@ function Chart(props) {
     !isNull(props.plotOptions) &&
     isPlainObject(props.plotOptions)
   ) {
-    options.plotOptions[options.chart.type] = props.plotOptions
+    options.plotOptions = { [options.chart.type]: props.plotOptions }
   }
 
   console.log('chart', props, options, series)
