@@ -67,7 +67,7 @@ class WirisEquationEditor extends React.Component {
         <div ref={this.toolbarRef} />
         <ContentEditable
           suppressContentEditableWarning={true}
-          className='equationContainer'
+          className='form-control'
           innerRef={this.equationEditorRef}
           onChange={this.handleEquationChange}
           html={value || ''}
