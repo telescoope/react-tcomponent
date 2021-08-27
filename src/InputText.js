@@ -20,7 +20,7 @@ import { findArrayName, slug } from 'tcomponent'
 
 import parse from 'html-react-parser'
 
-import { Form } from 'react-bootstrap'
+import { Form, Modal } from 'react-bootstrap'
 
 import * as MathType from '@wiris/mathtype-generic'
 
@@ -81,7 +81,7 @@ class InputText extends React.Component {
   constructor(props) {
     super(props)
 
-    let default_placeholder = this.props.placeholder
+    let default_placeholder = this.props.placeholder || 'Isi disini'
 
     let option_summer = {}
 
@@ -122,12 +122,14 @@ class InputText extends React.Component {
 
     this.state = {
       type,
+      open: false,
       placeholder: default_placeholder,
       options_cleave,
       value: this.props.value ? String(this.props.value) : '',
       props_name: this.props.name ? slug(String(this.props.name), '_') : '',
       config: {
         readonly: false,
+        placeholder: ' ',
         toolbarButtonSize: 'small'
       }
     }
@@ -138,7 +140,7 @@ class InputText extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    //console.log('componentDidUpdate InputText')
+    //// console.log('componentDidUpdate InputText')
     if (!isEqual(this.props.type, prevProps.type)) {
       this.setState({ type: this.props.type })
     }
@@ -229,6 +231,14 @@ class InputText extends React.Component {
     this.props.setInput(this.state.props_name, data)
   }
 
+  openModal = () => {
+    this.setState({ open: true })
+  }
+
+  closeModal = () => {
+    this.setState({ open: false })
+  }
+
   onChange = (data) => {
     this.setState({ value: data })
 
@@ -236,6 +246,8 @@ class InputText extends React.Component {
   }
 
   render() {
+    // console.log(this.editorRef)
+
     if (!this.state.props_name) return 'Name is Required'
 
     if (this.props.disabled || this.props.isReadonly) {
@@ -280,26 +292,66 @@ class InputText extends React.Component {
       )
     } else if (this.state.type == 'texteditor') {
       return (
-        <JoditEditor
-          key={this.props.name + '_editor'}
-          id={this.props.id}
-          ref={this.editorRef}
-          value={!isEmpty(this.state.value) ? String(this.state.value) : ''}
-          config={this.state.config}
-          tabIndex={1}
-          onChange={this.onChange}
-        />
+        <React.Fragment>
+          <div
+            className='form-control'
+            style={{ minHeight: 32 }}
+            onClick={this.openModal}
+          >
+            {!isEmpty(this.state.value)
+              ? parse(String(this.state.value))
+              : '&nbsp;'}
+          </div>
+          <Modal size='lg' show={this.state.open} onHide={this.closeModal}>
+            <Modal.Header onHide={this.closeModal} closeButton>
+              <Modal.Title>
+                {this.state.placeholder || 'Isi disini'}
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <JoditEditor
+                key={this.props.name + '_editor'}
+                id={this.props.id}
+                ref={this.editorRef}
+                value={
+                  !isEmpty(this.state.value) ? String(this.state.value) : ''
+                }
+                config={this.state.config}
+                tabIndex={1}
+                onChange={this.onChange}
+              />
+            </Modal.Body>
+          </Modal>
+        </React.Fragment>
       )
     } else if (this.state.type == 'equation') {
       return (
-        <div id={this.props.id} ref={this.toolbarRef}>
-          <WirisEquationEditor
-            id={this.props.id}
-            onEquationInput={this.onChange}
-            toolbarRef={this.toolbarRef}
-            value={this.state.value}
-          />
-        </div>
+        <React.Fragment>
+          <div
+            className='form-control'
+            style={{ minHeight: 32 }}
+            onClick={this.openModal}
+          >
+            {!isEmpty(this.state.value)
+              ? parse(String(this.state.value))
+              : '&nbsp;'}
+          </div>
+          <Modal size='lg' show={this.state.open} onHide={this.closeModal}>
+            <Modal.Header onHide={this.closeModal} closeButton>
+              <Modal.Title>{this.state.placeholder || 'Isi'}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div id={this.props.id} ref={this.toolbarRef}>
+                <WirisEquationEditor
+                  id={this.props.id}
+                  onEquationInput={this.onChange}
+                  toolbarRef={this.toolbarRef}
+                  value={this.state.value}
+                />
+              </div>
+            </Modal.Body>
+          </Modal>
+        </React.Fragment>
       )
     }
 
