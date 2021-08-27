@@ -332,9 +332,7 @@ class InputText extends React.Component {
             style={{ minHeight: 32 }}
             onClick={this.openModal}
           >
-            {!isEmpty(this.state.value)
-              ? parse(String(this.state.value))
-              : '&nbsp;'}
+            {!isEmpty(this.state.value) ? parse(String(this.state.value)) : ''}
           </div>
           <Modal size='lg' show={this.state.open} onHide={this.closeModal}>
             <Modal.Header onHide={this.closeModal} closeButton>
