@@ -81,9 +81,11 @@ class InputTime extends React.Component {
       let end_selected = moment()
 
       try {
-        start_selected = this.props.start_selected
+        start_selected = moment(this.props.start_selected).isValid()
           ? moment(this.props.start_selected, formattime)
-          : findArrayName('start_' + this.props.name, this.props.input)
+          : moment(
+              findArrayName('start_' + this.props.name, this.props.input)
+            ).isValid()
           ? moment(
               findArrayName('start_' + this.props.name, this.props.input),
               formattime
@@ -92,9 +94,11 @@ class InputTime extends React.Component {
       } catch (e) {}
 
       try {
-        end_selected = this.props.end_selected
+        end_selected = moment(this.props.end_selected).isValid()
           ? moment(this.props.end_selected, formattime)
-          : findArrayName('end_' + this.props.name, this.props.input)
+          : moment(
+              findArrayName('end_' + this.props.name, this.props.input)
+            ).isValid()
           ? moment(
               findArrayName('end_' + this.props.name, this.props.input),
               formattime
@@ -107,9 +111,9 @@ class InputTime extends React.Component {
       let selected = moment()
 
       try {
-        selected = this.props.selected
+        selected = moment(this.props.selected).isValid()
           ? moment(this.props.selected, formattime)
-          : findArrayName(this.props.name, this.props.input)
+          : moment(findArrayName(this.props.name, this.props.input)).isValid()
           ? moment(findArrayName(this.props.name, this.props.input), formattime)
           : null
       } catch (e) {}

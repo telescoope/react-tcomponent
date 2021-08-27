@@ -63,9 +63,11 @@ class InputDateTime extends React.Component {
       let end_selected = null
 
       try {
-        start_selected = this.props.start_selected
+        start_selected = moment(this.props.start_selected).isValid()
           ? moment(this.props.start_selected).toDate()
-          : findArrayName('start_' + this.props.name, this.props.input)
+          : moment(
+              findArrayName('start_' + this.props.name, this.props.input)
+            ).isValid()
           ? moment(
               findArrayName('start_' + this.props.name, this.props.input)
             ).toDate()
@@ -73,9 +75,11 @@ class InputDateTime extends React.Component {
       } catch (e) {}
 
       try {
-        end_selected = this.props.end_selected
+        end_selected = moment(this.props.end_selected).isValid()
           ? moment(this.props.end_selected).toDate()
-          : findArrayName('end_' + this.props.name, this.props.input)
+          : moment(
+              findArrayName('end_' + this.props.name, this.props.input)
+            ).isValid()
           ? moment(
               findArrayName('end_' + this.props.name, this.props.input)
             ).toDate()
@@ -87,9 +91,9 @@ class InputDateTime extends React.Component {
       let selected = null
 
       try {
-        selected = this.props.selected
+        selected = moment(this.props.selected).isValid()
           ? moment(this.props.selected).toDate()
-          : findArrayName(this.props.name, this.props.input)
+          : moment(findArrayName(this.props.name, this.props.input)).isValid()
           ? moment(findArrayName(this.props.name, this.props.input)).toDate()
           : null
       } catch (e) {}
@@ -120,7 +124,7 @@ class InputDateTime extends React.Component {
 
   handleInputChangeEnd = (data) => {
     data = moment(data).isValid()
-      ? moment(data).format('YYYY-MM-DD HH:mm:ss:ss')
+      ? moment(data).format('YYYY-MM-DD HH:mm:ss')
       : null
 
     this.props.setInput('end_' + this.props.name, data)
@@ -193,10 +197,14 @@ class InputDateTime extends React.Component {
         >
           <DatePicker
             minDate={
-              this.props.minDate ? moment(this.props.minDate).toDate() : null
+              moment(this.props.minDate).isValid()
+                ? moment(this.props.minDate).toDate()
+                : null
             }
             maxDate={
-              this.props.maxDate ? moment(this.props.maxDate).toDate() : null
+              moment(this.props.maxDate).isValid()
+                ? moment(this.props.maxDate).toDate()
+                : null
             }
             dateFormat={
               this.props.dateFormat
@@ -237,14 +245,16 @@ class InputDateTime extends React.Component {
           </span>
           <DatePicker
             minDate={
-              this.state.start_selected
-                ? this.state.start_selected
-                : this.props.minDate
+              moment(this.state.start_selected).isValid()
+                ? moment(this.state.start_selected).toDate()
+                : moment(this.props.minDate).isValid()
                 ? moment(this.props.minDate).toDate()
                 : null
             }
             maxDate={
-              this.props.maxDate ? moment(this.props.maxDate).toDate() : null
+              moment(this.props.maxDate).isValid()
+                ? moment(this.props.maxDate).toDate()
+                : null
             }
             dateFormat={
               this.props.dateFormat
@@ -297,10 +307,14 @@ class InputDateTime extends React.Component {
     return (
       <DatePicker
         minDate={
-          this.props.minDate ? moment(this.props.minDate).toDate() : null
+          moment(this.props.minDate).isValid()
+            ? moment(this.props.minDate).toDate()
+            : null
         }
         maxDate={
-          this.props.maxDate ? moment(this.props.maxDate).toDate() : null
+          moment(this.props.maxDate).isValid()
+            ? moment(this.props.maxDate).toDate()
+            : null
         }
         dateFormat={
           this.props.dateFormat ? this.props.dateFormat : 'yyyy-MM-dd HH:mm:ss'
