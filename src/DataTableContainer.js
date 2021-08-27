@@ -6,7 +6,7 @@ import { findArrayName, slug, useDebounce, numberFormat } from 'tcomponent'
 
 import './DataTableContainer.module.css'
 
-import LoadingOverlay from './LoadingOverlay'
+import Loading from './Loading'
 
 import { useIsVisible } from 'react-is-visible'
 
@@ -35,11 +35,12 @@ import {
 import { faFile } from '@fortawesome/free-regular-svg-icons'
 
 export const Filter = ({ column }) => {
-  return (
-    <div style={{ margin: '4px 0' }}>
-      {column.canFilter && column.render('Filter')}
-    </div>
-  )
+  return null
+  // return (
+  //   <div style={{ margin: '4px 0' }}>
+  //     {column.canFilter && column.render('Filter')}
+  //   </div>
+  // )
 }
 
 export const DefaultColumnFilter = (props) => {
@@ -221,7 +222,7 @@ function DataTableContainer({
         })
       }
     },
-    1000,
+    500,
     [headers]
   )
 
@@ -280,13 +281,13 @@ function DataTableContainer({
         }
       })
     },
-    1000,
+    500,
     [curpage]
   )
 
   useEffect(() => {
     if (setLocalLoading && !loading) {
-      setTimeout(() => setLocalLoading(loading), 1000)
+      setTimeout(() => setLocalLoading(loading), 500)
     } else {
       setLocalLoading(loading)
     }
@@ -300,7 +301,6 @@ function DataTableContainer({
     <div>
       <div className='custom-scroll' style={{ overflow: 'auto' }}>
         <InputGroup>
-
           <Button
             style={{ border: 'none' }}
             variant='primary'
@@ -415,7 +415,9 @@ function DataTableContainer({
         </thead>
 
         <tbody {...getTableBodyProps()}>
-          {page.length > 0 && !localLoading
+          {page.length > 0 &&
+          !localLoading &&
+          parseInt(customPageIndex) === parseInt(curpage)
             ? page.map((row) => {
                 prepareRow(row)
                 return (
@@ -459,7 +461,10 @@ function DataTableContainer({
                     }}
                     colSpan={headerGroup.headers.length}
                   >
-                    {localLoading ? 'Memproses...' : 'Tidak ada data'}
+                    {localLoading ||
+                    parseInt(customPageIndex) !== parseInt(curpage)
+                      ? 'Memproses'
+                      : 'Tidak ada data'}
                   </td>
                 </tr>
               ))}

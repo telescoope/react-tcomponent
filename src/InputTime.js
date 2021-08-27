@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faClock } from '@fortawesome/free-regular-svg-icons'
 
-let formattime = 'HH:mm:ss'
+let formatDefault = 'HH:mm:ss'
 
 let now = moment()
 
@@ -81,27 +81,32 @@ class InputTime extends React.Component {
       let end_selected = moment()
 
       try {
-        start_selected = moment(this.props.start_selected).isValid()
-          ? moment(this.props.start_selected, formattime)
+        start_selected = moment(
+          this.props.start_selected,
+          formatDefault
+        ).isValid()
+          ? moment(this.props.start_selected, formatDefault)
           : moment(
-              findArrayName('start_' + this.props.name, this.props.input)
+              findArrayName('start_' + this.props.name, this.props.input),
+              formatDefault
             ).isValid()
           ? moment(
               findArrayName('start_' + this.props.name, this.props.input),
-              formattime
+              formatDefault
             )
           : null
       } catch (e) {}
 
       try {
-        end_selected = moment(this.props.end_selected).isValid()
-          ? moment(this.props.end_selected, formattime)
+        end_selected = moment(this.props.end_selected, formatDefault).isValid()
+          ? moment(this.props.end_selected, formatDefault)
           : moment(
-              findArrayName('end_' + this.props.name, this.props.input)
+              findArrayName('end_' + this.props.name, this.props.input),
+              formatDefault
             ).isValid()
           ? moment(
               findArrayName('end_' + this.props.name, this.props.input),
-              formattime
+              formatDefault
             )
           : null
       } catch (e) {}
@@ -111,10 +116,16 @@ class InputTime extends React.Component {
       let selected = moment()
 
       try {
-        selected = moment(this.props.selected).isValid()
-          ? moment(this.props.selected, formattime)
-          : moment(findArrayName(this.props.name, this.props.input)).isValid()
-          ? moment(findArrayName(this.props.name, this.props.input), formattime)
+        selected = moment(this.props.selected, formatDefault).isValid()
+          ? moment(this.props.selected, formatDefault)
+          : moment(
+              findArrayName(this.props.name, this.props.input),
+              formatDefault
+            ).isValid()
+          ? moment(
+              findArrayName(this.props.name, this.props.input),
+              formatDefault
+            )
           : null
       } catch (e) {}
 
@@ -123,7 +134,9 @@ class InputTime extends React.Component {
   }
 
   handleInputChange = (data) => {
-    data = data ? moment(data).format(formattime) : null
+    data = moment(data, formatDefault).isValid()
+      ? moment(data, formatDefault).format(formatDefault)
+      : null
 
     this.props.setInput(this.props.name, data)
 
@@ -131,7 +144,9 @@ class InputTime extends React.Component {
   }
 
   handleInputChangeStart = (data) => {
-    data = data ? moment(data).format(formattime) : null
+    data = moment(data, formatDefault).isValid()
+      ? moment(data, formatDefault).format(formatDefault)
+      : null
 
     this.props.setInput('start_' + this.props.name, data)
 
@@ -139,7 +154,9 @@ class InputTime extends React.Component {
   }
 
   handleInputChangeEnd = (data) => {
-    data = data ? moment(data).format(formattime) : null
+    data = moment(data, formatDefault).isValid()
+      ? moment(data, formatDefault).format(formatDefault)
+      : null
 
     this.props.setInput('end_' + this.props.name, data)
 
@@ -155,13 +172,17 @@ class InputTime extends React.Component {
       if (this.props.disabled || this.props.isReadonly) {
         return (
           <div className='input-daterange input-group'>
-            {moment(this.state.start_selected).isValid()
-              ? moment(this.state.start_selected).format(formattime)
+            {moment(this.state.start_selected, formatDefault).isValid()
+              ? moment(this.state.start_selected, formatDefault).format(
+                  formatDefault
+                )
               : ''}
 
             <span style={{ background: 'none' }}>&nbsp; s/d &nbsp;</span>
-            {moment(this.state.end_selected).isValid()
-              ? moment(this.state.end_selected).format(formattime)
+            {moment(this.state.end_selected, formatDefault).isValid()
+              ? moment(this.state.end_selected, formatDefault).format(
+                  formatDefault
+                )
               : ''}
           </div>
         )
@@ -174,7 +195,7 @@ class InputTime extends React.Component {
             disabled={this.props.disabled || this.props.isReadonly}
             // showSecond={false}
             inputIcon={<IconClock />}
-            format={formattime}
+            format={formatDefault}
             onChange={this.handleInputChangeStart}
           />
           <span className='input-group-addon' style={{ background: 'none' }}>
@@ -185,7 +206,7 @@ class InputTime extends React.Component {
             disabled={this.props.disabled || this.props.isReadonly}
             inputIcon={<IconClock />}
             // showSecond={false}
-            format={formattime}
+            format={formatDefault}
             onChange={this.handleInputChangeEnd}
           />
         </div>
@@ -195,8 +216,8 @@ class InputTime extends React.Component {
     if (this.props.disabled || this.props.isReadonly) {
       return (
         <div className='input-daterange input-group'>
-          {moment(this.state.selected).isValid()
-            ? moment(this.state.selected).format(formattime)
+          {moment(this.state.selected, formatDefault).isValid()
+            ? moment(this.state.selected, formatDefault).format(formatDefault)
             : ''}
         </div>
       )
@@ -208,7 +229,7 @@ class InputTime extends React.Component {
         disabled={this.props.disabled || this.props.isReadonly}
         // showSecond={false}
         inputIcon={<IconClock />}
-        format={formattime}
+        format={formatDefault}
         onChange={this.handleInputChange}
       />
     )

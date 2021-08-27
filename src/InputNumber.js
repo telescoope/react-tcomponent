@@ -57,6 +57,9 @@ class InputNumber extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!isEqual(this.props.type, prevProps.type)) {
+      this.checkType()
+    }
     if (
       !isEqual(
         findArrayName(this.state.props_name, prevProps.input),
@@ -204,6 +207,10 @@ class InputNumber extends React.Component {
   }
 
   componentDidMount() {
+    this.checkType()
+  }
+
+  checkType = () => {
     let options = {
       numeral: true,
       numeralPositiveOnly: true

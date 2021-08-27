@@ -280,11 +280,11 @@ function DataTable(props) {
         onReload()
       }
     },
-    1000,
+    500,
     [visible]
   )
 
-  useDebounce(onReload, 1000, [
+  useDebounce(onReload, 500, [
     findArrayName(slug('keyword_' + props.name, '_'), filter),
     findArrayName(slug('page_' + props.name, '_'), filter),
     findArrayName(slug('load_' + props.name, '_'), filter),
@@ -336,7 +336,7 @@ function DataTable(props) {
         syncParameter()
       }
     },
-    1000,
+    500,
     [findArrayName(key_select, input), filter]
   )
 
@@ -352,7 +352,7 @@ function DataTable(props) {
         setMeta(props.data.meta || {})
       } catch (e) {}
     },
-    1000,
+    500,
     [props.data]
   )
 

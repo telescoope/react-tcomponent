@@ -895,33 +895,31 @@ function InputSelectFetch(props) {
                 </Button>
               </InputGroup>
 
-              {!listLoading && (
-                <DataTableContainer
-                  name={props_name}
-                  columns={columns}
-                  data={data}
-                  primaryKey={primaryKey}
-                  isColumnsSearchable={true}
-                  fetchData={onReload}
-                  loading={listLoading}
-                  customPageTotal={meta && !isEmpty(meta) ? meta.total : 0}
-                  customPageCount={meta && !isEmpty(meta) ? meta.last_page : 1}
-                  customPageSize={
-                    meta && !isEmpty(meta)
-                      ? meta.per_page
-                      : filter['load_' + props_name]
-                      ? filter['load_' + props_name]
-                      : 5
-                  }
-                  customPageIndex={
-                    meta && !isEmpty(meta)
-                      ? meta.current_page
-                      : filter['page_' + props_name]
-                      ? filter['page_' + props_name]
-                      : 1
-                  }
-                />
-              )}
+              <DataTableContainer
+                name={props_name}
+                columns={columns}
+                data={data}
+                primaryKey={primaryKey}
+                isColumnsSearchable={true}
+                fetchData={onReload}
+                loading={listLoading}
+                customPageTotal={meta && !isEmpty(meta) ? meta.total : 0}
+                customPageCount={meta && !isEmpty(meta) ? meta.last_page : 1}
+                customPageSize={
+                  meta && !isEmpty(meta)
+                    ? meta.per_page
+                    : filter['load_' + props_name]
+                    ? filter['load_' + props_name]
+                    : 5
+                }
+                customPageIndex={
+                  meta && !isEmpty(meta)
+                    ? meta.current_page
+                    : filter['page_' + props_name]
+                    ? filter['page_' + props_name]
+                    : 1
+                }
+              />
             </div>
           </LoadingOverlay>
 

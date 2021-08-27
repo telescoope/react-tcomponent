@@ -425,7 +425,7 @@ function Chart(props) {
     options.plotOptions = { [options.chart.type]: props.plotOptions }
   }
 
-  console.log('chart', props, options, series)
+  // console.log('chart', props, options, series)
 
   return (
     <ApexCharts options={options} series={series} type={options.chart.type} />

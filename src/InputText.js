@@ -138,6 +138,10 @@ class InputText extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    //console.log('componentDidUpdate InputText')
+    if (!isEqual(this.props.type, prevProps.type)) {
+      this.setState({ type: this.props.type })
+    }
     try {
       if (
         !isEqual(
@@ -282,7 +286,7 @@ class InputText extends React.Component {
           ref={this.editorRef}
           value={!isEmpty(this.state.value) ? String(this.state.value) : ''}
           config={this.state.config}
-          // tabIndex={1}
+          tabIndex={1}
           onChange={this.onChange}
         />
       )

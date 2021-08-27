@@ -16,6 +16,8 @@ import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons'
 
 import { InputGroup, Form } from 'react-bootstrap'
 
+let formatDefault = 'YYYY-MM-DD- HH:mm:ss'
+
 const CustomInput = (props) => {
   return (
     <InputGroup size='sm'>
@@ -63,25 +65,32 @@ class InputDateTime extends React.Component {
       let end_selected = null
 
       try {
-        start_selected = moment(this.props.start_selected).isValid()
-          ? moment(this.props.start_selected).toDate()
+        start_selected = moment(
+          this.props.start_selected,
+          formatDefault
+        ).isValid()
+          ? moment(this.props.start_selected, formatDefault).toDate()
           : moment(
-              findArrayName('start_' + this.props.name, this.props.input)
+              findArrayName('start_' + this.props.name, this.props.input),
+              formatDefault
             ).isValid()
           ? moment(
-              findArrayName('start_' + this.props.name, this.props.input)
+              findArrayName('start_' + this.props.name, this.props.input),
+              formatDefault
             ).toDate()
           : null
       } catch (e) {}
 
       try {
-        end_selected = moment(this.props.end_selected).isValid()
-          ? moment(this.props.end_selected).toDate()
+        end_selected = moment(this.props.end_selected, formatDefault).isValid()
+          ? moment(this.props.end_selected, formatDefault).toDate()
           : moment(
-              findArrayName('end_' + this.props.name, this.props.input)
+              findArrayName('end_' + this.props.name, this.props.input),
+              formatDefault
             ).isValid()
           ? moment(
-              findArrayName('end_' + this.props.name, this.props.input)
+              findArrayName('end_' + this.props.name, this.props.input),
+              formatDefault
             ).toDate()
           : null
       } catch (e) {}
@@ -91,10 +100,16 @@ class InputDateTime extends React.Component {
       let selected = null
 
       try {
-        selected = moment(this.props.selected).isValid()
-          ? moment(this.props.selected).toDate()
-          : moment(findArrayName(this.props.name, this.props.input)).isValid()
-          ? moment(findArrayName(this.props.name, this.props.input)).toDate()
+        selected = moment(this.props.selected, formatDefault).isValid()
+          ? moment(this.props.selected, formatDefault).toDate()
+          : moment(
+              findArrayName(this.props.name, this.props.input),
+              formatDefault
+            ).isValid()
+          ? moment(
+              findArrayName(this.props.name, this.props.input),
+              formatDefault
+            ).toDate()
           : null
       } catch (e) {}
 
@@ -103,8 +118,8 @@ class InputDateTime extends React.Component {
   }
 
   handleInputChange = (data) => {
-    data = moment(data).isValid()
-      ? moment(data).format('YYYY-MM-DD HH:mm:ss')
+    data = moment(data, formatDefault).isValid()
+      ? moment(data, formatDefault).format(formatDefault)
       : null
 
     this.props.setInput(this.props.name, data)
@@ -113,8 +128,8 @@ class InputDateTime extends React.Component {
   }
 
   handleInputChangeStart = (data) => {
-    data = moment(data).isValid()
-      ? moment(data).format('YYYY-MM-DD HH:mm:ss')
+    data = moment(data, formatDefault).isValid()
+      ? moment(data, formatDefault).format(formatDefault)
       : null
 
     this.props.setInput('start_' + this.props.name, data)
@@ -123,8 +138,8 @@ class InputDateTime extends React.Component {
   }
 
   handleInputChangeEnd = (data) => {
-    data = moment(data).isValid()
-      ? moment(data).format('YYYY-MM-DD HH:mm:ss')
+    data = moment(data, formatDefault).isValid()
+      ? moment(data, formatDefault).format(formatDefault)
       : null
 
     this.props.setInput('end_' + this.props.name, data)
@@ -178,13 +193,17 @@ class InputDateTime extends React.Component {
       if (this.props.disabled || this.props.isReadonly) {
         return (
           <div className='input-daterange input-group'>
-            {moment(this.state.start_selected).isValid()
-              ? moment(this.state.start_selected).format('DD-MM-YYYY HH:mm:ss')
+            {moment(this.state.start_selected, formatDefault).isValid()
+              ? moment(this.state.start_selected, formatDefault).format(
+                  'DD-MM-YYYY HH:mm:ss'
+                )
               : null}
 
             <span style={{ background: 'none' }}>&nbsp; s/d &nbsp;</span>
-            {moment(this.state.end_selected).isValid()
-              ? moment(this.state.end_selected).format('DD-MM-YYYY HH:mm:ss')
+            {moment(this.state.end_selected, formatDefault).isValid()
+              ? moment(this.state.end_selected, formatDefault).format(
+                  'DD-MM-YYYY HH:mm:ss'
+                )
               : null}
           </div>
         )
@@ -197,13 +216,13 @@ class InputDateTime extends React.Component {
         >
           <DatePicker
             minDate={
-              moment(this.props.minDate).isValid()
-                ? moment(this.props.minDate).toDate()
+              moment(this.props.minDate, formatDefault).isValid()
+                ? moment(this.props.minDate, formatDefault).toDate()
                 : null
             }
             maxDate={
-              moment(this.props.maxDate).isValid()
-                ? moment(this.props.maxDate).toDate()
+              moment(this.props.maxDate, formatDefault).isValid()
+                ? moment(this.props.maxDate, formatDefault).toDate()
                 : null
             }
             dateFormat={
@@ -245,15 +264,15 @@ class InputDateTime extends React.Component {
           </span>
           <DatePicker
             minDate={
-              moment(this.state.start_selected).isValid()
-                ? moment(this.state.start_selected).toDate()
-                : moment(this.props.minDate).isValid()
-                ? moment(this.props.minDate).toDate()
+              moment(this.state.start_selected, formatDefault).isValid()
+                ? moment(this.state.start_selected, formatDefault).toDate()
+                : moment(this.props.minDate, formatDefault).isValid()
+                ? moment(this.props.minDate, formatDefault).toDate()
                 : null
             }
             maxDate={
-              moment(this.props.maxDate).isValid()
-                ? moment(this.props.maxDate).toDate()
+              moment(this.props.maxDate, formatDefault).isValid()
+                ? moment(this.props.maxDate, formatDefault).toDate()
                 : null
             }
             dateFormat={
@@ -297,8 +316,10 @@ class InputDateTime extends React.Component {
     if (this.props.disabled || this.props.isReadonly) {
       return (
         <div className='input-daterange input-group'>
-          {moment(this.state.selected).isValid()
-            ? moment(this.state.selected).format('DD-MM-YYYY HH:mm:ss')
+          {moment(this.state.selected, formatDefault).isValid()
+            ? moment(this.state.selected, formatDefault).format(
+                'DD-MM-YYYY HH:mm:ss'
+              )
             : null}
         </div>
       )
@@ -307,13 +328,13 @@ class InputDateTime extends React.Component {
     return (
       <DatePicker
         minDate={
-          moment(this.props.minDate).isValid()
-            ? moment(this.props.minDate).toDate()
+          moment(this.props.minDate, formatDefault).isValid()
+            ? moment(this.props.minDate, formatDefault).toDate()
             : null
         }
         maxDate={
-          moment(this.props.maxDate).isValid()
-            ? moment(this.props.maxDate).toDate()
+          moment(this.props.maxDate, formatDefault).isValid()
+            ? moment(this.props.maxDate, formatDefault).toDate()
             : null
         }
         dateFormat={

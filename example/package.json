@@ -1,7 +1,7 @@
 {
   "name": "react-tcomponent-example",
   "homepage": ".",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "private": true,
   "scripts": {
     "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",

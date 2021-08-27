@@ -77,6 +77,8 @@ function App() {
 
   const auth = useSelector((state) => state.auth) || {}
 
+  const input = useSelector((state) => state.core.input) || {}
+
   function onReload() {
     const { page, load, keyword, sorted, search } = defaultFilterData(
       filter,
@@ -220,8 +222,29 @@ function App() {
     return series
   }
 
+  console.log('input', input.cs)
+
   return (
     <div style={{ padding: '0px 20px' }}>
+      <InputChoose
+        name='cs'
+        options={[
+          { id: '1', nama: 'Disetujui' },
+          { id: '2', nama: 'Ditolak' },
+          { id: '3', nama: 'Menunggu Persetujuan' }
+        ]}
+        separator='-'
+        optionLabel={['nama']}
+        optionValue='nama'
+      />
+
+      <InputText
+        name='xyz'
+        id='xyz'
+        type={input.cs === 'Disetujui' ? 'equation' : 'texteditor'}
+        className='form-control'
+      />
+
       <h1>react-tcomponent - telescoope.org</h1>
       <h4>Clear Data</h4>
       <button onClick={clearData}>Hapus data</button>
@@ -588,12 +611,7 @@ function App() {
       />
       <h4>Contoh Text Editor</h4>
       <InputText name='texteditor' type='texteditor' className='form-control' />
-      <InputText
-        name='texteditor'
-        isReadonly
-        type='texteditor'
-        className='form-control'
-      />
+
       <InputText
         name='texteditor_multi[satu]'
         type='texteditor'
