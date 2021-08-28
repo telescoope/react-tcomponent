@@ -16,7 +16,7 @@ import { faCalendar, faClock } from '@fortawesome/free-regular-svg-icons'
 
 import { InputGroup, Form } from 'react-bootstrap'
 
-let formatDefault = 'YYYY-MM-DD- HH:mm:ss'
+let formatDefault = 'YYYY-MM-DD HH:mm:ss'
 
 const CustomInput = (props) => {
   return (
