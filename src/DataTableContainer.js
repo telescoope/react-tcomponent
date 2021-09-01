@@ -8,8 +8,6 @@ import './DataTableContainer.module.css'
 
 import Loading from './Loading'
 
-import { useIsVisible } from 'react-is-visible'
-
 import {
   useTable,
   useSortBy,

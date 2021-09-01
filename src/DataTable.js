@@ -59,6 +59,8 @@ import {
 function DataTable(props) {
   let [visible, setVisible] = useState(false)
 
+  let [link, setLink] = useState('')
+
   let [data, setData] = useState([])
 
   let [temp, setTemp] = useState([])
@@ -261,7 +263,10 @@ function DataTable(props) {
 
   function onReload() {
     if (visible) {
+      setLink(window.location.href)
+
       props.onReload()
+
       if (!findArrayName(slug('loaded_' + props.name, '_'), filter)) {
         dispatch({
           type: 'SET_FILTER',
@@ -276,12 +281,12 @@ function DataTable(props) {
 
   useDebounce(
     () => {
-      if (visible) {
+      if (visible && (!isEqual(window.location.href, link) || isEmpty(link))) {
         onReload()
       }
     },
     500,
-    [visible]
+    [visible, window.location.href]
   )
 
   useDebounce(onReload, 500, [
