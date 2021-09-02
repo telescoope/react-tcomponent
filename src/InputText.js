@@ -81,7 +81,7 @@ class InputText extends React.Component {
   constructor(props) {
     super(props)
 
-    let default_placeholder = this.props.placeholder || 'Isi disini'
+    let default_placeholder = this.props.placeholder || ''
 
     let option_summer = {}
 
@@ -303,7 +303,7 @@ class InputText extends React.Component {
           <Modal size='lg' show={this.state.open} onHide={this.closeModal}>
             <Modal.Header onHide={this.closeModal} closeButton>
               <Modal.Title>
-                {this.state.placeholder || 'Isi disini'}
+                {this.state.placeholder || 'Text Editor'}
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -334,7 +334,9 @@ class InputText extends React.Component {
           </div>
           <Modal size='lg' show={this.state.open} onHide={this.closeModal}>
             <Modal.Header onHide={this.closeModal} closeButton>
-              <Modal.Title>{this.state.placeholder || 'Isi'}</Modal.Title>
+              <Modal.Title>
+                {this.state.placeholder || 'Equation Editor'}
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <div id={this.props.id} ref={this.toolbarRef}>
