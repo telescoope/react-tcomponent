@@ -80,6 +80,7 @@ export const DefaultColumnFilter = (props) => {
       id={key}
       name={key}
       value={data}
+      style={{ zIndex: 0 }}
       onChange={onChange}
       placeholder={`Pencarian`}
     />
@@ -257,11 +258,15 @@ function DataTableContainer({
   let customcanPreviousPage = customPageIndex >= 2
 
   let customnextPage = () => {
-    customgotoPage(curpage + 1)
+    if (curpage < customPageCount) {
+      customgotoPage(curpage + 1)
+    }
   }
 
   let custompreviousPage = () => {
-    customgotoPage(curpage - 1)
+    if (curpage >= 2) {
+      customgotoPage(curpage - 1)
+    }
   }
 
   let customgotoPage = (isi) => {
@@ -300,7 +305,7 @@ function DataTableContainer({
       <div className='custom-scroll' style={{ overflow: 'auto' }}>
         <InputGroup>
           <Button
-            style={{ border: 'none' }}
+            style={{ border: 'none', zIndex: 0 }}
             variant='primary'
             onClick={() => customgotoPage(1)}
             disabled={!customcanPreviousPage || loading}
@@ -309,7 +314,7 @@ function DataTableContainer({
           </Button>
 
           <Button
-            style={{ border: 'none' }}
+            style={{ border: 'none', zIndex: 0 }}
             variant='primary'
             onClick={custompreviousPage}
             disabled={!customcanPreviousPage || loading}
@@ -322,7 +327,12 @@ function DataTableContainer({
           </InputGroup.Text>
 
           <Form.Control
-            style={{ borderLeft: 'none', borderRight: 'none', minWidth: 72 }}
+            style={{
+              borderLeft: 'none',
+              borderRight: 'none',
+              minWidth: 72,
+              zIndex: 0
+            }}
             type='number'
             min={1}
             max={customPageCount}
@@ -337,14 +347,19 @@ function DataTableContainer({
           <Form.Control
             type='number'
             min={1}
-            style={{ borderLeft: 'none', borderRight: 'none', minWidth: 72 }}
+            style={{
+              borderLeft: 'none',
+              borderRight: 'none',
+              minWidth: 72,
+              zIndex: 0
+            }}
             max={50}
             value={pageSize}
             onChange={onChangeInSelect}
           />
 
           <Button
-            style={{ border: 'none' }}
+            style={{ border: 'none', zIndex: 0 }}
             variant='primary'
             onClick={customnextPage}
             disabled={!customcanNextPage || loading}
@@ -352,7 +367,7 @@ function DataTableContainer({
             <FontAwesomeIcon icon={faAngleRight} />
           </Button>
           <Button
-            style={{ border: 'none' }}
+            style={{ border: 'none', zIndex: 0 }}
             variant='primary'
             onClick={() => customgotoPage(customPageCount)}
             disabled={!customcanNextPage || loading}
@@ -365,7 +380,7 @@ function DataTableContainer({
       <div className='text-center mt-2 mb-2'>
         <strong>{numberFormat(customPageIndex, '')}</strong> dari{' '}
         <strong>{numberFormat(customPageCount, '')}</strong> hal. Total{' : '}
-        <strong>{numberFormat(customPageTotal, '')}</strong> hal
+        <strong>{numberFormat(customPageTotal, '')}</strong> baris
       </div>
 
       <Table
@@ -472,12 +487,12 @@ function DataTableContainer({
       <div className='text-center mt-2 mb-2'>
         <strong>{numberFormat(customPageIndex, '')}</strong> dari{' '}
         <strong>{numberFormat(customPageCount, '')}</strong> hal. Total{' : '}
-        <strong>{numberFormat(customPageTotal, '')}</strong> hal
+        <strong>{numberFormat(customPageTotal, '')}</strong> baris
       </div>
       <div className='custom-scroll' style={{ overflow: 'auto' }}>
         <InputGroup>
           <Button
-            style={{ border: 'none' }}
+            style={{ border: 'none', zIndex: 0 }}
             variant='primary'
             onClick={() => customgotoPage(1)}
             disabled={!customcanPreviousPage || loading}
@@ -486,7 +501,7 @@ function DataTableContainer({
           </Button>
 
           <Button
-            style={{ border: 'none' }}
+            style={{ border: 'none', zIndex: 0 }}
             variant='primary'
             onClick={custompreviousPage}
             disabled={!customcanPreviousPage || loading}
@@ -499,7 +514,12 @@ function DataTableContainer({
           </InputGroup.Text>
 
           <Form.Control
-            style={{ borderLeft: 'none', borderRight: 'none', minWidth: 72 }}
+            style={{
+              borderLeft: 'none',
+              borderRight: 'none',
+              minWidth: 72,
+              zIndex: 0
+            }}
             type='number'
             min={1}
             max={customPageCount}
@@ -514,14 +534,19 @@ function DataTableContainer({
           <Form.Control
             type='number'
             min={1}
-            style={{ borderLeft: 'none', borderRight: 'none', minWidth: 72 }}
+            style={{
+              borderLeft: 'none',
+              borderRight: 'none',
+              minWidth: 72,
+              zIndex: 0
+            }}
             max={50}
             value={pageSize}
             onChange={onChangeInSelect}
           />
 
           <Button
-            style={{ border: 'none' }}
+            style={{ border: 'none', zIndex: 0 }}
             variant='primary'
             onClick={customnextPage}
             disabled={!customcanNextPage || loading}
@@ -529,7 +554,7 @@ function DataTableContainer({
             <FontAwesomeIcon icon={faAngleRight} />
           </Button>
           <Button
-            style={{ border: 'none' }}
+            style={{ border: 'none', zIndex: 0 }}
             variant='primary'
             onClick={() => customgotoPage(customPageCount)}
             disabled={!customcanNextPage || loading}

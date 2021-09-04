@@ -35,6 +35,8 @@ import {
   ChartBoxPlot
 } from 'react-tcomponent'
 
+import Modal from 'react-bootstrap/Modal'
+
 import { defaultFilterData, secureData, setAuthHeader } from 'tcomponent'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -342,6 +344,35 @@ function App() {
         optionValue='nama'
       />
       <h4>Contoh InputSelectFetch</h4>
+      {/*<Modal
+        className='custom-modal'
+        show={true}
+        onHide={null}
+        animation={true}
+        aria-labelledby='contained-modal-title-vcenter'
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id='contained-modal-title-vcenter'>
+            Pembayaran Test
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <InputSelectFetch
+            className='form-control'
+            parameter={{}}
+            optionValue={{ id: 'slider_id' }}
+            defaultValue={dataSatu[0]}
+            primaryKey='kode'
+            url='slider'
+            separator=' - '
+            optionLabel={['kode', 'slider_foto_attachment']}
+            name='slider'
+          />
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+      */}
       <InputSelectFetch
         className='form-control'
         parameter={{}}

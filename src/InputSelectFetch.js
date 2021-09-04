@@ -200,7 +200,7 @@ function ShowData(props) {
               variant='link'
               size='sm'
               onClick={deleteData.bind(null, val[primaryKey])}
-              style={{ borderRadius: 100 }}
+              style={{ borderRadius: 100, zIndex: 0 }}
             >
               <FontAwesomeIcon size='sm' color='#db2828' icon={faTimes} />
             </Button>
@@ -814,6 +814,7 @@ function InputSelectFetch(props) {
         {!props.isReadonly && (
           <Col lg='2' md='2' sm='4' xs='12'>
             <Button
+              style={{ zIndex: 0 }}
               size='sm'
               variant='primary'
               type='button'
@@ -866,7 +867,7 @@ function InputSelectFetch(props) {
                   <FontAwesomeIcon icon={faSearch} />
                 </InputGroup.Text>
                 <Form.Control
-                  style={{ borderLeft: 'none' }}
+                  style={{ borderLeft: 'none', zIndex: 0 }}
                   className='form-control'
                   value={findArrayName('keyword_' + props_name, filter)}
                   onChange={(e) => {
@@ -880,7 +881,7 @@ function InputSelectFetch(props) {
                   }}
                   type='text'
                   id={'search_' + key_select}
-                  name='search'
+                  name={'search_' + props_name}
                   placeholder='Pencarian'
                 />
 

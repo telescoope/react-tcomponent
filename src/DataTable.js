@@ -455,7 +455,7 @@ Import
                         }}
                         type='text'
                         id={slug('keyword_' + key_select)}
-                        name='keyword'
+                        name={slug('keyword_' + props.name, '_')}
                         placeholder='Pencarian'
                       />
 
