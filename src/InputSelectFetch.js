@@ -529,6 +529,16 @@ function InputSelectFetch(props) {
     }
   })
 
+  useEffect(() => {
+    dispatch({
+      type: 'SET_FILTER',
+      payload: {
+        key: slug('show_' + props_name, '_'),
+        value: open
+      }
+    })
+  }, [open])
+
   function openModal() {
     dispatch({
       type: 'SET_FILTER',
