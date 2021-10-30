@@ -224,32 +224,13 @@ function App() {
     return series
   }
 
-  console.log('input', input.cs)
+  // console.log('input', input.cs)
 
   return (
     <div style={{ padding: '0px 20px' }}>
-      <InputChoose
-        name='cs'
-        options={[
-          { id: '1', nama: 'Disetujui' },
-          { id: '2', nama: 'Ditolak' },
-          { id: '3', nama: 'Menunggu Persetujuan' }
-        ]}
-        separator='-'
-        optionLabel={['nama']}
-        optionValue='nama'
-      />
-
-      <InputText
-        name='xyz'
-        id='xyz'
-        type={input.cs === 'Disetujui' ? 'equation' : 'texteditor'}
-        className='form-control'
-      />
-
       <h1>react-tcomponent - telescoope.org</h1>
       <h4>Clear Data</h4>
-      <button onClick={clearData}>Hapus data</button>
+      <button onClick={() => clearData()}>Hapus data</button>
       <h4>Contoh Color</h4>
       <InputColor className='form-control' name='warna' />
       <InputColor className='form-control' name='warna_multiple[satu]' />
@@ -472,7 +453,7 @@ function App() {
         primaryKey='id'
         isSearchable
         isColumnsSearchable
-        onReload={onReload}
+        onReload={() => onReload()}
         action={[
           {
             label: 'Lihat',
@@ -686,6 +667,7 @@ function App() {
         type='text'
         className='form-control'
       />
+      {/*
       <ChartLine
         name='keuntungan_kerugian_line'
         options={[
@@ -1572,6 +1554,7 @@ function App() {
         optionValue={{ data: 'data', type: 'type' }}
         separator=' - '
       />
+      */}
     </div>
   )
 }

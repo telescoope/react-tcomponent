@@ -10,16 +10,16 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
-    "localforage": "1.9.0",
+    "localforage": "^1.10.0",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
-    "react-scripts": "file:../node_modules/react-scripts",
-    "redux": "file:../node_modules/redux",
     "react-redux": "file:../node_modules/react-redux",
+    "react-scripts": "file:../node_modules/react-scripts",
+    "react-tcomponent": "file:..",
+    "redux": "file:../node_modules/redux",
     "redux-logger": "3.0.6",
     "redux-persist": "6.0.0",
-    "redux-thunk": "2.3.0",
-    "react-tcomponent": "file:..",
+    "redux-thunk": "^2.4.0",
     "tcomponent": "git+https://github.com/telescoope/tcomponent.git"
   },
   "devDependencies": {
