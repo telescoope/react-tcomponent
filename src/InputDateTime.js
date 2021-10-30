@@ -20,9 +20,9 @@ let formatDefault = 'YYYY-MM-DD HH:mm:ss'
 
 const CustomInput = (props) => {
   return (
-    <InputGroup size='sm'>
+    <InputGroup>
       <InputGroup.Text style={{ background: 'none' }}>
-        <FontAwesomeIcon size='sm' icon={faCalendar} />
+        <FontAwesomeIcon icon={faCalendar} />
       </InputGroup.Text>
       <Form.Control
         style={{
@@ -39,7 +39,7 @@ const CustomInput = (props) => {
         onClick={props.onClick}
       />
       <InputGroup.Text style={{ background: 'none' }}>
-        <FontAwesomeIcon size='sm' icon={faClock} />
+        <FontAwesomeIcon icon={faClock} />
       </InputGroup.Text>
     </InputGroup>
   )
@@ -248,7 +248,6 @@ class InputDateTime extends React.Component {
             showTimeInput
             selectsStart
             peekNextMonth
-            withPortal
             showMonthDropdown
             showYearDropdown
             name={'start_' + this.props.name}
@@ -299,7 +298,6 @@ class InputDateTime extends React.Component {
             }
             onChange={this.handleInputChangeEnd}
             peekNextMonth
-            withPortal
             showMonthDropdown
             showYearDropdown
             dayClassName={this.checkTglMerah}
@@ -355,7 +353,6 @@ class InputDateTime extends React.Component {
         peekNextMonth
         timeInputLabel='Waktu : '
         showTimeInput
-        withPortal
         showMonthDropdown
         showYearDropdown
         todayButton={'Hari ini'}

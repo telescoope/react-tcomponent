@@ -454,7 +454,7 @@ function InputFile(props) {
                 </React.Fragment>
               )}
               <ButtonGroup>
-                <Button variant='primary' size='sm' onClick={() => toggle(val)}>
+                <Button variant='primary' onClick={() => toggle(val)}>
                   <FontAwesomeIcon icon={faSearch} /> Lihat
                 </Button>
                 <Button
@@ -463,23 +463,22 @@ function InputFile(props) {
                     (window.location.href =
                       process.env.REACT_APP_API_URL + '/file/download/' + val)
                   }
-                  size='sm'
                 >
                   <FontAwesomeIcon icon={faDownload} /> Unduh
                 </Button>
 
                 {!props.isReadonly && (
-                  <Button
-                    variant='danger'
-                    onClick={() => onDelete(val)}
-                    size='sm'
-                  >
+                  <Button variant='danger' onClick={() => onDelete(val)}>
                     <FontAwesomeIcon icon={faTimes} /> Hapus
                   </Button>
                 )}
               </ButtonGroup>
               <Modal
-                size='lg'
+                backdrop={'static'}
+                autoFocus={true}
+                restoreFocus={true}
+                centered
+                size='xl'
                 id={'modal_' + val}
                 show={open[val]}
                 onHide={() => toggle(val)}

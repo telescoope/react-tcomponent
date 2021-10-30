@@ -198,11 +198,10 @@ function ShowData(props) {
           !props.isReadonly && (
             <Button
               variant='link'
-              size='sm'
               onClick={deleteData.bind(null, val[primaryKey])}
               style={{ borderRadius: 100, zIndex: 0 }}
             >
-              <FontAwesomeIcon size='sm' color='#db2828' icon={faTimes} />
+              <FontAwesomeIcon color='#db2828' icon={faTimes} />
             </Button>
           )
         ]
@@ -825,7 +824,6 @@ function InputSelectFetch(props) {
           <Col lg='2' md='2' sm='4' xs='12'>
             <Button
               style={{ zIndex: 0 }}
-              size='sm'
               variant='primary'
               type='button'
               className='btn-icon'
@@ -865,7 +863,15 @@ function InputSelectFetch(props) {
           )}
         </Col>
       </Row>
-      <Modal size='lg' show={open} onHide={closeModal}>
+      <Modal
+        backdrop={'static'}
+        autoFocus={true}
+        restoreFocus={true}
+        centered
+        size='xl'
+        show={open}
+        onHide={closeModal}
+      >
         <Modal.Header onHide={closeModal} closeButton>
           <Modal.Title>{props.placeholder || 'Pilih'}</Modal.Title>
         </Modal.Header>

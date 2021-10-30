@@ -211,7 +211,6 @@ function DataTable(props) {
         return (
           <DropdownButton
             key={'dropdown_' + props.name + '_' + isi}
-            size='sm'
             id={'dropdown_' + props.name + '_' + isi}
             // className='custom-scroll'
             isOpen={isEqual(param.dropdown, isi)}

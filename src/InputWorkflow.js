@@ -416,7 +416,7 @@ function InputWorkflow(props) {
             <Col>
               <Button
                 type='button'
-                className='btn btn-icon btn-primary btn-sm float-left'
+                className='btn btn-icon btn-primary float-left'
                 onClick={cancel}
               >
                 Kembali
@@ -424,7 +424,7 @@ function InputWorkflow(props) {
               {!readonly && (
                 <Button
                   type='button'
-                  className='btn btn-icon btn-primary btn-sm float-right'
+                  className='btn btn-icon btn-primary float-right'
                   onClick={submit}
                 >
                   Proses

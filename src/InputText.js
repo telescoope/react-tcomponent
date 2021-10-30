@@ -1,4 +1,4 @@
-import React, { useState, useRef, createRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 import Cleave from 'cleave.js/react'
 
@@ -16,7 +16,7 @@ import { findArrayName, slug } from 'tcomponent'
 
 import parse from 'html-react-parser'
 
-import { Form, Modal } from 'react-bootstrap'
+import { Form, Modal, InputGroup, Button } from 'react-bootstrap'
 
 import * as MathType from '@wiris/mathtype-generic'
 
@@ -24,63 +24,16 @@ import ContentEditable from 'react-contenteditable'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-class WirisEquationEditor extends React.Component {
-  constructor(props) {
-    super(props)
-    // this.toolbarRef = props.toolbarRef;
-    this.equationEditorRef = React.createRef()
-    this.toolbarRef = React.createRef()
-  }
-
-  componentDidMount() {
-    let { toolbarRef } = this.props
-
-    try {
-      let genericIntegrationProperties = {}
-
-      genericIntegrationProperties.target = this.equationEditorRef.current
-
-      genericIntegrationProperties.toolbar = this.toolbarRef.current
-
-      let genericIntegrationInstance =
-        new window.WirisPlugin.GenericIntegration(genericIntegrationProperties)
-
-      genericIntegrationInstance.init()
-
-      genericIntegrationInstance.listeners.fire('onTargetReady', {})
-    } catch (e) {}
-  }
-
-  handleEquationChange = (event) => {
-    let { onEquationInput } = this.props
-    let mathFormat = window.WirisPlugin.Parser.endParse(event.target.value)
-    let equationImage = event.target.value
-    onEquationInput(equationImage, mathFormat)
-  }
-
-  render() {
-    let { value } = this.props || {}
-    return (
-      <div>
-        <div ref={this.toolbarRef} />
-        <ContentEditable
-          suppressContentEditableWarning={true}
-          className='form-control'
-          innerRef={this.equationEditorRef}
-          onChange={this.handleEquationChange}
-          html={value || ''}
-        />
-      </div>
-    )
-  }
-}
-
 function InputText(props) {
-  const dispatch = useDispatch()
-
   const propsName = !isUndefined(props?.name)
     ? slug(String(props?.name), '_')
     : ''
+
+  const input = useSelector((state) => state.core?.input) || {}
+
+  const value = findArrayName(propsName, input) || ''
+
+  const dispatch = useDispatch()
 
   const [placeholder, setPlaceholder] = useState(props?.placeholder || '')
 
@@ -88,27 +41,23 @@ function InputText(props) {
 
   const [open, setOpen] = useState(false)
 
+  const [temp, setTemp] = useState('')
+
   const [optionsCleave, setOptionsCleave] = useState({})
 
-  const [config, setConfig] = useState({
+  const config = useState({
     readonly: false,
     placeholder: ' ',
     toolbarButtonSize: 'small'
   })
 
-  const input = useSelector((state) => state.core?.input) || {}
-
   const toolbarRef = useRef()
 
   const editorRef = useRef()
 
-  // const toolbarRef = React.createRef()
-
-  // const editorRef = React.createRef()
+  const equationEditorRef = useRef()
 
   let defaultType = type === 'text' || isUndefined(type) ? 'search' : type
-
-  let value = findArrayName(propsName, input) || ''
 
   useEffect(() => {
     let default_placeholder = props?.placeholder || ''
@@ -180,7 +129,34 @@ function InputText(props) {
         })
       }
     }
+
+    if (type == 'equation') {
+      try {
+        let genericIntegrationProperties = {}
+
+        genericIntegrationProperties.target = equationEditorRef.current
+
+        genericIntegrationProperties.toolbar = toolbarRef.current
+
+        let genericIntegrationInstance =
+          new window.WirisPlugin.GenericIntegration(
+            genericIntegrationProperties
+          )
+
+        genericIntegrationInstance.init()
+
+        genericIntegrationInstance.listeners.fire('onTargetReady', {})
+
+        WirisPlugin.currentInstance = genericIntegrationInstance
+      } catch (e) {}
+    }
   }, [])
+
+  function handleEquationChange(event) {
+    let mathFormat = window.WirisPlugin.Parser.endParse(event.target.value)
+    let equationImage = event.target.value
+    onChange(equationImage, mathFormat)
+  }
 
   function setInput(key, val) {
     dispatch({
@@ -214,6 +190,7 @@ function InputText(props) {
   }
 
   function openModal() {
+    setTemp('')
     setOpen(true)
   }
 
@@ -223,6 +200,11 @@ function InputText(props) {
 
   function onChange(data) {
     setInput(propsName, data)
+  }
+
+  function moveTemp() {
+    onChange(temp)
+    closeModal()
   }
 
   if (!propsName) return 'Name is Required'
@@ -277,10 +259,15 @@ function InputText(props) {
         >
           {!isEmpty(value) ? parse(String(value)) : ''}
         </div>
-        <Modal size='lg' show={open} onHide={closeModal}>
-          <Modal.Header onHide={closeModal} closeButton>
-            <Modal.Title>{placeholder || 'Text Editor'}</Modal.Title>
-          </Modal.Header>
+        <Modal
+          backdrop={'static'}
+          autoFocus={true}
+          restoreFocus={true}
+          centered
+          size='xl'
+          show={open}
+          onHide={closeModal}
+        >
           <Modal.Body>
             <JoditEditor
               key={props?.name + '_editor'}
@@ -289,38 +276,35 @@ function InputText(props) {
               value={!isEmpty(value) ? String(value) : ''}
               config={config}
               tabIndex={1}
-              onChange={onChange}
+              onChange={(data) => setTemp(data)}
             />
           </Modal.Body>
+          <Modal.Footer style={{ justifyContent: 'space-between' }}>
+            <Button onClick={closeModal} variant='secondary'>
+              Kembali
+            </Button>
+            <Button onClick={moveTemp} variant='primary'>
+              Simpan
+            </Button>
+          </Modal.Footer>
         </Modal>
       </React.Fragment>
     )
   } else if (type == 'equation') {
     return (
-      <React.Fragment>
-        <div
+      <InputGroup>
+        <InputGroup.Text>
+          <div ref={toolbarRef} />
+        </InputGroup.Text>
+
+        <ContentEditable
+          suppressContentEditableWarning={true}
           className='form-control'
-          style={{ minHeight: 32 }}
-          onClick={openModal}
-        >
-          {!isEmpty(value) ? parse(String(value)) : ''}
-        </div>
-        <Modal size='lg' show={open} onHide={closeModal}>
-          <Modal.Header onHide={closeModal} closeButton>
-            <Modal.Title>{placeholder || 'Equation Editor'}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div id={props?.id}>
-              <WirisEquationEditor
-                id={props?.id}
-                onEquationInput={onChange}
-                toolbarRef={toolbarRef}
-                value={value}
-              />
-            </div>
-          </Modal.Body>
-        </Modal>
-      </React.Fragment>
+          innerRef={equationEditorRef}
+          onChange={handleEquationChange}
+          html={value || ''}
+        />
+      </InputGroup>
     )
   }
 

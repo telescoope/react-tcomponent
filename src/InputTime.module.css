@@ -1,12 +1,18 @@
 .rc-time-picker-input {
-  padding-left: 24px;
   font-family: inherit;
   font-size: inherit;
+  height: 38px;
+  padding: 0.375rem 0.75rem;
+  padding-left: 32px;
 }
 
 .rc-time-picker-clear-icon:after {
   color: #db2828;
-  content: "\00d7";
-  font-size: 12pt;
-  font-weight: bold;
+  content: '\00d7';
+  font-size: 14pt;
+  font-weight: bold !important;
+  margin-top: -2px;
+}
+.rc-time-picker-clear {
+  top: 8px;
 }

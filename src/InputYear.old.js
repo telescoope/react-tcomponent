@@ -29,7 +29,6 @@ const CustomInput = (props) => {
       <Form.Control
         style={{
           borderLeft: 'none',
-          borderRight: 'none',
           fontFamily: 'inherit',
           fontSize: 'inherit'
         }}
@@ -188,23 +187,17 @@ class InputDate extends React.Component {
   }
 
   render() {
-    let dateFormat = this.props.dateFormat
-      ? this.props.dateFormat
-      : 'yyyy-MM-dd'
+    let dateFormat = this.props.dateFormat ? this.props.dateFormat : 'yyyy'
 
     if (this.props.isRange) {
       if (this.props.disabled || this.props.isReadonly) {
         return (
           (moment(this.state.start_selected, formatDefault).isValid()
-            ? moment(this.state.start_selected, formatDefault).format(
-                'DD-MM-YYYY'
-              )
+            ? moment(this.state.start_selected, formatDefault).format('YYYY')
             : '') +
           ' - ' +
           (moment(this.state.end_selected, formatDefault).isValid()
-            ? moment(this.state.end_selected, formatDefault).format(
-                'DD-MM-YYYY'
-              )
+            ? moment(this.state.end_selected, formatDefault).format('YYYY')
             : '')
         )
       } else {
@@ -234,14 +227,13 @@ class InputDate extends React.Component {
                 />
               }
               onChange={this.handleInputChangeStart}
-              selectsStart={true}
-              peekNextMonth={true}
-              withPortal
-              showMonthDropdown={true}
-              showYearDropdown={true}
-              showYearPicker={false}
+              selectsStart={false}
+              peekNextMonth={false}
+              showMonthDropdown={false}
+              showYearDropdown={false}
+              showYearPicker={true}
               name={'start_' + this.props.name}
-              todayButton={'Hari ini'}
+              todayButton={true ? null : 'Hari ini'}
               dayClassName={this.checkTglMerah}
               dropdownMode='select'
               disabled={this.props.disabled || this.props.isReadonly}
@@ -281,14 +273,13 @@ class InputDate extends React.Component {
                 />
               }
               onChange={this.handleInputChangeEnd}
-              selectsStart={true}
-              peekNextMonth={true}
-              withPortal
-              showMonthDropdown={true}
-              showYearDropdown={true}
-              showYearPicker={false}
+              selectsStart={false}
+              peekNextMonth={false}
+              showMonthDropdown={false}
+              showYearDropdown={false}
+              showYearPicker={true}
               dayClassName={this.checkTglMerah}
-              todayButton={'Hari ini'}
+              todayButton={true ? null : 'Hari ini'}
               dropdownMode='select'
               startDate={this.state.start_selected}
               endDate={this.state.end_selected}
@@ -304,7 +295,7 @@ class InputDate extends React.Component {
     if (this.props.disabled || this.props.isReadonly) {
       return moment(this.props.input[this.props.name], formatDefault).isValid()
         ? moment(this.props.input[this.props.name], formatDefault).format(
-            'DD-MM-YYYY'
+            'YYYY'
           )
         : ''
     }
@@ -334,13 +325,12 @@ class InputDate extends React.Component {
         className='form-control'
         dayClassName={this.checkTglMerah}
         onChange={this.handleInputChange}
-        selectsStart={true}
-        peekNextMonth={true}
-        withPortal
-        showMonthDropdown={true}
-        showYearDropdown={true}
-        showYearPicker={false}
-        todayButton={'Hari ini'}
+        selectsStart={false}
+        peekNextMonth={false}
+        showMonthDropdown={false}
+        showYearDropdown={false}
+        showYearPicker={true}
+        todayButton={true ? null : 'Hari ini'}
         dropdownMode='select'
         disabled={this.props.disabled || this.props.isReadonly}
         readOnly={this.props.disabled || this.props.isReadonly}

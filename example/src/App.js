@@ -432,7 +432,7 @@ function App() {
       <InputTime name='waktu' isRange />
       <InputTime name='waktu_multi[satu]' isRange />
       <h4>Contoh Tahun</h4>
-      <InputYear name='tahun' isRange />
+      <InputYear name='tahun' />
       <InputYear name='tahun_multi[satu]' isRange />
       <h4>Contoh Tanggal Waktu</h4>
       <InputDateTime name='tanggalwaktu' isRange />

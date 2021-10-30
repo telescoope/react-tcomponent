@@ -169,10 +169,10 @@ class InputSelect extends React.Component {
               <Col lg='1' md='1' sm='3' xs='1'>
                 <Button
                   type='button'
-                  className='btn btn-icon btn-primary btn-sm'
+                  className='btn btn-icon btn-primary'
                   onClick={this.openModal}
                 >
-                  <FontAwesomeIcon size='sm' icon={faSearch} /> Pilih
+                  <FontAwesomeIcon icon={faSearch} /> Pilih
                 </Button>
               </Col>
             )}
@@ -185,7 +185,15 @@ class InputSelect extends React.Component {
                 : ''}
             </Col>
           </Row>
-          <Modal size='lg' show={this.state.show} onHide={this.openModal}>
+          <Modal
+            backdrop={'static'}
+            autoFocus={true}
+            restoreFocus={true}
+            centered
+            size='xl'
+            show={this.state.show}
+            onHide={this.openModal}
+          >
             <ModalHeader closeButton toggle={this.openModal}>
               <Modal.Title>{this.props.placeholder || 'Pilih'}</Modal.Title>
             </ModalHeader>

@@ -23,9 +23,8 @@ let now = moment()
 function IconClock() {
   return (
     <FontAwesomeIcon
-      style={{ position: 'absolute', left: 6, top: 6 }}
+      style={{ position: 'absolute', left: 8, top: 11 }}
       icon={faClock}
-      size='sm'
     />
   )
 }
