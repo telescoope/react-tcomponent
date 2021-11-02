@@ -2,42 +2,52 @@ import React from 'react'
 
 import Cleave from 'cleave.js/react'
 
-import { isEmpty, debounce, isEqual, isUndefined, isNull } from 'lodash'
+import {
+  isEmpty,
+  debounce,
+  isEqual,
+  isUndefined,
+  isNull,
+  isNumber
+} from 'lodash'
 
 import InputRange from 'react-input-range'
 
 import { findArrayName, slug, numberFormat } from 'tcomponent'
 
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
-class InputNumber extends React.Component {
-  constructor(props) {
-    super(props)
+function InputNumber(props) {
+  const propsName = !isUndefined(props?.name)
+    ? slug(String(props?.name), '_')
+    : ''
 
-    let options = this.props.enableNegative
-      ? {
-          numeral: true
-        }
-      : {
-          numeral: true,
-          numeralPositiveOnly: true
-        }
+  const dispatch = useDispatch()
 
-    this.state = {
-      defaultValue: null,
-      options: {
+  const input = useSelector((state) => state.core?.input) || {}
+
+  let value = findArrayName(propsName, input) || null
+
+  let options = props.enableNegative
+    ? {
         numeral: true
-      },
-      event: null,
-      value: null,
-      props_name: slug(this.props.name, '_')
-    }
+      }
+    : {
+        numeral: true,
+        numeralPositiveOnly: true
+      }
 
-    this.onRefresh = debounce(this.onRefresh.bind(this), 200)
+  if (
+    props.type == 'decimal' ||
+    props.type == 'percent' ||
+    props.type == 'range_three'
+  ) {
+  } else {
+    options.numeralThousandsGroupStyle = 'thousand'
   }
 
-  validate_min_max(val, min = 0, max = 100) {
-    if (this.props.enableNegative && val < 0) {
+  function validate_min_max(val, min = 0, max = 100) {
+    if (props.enableNegative && val < 0) {
       min = -max
     }
 
@@ -56,69 +66,27 @@ class InputNumber extends React.Component {
     return val ? Number(val) : null
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!isEqual(this.props.type, prevProps.type)) {
-      this.checkType()
-    }
-    if (
-      !isEqual(
-        findArrayName(this.state.props_name, prevProps.input),
-        findArrayName(this.state.props_name, this.props.input)
-      ) &&
-      !isEqual(
-        this.state.value,
-        findArrayName(this.state.props_name, this.props.input)
-      )
-    ) {
-      this.setState({
-        rawValue:
-          findArrayName(this.state.props_name, this.props.input) || null,
-        value: findArrayName(this.state.props_name, this.props.input) || null
-      })
-      this.onRefresh()
-    }
-
-    if (
-      this.props.value &&
-      prevProps.value != this.props.value &&
-      this.props.value != this.state.value
-    ) {
-      let value = this.props.value || null
-
-      this.setState({
-        rawValue: value,
-        value: value
-      })
-
-      this.onRefresh()
-    }
-  }
-
-  handleInputChange = (event) => {
+  function handleInputChange(event) {
     let val = null
 
-    if (this.props.type == 'decimal') {
+    if (props.type == 'decimal') {
       val = Number(event.target.value.replace(/[^0-9.-]+/g, ''))
-    } else if (this.props.type == 'percent') {
-      val = this.validate_min_max(
+    } else if (props.type == 'percent') {
+      val = validate_min_max(
         event.target.value.replace(/[^0-9.-]+/g, ''),
         0,
         100
       )
-    } else if (this.props.type == 'range_three') {
-      val = this.validate_min_max(
-        event.target.value.replace(/[^0-9.-]+/g, ''),
-        1,
-        3
-      )
-    } else if (this.props.type == 'range_hundred') {
-      val = this.validate_min_max(
+    } else if (props.type == 'range_three') {
+      val = validate_min_max(event.target.value.replace(/[^0-9.-]+/g, ''), 1, 3)
+    } else if (props.type == 'range_hundred') {
+      val = validate_min_max(
         event.target.value.replace(/[^0-9.-]+/g, ''),
         1,
         100
       )
-    } else if (this.props.type == 'range_depend') {
-      val = this.validate_min_max(
+    } else if (props.type == 'range_depend') {
+      val = validate_min_max(
         event.target.value.replace(/[^0-9.-]+/g, ''),
         0,
         100
@@ -127,155 +95,24 @@ class InputNumber extends React.Component {
       val = event.target.value.replace(/[^0-9.-]+/g, '')
     }
 
-    let min = this.props.minValue ? Number(this.props.minValue) : null
+    let min = props.minValue ? Number(props.minValue) : null
 
-    let max = this.props.maxValue ? Number(this.props.maxValue) : null
+    let max = props.maxValue ? Number(props.maxValue) : null
 
     if (max && min) {
-      val = this.validate_min_max(val, min, max)
+      val = validate_min_max(val, min, max)
     } else if (!max && min) {
-      val = this.validate_min_max(val, min, 999999999999)
+      val = validate_min_max(val, min, 999999999999)
     } else if (max && !min) {
-      val = this.validate_min_max(val, 0, max)
+      val = validate_min_max(val, 0, max)
     }
 
-    val = val ? val : 0
+    val = isNumber(val) ? val : 0
 
-    if (this.state.props_name) {
-      this.props.setInput(this.state.props_name, val)
-    }
-
-    let rawValue = event.target.rawValue || null
-
-    if (
-      !isNaN(parseFloat(rawValue)) &&
-      !isNaN(parseFloat(val)) &&
-      parseFloat(rawValue) !== parseFloat(val)
-    ) {
-      this.state.event.setRawValue(val)
-    }
+    onChange(val)
   }
 
-  onChange = (val) => {
-    this.setState({
-      value: val
-    })
-
-    if (this.state.props_name) {
-      this.props.setInput(this.state.props_name, val)
-    }
-  }
-
-  onRefresh = () => {
-    let val = ''
-
-    try {
-      let input_name = findArrayName(this.state.props_name, this.props.input)
-      val = this.props.value ? this.props.value : input_name
-    } catch (e) {}
-
-    let min = this.props.minValue ? Number(this.props.minValue) : null
-
-    let max = this.props.maxValue ? Number(this.props.maxValue) : null
-
-    let value = val ? parseInt(val) : min
-
-    if (this.props.type == 'decimal') {
-      value = val ? parseFloat(val) : min
-    } else if (
-      this.props.type == 'percent' ||
-      this.props.type == 'range_three' ||
-      max ||
-      min
-    ) {
-      value = val ? parseFloat(val) : min
-    }
-
-    if (isNaN(value)) {
-      value = min
-    }
-
-    this.setState({ value })
-
-    try {
-      let rawValue = this.state.event.lastInputValue || null
-
-      if (parseFloat(rawValue) !== parseFloat(value)) {
-        this.state.event.setRawValue(value)
-      }
-    } catch (e) {}
-  }
-
-  componentDidMount() {
-    this.checkType()
-  }
-
-  checkType = () => {
-    let options = {
-      numeral: true,
-      numeralPositiveOnly: true
-    }
-
-    if (
-      this.props.type == 'decimal' ||
-      this.props.type == 'percent' ||
-      this.props.type == 'range_three'
-    ) {
-    } else {
-      options.numeralThousandsGroupStyle = 'thousand'
-    }
-
-    this.setState({
-      options,
-      rawValue: findArrayName(this.state.props_name, this.props.input),
-      value: findArrayName(this.state.props_name, this.props.input)
-    })
-
-    this.onRefresh()
-  }
-
-  onInit(cleave) {
-    this.setState({ event: cleave })
-  }
-
-  render() {
-    if (this.props.disabled || this.props.isReadonly) {
-      return !isNull(this.state.value) && !isUndefined(this.state.value)
-        ? numberFormat(this.state.value, '')
-        : null
-    }
-
-    if (this.props.type == 'range') {
-      return (
-        <InputRange
-          maxValue={this.props.maxValue}
-          minValue={this.props.minValue}
-          value={this.state.value}
-          onChange={this.onChange}
-        />
-      )
-    }
-    return (
-      <Cleave
-        placeholder={this.props.placeholder ? this.props.placeholder : ''}
-        id={this.state.props_name}
-        name={this.state.props_name}
-        onInit={this.onInit.bind(this)}
-        value={this.state.value}
-        onChange={this.handleInputChange}
-        options={this.state.options}
-        className='form-control'
-      />
-    )
-  }
-}
-
-const mapStateToProps = (state) => ({
-  input: state.core.input || {}
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  setInput: (key, val) => {
+  function setInput(key, val) {
     dispatch({
       type: 'SET_INPUT',
       payload: {
@@ -284,6 +121,41 @@ const mapDispatchToProps = (dispatch) => ({
       }
     })
   }
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputNumber)
+  function onChange(val) {
+    setInput(propsName, val)
+  }
+
+  function onInit(cleave) {}
+
+  if (props.disabled || props.isReadonly) {
+    return !isNull(value) && !isUndefined(value)
+      ? numberFormat(value, '')
+      : null
+  }
+
+  if (props.type == 'range') {
+    return (
+      <InputRange
+        maxValue={props.maxValue}
+        minValue={props.minValue}
+        value={value}
+        onChange={this.onChange}
+      />
+    )
+  }
+  return (
+    <Cleave
+      placeholder={props.placeholder ? props.placeholder : ''}
+      id={propsName}
+      name={propsName}
+      onInit={(v) => onInit(v)}
+      value={value}
+      onChange={handleInputChange}
+      options={options}
+      className='form-control'
+    />
+  )
+}
+
+export default InputNumber

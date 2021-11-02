@@ -2,7 +2,7 @@ import React from 'react'
 
 import moment from 'moment'
 
-import { debounce, isUndefined } from 'lodash'
+import { isUndefined } from 'lodash'
 
 import { findArrayName, slug } from 'tcomponent'
 
@@ -108,23 +108,23 @@ function InputYear(props) {
       payload: {
         key: slug(String(key), '_'),
         value: moment(val, formatDefault).isValid()
-          ? moment(val, formatDefault).format('YYYY')
+          ? moment(val, formatDefault).format(formatDefault)
           : ''
       }
     })
   }
 
-  const dateFormat = props.dateFormat ? props.dateFormat : 'yyyy'
+  const dateFormat = 'yyyy'
 
   if (props.isRange) {
     if (props.disabled || props.isReadonly) {
       return (
         (moment(valueStart, formatDefault).isValid()
-          ? moment(valueStart, formatDefault).format('YYYY')
+          ? moment(valueStart, formatDefault).format(formatDefault)
           : '') +
         ' - ' +
         (moment(valueEnd, formatDefault).isValid()
-          ? moment(valueEnd, formatDefault).format('YYYY')
+          ? moment(valueEnd, formatDefault).format(formatDefault)
           : '')
       )
     } else {
@@ -209,7 +209,7 @@ function InputYear(props) {
 
   if (props.disabled || props.isReadonly) {
     return moment(value, formatDefault).isValid()
-      ? moment(value, formatDefault).format('YYYY')
+      ? moment(value, formatDefault).format(formatDefault)
       : ''
   }
 

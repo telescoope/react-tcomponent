@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { isEmpty, isEqual, filter as _filter } from 'lodash'
 
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import LoadingOverlay from './LoadingOverlay'
 

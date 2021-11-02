@@ -1,9 +1,24 @@
-.tglmerah {
+.weekend {
   color: red;
 }
 
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range {
+  background-color: #999;
+}
+
 .react-datepicker__close-icon:after {
-  background: transparent;
+  background: #fff;
   color: #db2828;
   font-weight: bold;
   font-size: 14pt;
@@ -13,4 +28,8 @@
 
 .react-datepicker__close-icon {
   top: -2px;
+}
+
+.react-datepicker-wrapper {
+  width: auto;
 }

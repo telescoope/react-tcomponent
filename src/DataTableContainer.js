@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { useDispatch, useSelector, connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { findArrayName, slug, useDebounce, numberFormat } from 'tcomponent'
 

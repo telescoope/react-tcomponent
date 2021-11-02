@@ -32,7 +32,7 @@ import { useIsVisible } from 'react-is-visible'
 
 import { Button, Col, Row, Modal, Form, InputGroup } from 'react-bootstrap'
 
-import { connect, useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 

@@ -429,16 +429,16 @@ function App() {
         name='role'
       />
       <h4>Contoh Waktu</h4>
-      <InputTime name='waktu' isRange />
+      <InputTime name='waktu' />
       <InputTime name='waktu_multi[satu]' isRange />
       <h4>Contoh Tahun</h4>
       <InputYear name='tahun' />
       <InputYear name='tahun_multi[satu]' isRange />
       <h4>Contoh Tanggal Waktu</h4>
-      <InputDateTime name='tanggalwaktu' isRange />
+      <InputDateTime name='tanggalwaktu' />
       <InputDateTime name='tanggalwaktu_multi[satu]' isRange />
       <h4>Contoh Tanggal</h4>
-      <InputDate name='tanggal' isRange />
+      <InputDate name='tanggal' />
       <InputDate name='tanggal_multi[satu]' isRange />
       <h4>Contoh Tanggal Readonly</h4>
       <InputDate name='tanggal' isReadonly isRange />
@@ -557,12 +557,13 @@ function App() {
       <InputFile preview name='filemultiple_multi[a]' isMultiple />
       <h4>Contoh Choose Single</h4>
       <InputChoose
-        name='choose_single[satu]'
+        name='choose_single'
         options={[
           { id: '1', nama: 'Disetujui' },
           { id: '2', nama: 'Ditolak' },
           { id: '3', nama: 'Menunggu Persetujuan' }
         ]}
+        isReadonly
         separator='-'
         optionLabel={['nama']}
         optionValue='nama'
@@ -593,7 +594,7 @@ function App() {
         optionValue='nama'
       />
       <InputChoose
-        name='choose_multiple_multi[200]'
+        name='choose_multiple'
         isMultiple
         options={[
           { id: '1', nama: 'Disetujui' },
