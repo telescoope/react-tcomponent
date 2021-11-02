@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import {
   debounce,
@@ -21,279 +21,59 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 import parse from 'html-react-parser'
 
-class InputSelect extends React.Component {
-  constructor(props) {
-    super(props)
+function InputSelect(props) {
+  const propsName = !isUndefined(props?.name)
+    ? slug(String(props?.name), '_')
+    : ''
 
-    this.state = {
-      defaultValue: null,
-      options: [],
-      show: false
-    }
+  const [show, setShow] = useState([])
 
-    this.onRefresh = debounce(this.onRefresh.bind(this), 200)
-  }
+  const dispatch = useDispatch()
 
-  labelGenerate = (option) => {
-    if (!isEmpty(option)) {
-      if (isArray(this.props.optionLabel)) {
-        let label = []
+  const input = useSelector((state) => state.core?.input) || {}
 
-        let separator = this.props.separator ? this.props.separator : ' | '
+  const parameter = useSelector((state) => state.core?.parameter) || {}
 
-        for (let i = 0; i <= this.props.optionLabel.length - 1; i++) {
-          label.push(option[this.props.optionLabel[i]])
-        }
+  let value = findArrayName(propsName, input) || null
 
-        return label.join(separator)
-      } else {
-        return option[this.props.optionLabel]
+  let valueParam =
+    findArrayName('selected_' + propsName, parameter) ||
+    (props.isMultiple ? [] : {})
+
+  let options = []
+  try {
+    for (let i = 0; i < props.options.length; i++) {
+      let y = props.options[i]
+
+      if (props.isHtml) {
+        y[props.name] = parse(String(y[props.name]))
       }
+      options.push(y)
     }
+  } catch (e) {}
 
-    return null
-  }
+  function labelGenerate(option) {
+    let label = []
+    if (isArray(props.optionLabel)) {
+      let separator = props.separator ? props.separator : ' | '
 
-  onRefresh() {
-    let val = null
+      for (let i = 0; i <= props.optionLabel.length - 1; i++) {
+        let isi = option[props.optionLabel[i]]
 
-    let defaultValue = null
-
-    if (this.props.value) {
-      val = this.props.value
+        label.push(isi)
+      }
     } else {
-      val = findArrayName(this.props.name, this.props.input) || []
-
-      if (this.props.isMultiple) {
-        defaultValue = []
-
-        for (let i = 0; i < this.props.options.length; i++) {
-          for (let y = 0; y < val.length; y++) {
-            let opt = this.props.options[i]
-
-            let cur = val[y]
-
-            if (String(opt[this.props.optionValue]) == String(cur)) {
-              defaultValue.push(opt)
-            }
-          }
-        }
-      } else {
-        defaultValue = find(
-          this.props.options,
-          function (o) {
-            return String(o[this.props.optionValue]) == val
-          }.bind(this)
-        )
-      }
+      label.push(option[props.optionLabel])
     }
 
-    defaultValue =
-      !isUndefined(defaultValue) && !isNull(defaultValue) ? defaultValue : null
-
-    this.setState({
-      defaultValue
-    })
+    return label
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      !isEqual(
-        findArrayName(this.props.name, prevProps.input),
-        findArrayName(this.props.name, this.props.input)
-      ) &&
-      !isEqual(
-        this.state.defaultValue,
-        findArrayName(this.props.name, this.props.input)
-      )
-    ) {
-      this.onRefresh()
-    }
-  }
-
-  componentDidMount() {
-    this.onRefresh()
-  }
-
-  onChange = (selectedOption) => {
-    if (this.props.name) {
-      try {
-        if (this.props.isMultiple) {
-          this.props.setInput(
-            this.props.name,
-            map(selectedOption, this.props.optionValue)
-          )
-        } else {
-          this.props.setInput(
-            this.props.name,
-            selectedOption[this.props.optionValue]
-          )
-        }
-      } catch (e) {
-        this.props.setInput(this.props.name, null)
-      }
-    }
-    this.onRefresh()
-  }
-
-  openModal = () => {
-    this.setState({ show: !this.state.show })
-  }
-
-  render() {
-    let options = []
-    try {
-      for (let i = 0; i < this.props.options.length; i++) {
-        let y = this.props.options[i]
-
-        if (this.props.isHtml) {
-          y[this.props.name] = parse(String(y[this.props.name]))
-        }
-        options.push(y)
-      }
-    } catch (e) {}
-
-    if (this.props.disabled || this.props.isReadonly) {
-      return this.labelGenerate(this.state.defaultValue)
-    }
-
-    if (this.props.withModal)
-      return (
-        <React.Fragment>
-          <Row>
-            {!this.props.isReadonly && (
-              <Col lg='1' md='1' sm='3' xs='1'>
-                <Button
-                  type='button'
-                  className='btn btn-icon btn-primary'
-                  onClick={this.openModal}
-                >
-                  <FontAwesomeIcon icon={faSearch} /> Pilih
-                </Button>
-              </Col>
-            )}
-
-            <Col lg='11' md='11' sm='9' xs='11'>
-              {this.state.defaultValue &&
-              !isUndefined(this.state.defaultValue) &&
-              !isEmpty(this.state.defaultValue)
-                ? this.labelGenerate(this.state.defaultValue)
-                : ''}
-            </Col>
-          </Row>
-          <Modal
-            backdrop={'static'}
-            autoFocus={true}
-            restoreFocus={true}
-            centered
-            size='xl'
-            show={this.state.show}
-            onHide={this.openModal}
-          >
-            <ModalHeader closeButton toggle={this.openModal}>
-              <Modal.Title>{this.props.placeholder || 'Pilih'}</Modal.Title>
-            </ModalHeader>
-            <ModalBody>
-              <Select
-                isClearable
-                id={this.props.id ? this.props.id : this.props.name}
-                isSearchable
-                isHtml={this.props.isHtml}
-                isMulti={this.props.isMultiple}
-                placeholder={
-                  this.props.placeholder ? this.props.placeholder : 'Pilih'
-                }
-                getOptionLabel={this.labelGenerate}
-                getOptionValue={(option) => option[this.props.optionValue]}
-                noOptionsMessage={() => 'Data tidak ditemukan'}
-                value={this.state.defaultValue}
-                onChange={this.onChange}
-                options={options}
-                isDisabled={this.props.disabled}
-              />
-            </ModalBody>
-          </Modal>
-        </React.Fragment>
-      )
-
-    return (
-      <Select
-        menuPortalTarget={document.body}
-        menuPosition='fixed'
-        styles={{
-          menuPortal: (base) => ({
-            ...base,
-            fontFamily: 'inherit',
-            fontSize: 'inherit',
-            zIndex: 9999
-          }),
-          menu: (provided) => ({
-            ...provided,
-            fontFamily: 'inherit',
-            fontSize: 'inherit',
-            zIndex: '9999 !important'
-          }),
-          multiValueRemove: (base) => ({
-            ...base,
-            color: '#db2828',
-
-            cursor: 'pointer'
-          }),
-          placeholder: (base) => ({
-            ...base,
-            fontFamily: 'inherit',
-            fontSize: 'inherit'
-          }),
-          multiValue: (base) => ({
-            ...base,
-            background: 'none'
-          }),
-          multiValueLabel: (base) => ({
-            ...base,
-            fontFamily: 'inherit',
-            fontSize: 'inherit'
-          }),
-          option: (base) => ({
-            ...base,
-            fontFamily: 'inherit',
-            fontSize: 'inherit'
-          }),
-          clearIndicator: (base, state) => ({
-            ...base,
-            cursor: 'pointer',
-            color: state.isFocused ? '#db2828' : '#db2828'
-          })
-        }}
-        className='tcomponent-select'
-        // menuPlacement='top'
-        isClearable
-        id={this.props.id ? this.props.id : this.props.name}
-        isSearchable
-        isHtml={this.props.isHtml}
-        isMulti={this.props.isMultiple}
-        placeholder={this.props.placeholder ? this.props.placeholder : 'Pilih'}
-        getOptionLabel={this.labelGenerate}
-        getOptionValue={(option) => option[this.props.optionValue]}
-        noOptionsMessage={() => 'Data tidak ditemukan'}
-        value={this.state.defaultValue}
-        onChange={this.onChange}
-        options={options}
-        isDisabled={this.props.disabled}
-      />
-    )
-  }
-}
-
-const mapStateToProps = (state) => ({
-  input: state.core.input || {}
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  setInput: (key, val) =>
+  function setInput(key, val) {
     dispatch({
       type: 'SET_INPUT',
       payload: {
@@ -301,6 +81,186 @@ const mapDispatchToProps = (dispatch) => ({
         value: val
       }
     })
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputSelect)
+    let defaultValue = null
+
+    if (props.isMultiple) {
+      defaultValue = []
+
+      for (let i = 0; i < options.length; i++) {
+        for (let y = 0; y < val.length; y++) {
+          let opt = options[i]
+
+          let cur = val[y]
+
+          if (String(opt[props.optionValue]) == String(cur)) {
+            defaultValue.push(opt)
+          }
+        }
+      }
+    } else {
+      defaultValue =
+        find(
+          options,
+          function (o) {
+            return String(o[props.optionValue]) == String(val)
+          }.bind(this)
+        ) || {}
+    }
+
+    if (!isUndefined(defaultValue)) {
+      dispatch({
+        type: 'SET_PARAMETER',
+        payload: {
+          key: 'selected_' + propsName,
+          value: defaultValue
+        }
+      })
+    }
+  }
+
+  function onChange(selectedOption) {
+    if (propsName) {
+      try {
+        if (props.isMultiple) {
+          setInput(propsName, map(selectedOption, props.optionValue))
+        } else {
+          setInput(propsName, selectedOption[props.optionValue])
+        }
+      } catch (e) {
+        setInput(propsName, null)
+      }
+    }
+  }
+
+  function openModal() {
+    setshow(!show)
+  }
+
+  if (props.disabled || props.isReadonly) {
+    return labelGenerate(valueParam)
+  }
+
+  if (props.withModal)
+    return (
+      <React.Fragment>
+        <Row>
+          {!props.isReadonly && (
+            <Col lg='1' md='1' sm='3' xs='1'>
+              <Button
+                type='button'
+                className='btn btn-icon btn-primary'
+                onClick={openModal}
+              >
+                <FontAwesomeIcon icon={faSearch} /> Pilih
+              </Button>
+            </Col>
+          )}
+
+          <Col lg='11' md='11' sm='9' xs='11'>
+            {valueParam && !isUndefined(valueParam) && !isEmpty(valueParam)
+              ? labelGenerate(valueParam)
+              : ''}
+          </Col>
+        </Row>
+        <Modal
+          backdrop={'static'}
+          autoFocus={true}
+          restoreFocus={true}
+          centered
+          size='xl'
+          show={show}
+          onHide={openModal}
+        >
+          <ModalHeader closeButton toggle={openModal}>
+            <Modal.Title>{props.placeholder || 'Pilih'}</Modal.Title>
+          </ModalHeader>
+          <ModalBody>
+            <Select
+              isClearable
+              id={propsName}
+              isSearchable
+              isHtml={props.isHtml}
+              isMulti={props.isMultiple}
+              placeholder={props.placeholder ? props.placeholder : 'Pilih'}
+              getOptionLabel={labelGenerate}
+              getOptionValue={(option) => option[props.optionValue]}
+              noOptionsMessage={() => 'Data tidak ditemukan'}
+              value={valueParam}
+              onChange={onChange}
+              options={options}
+              isDisabled={props.disabled}
+            />
+          </ModalBody>
+        </Modal>
+      </React.Fragment>
+    )
+
+  return (
+    <Select
+      menuPortalTarget={document.body}
+      menuPosition='fixed'
+      styles={{
+        menuPortal: (base) => ({
+          ...base,
+          fontFamily: 'inherit',
+          fontSize: 'inherit',
+          zIndex: 9999
+        }),
+        menu: (provided) => ({
+          ...provided,
+          fontFamily: 'inherit',
+          fontSize: 'inherit',
+          zIndex: '9999 !important'
+        }),
+        multiValueRemove: (base) => ({
+          ...base,
+          color: '#db2828',
+
+          cursor: 'pointer'
+        }),
+        placeholder: (base) => ({
+          ...base,
+          fontFamily: 'inherit',
+          fontSize: 'inherit'
+        }),
+        multiValue: (base) => ({
+          ...base,
+          background: 'none'
+        }),
+        multiValueLabel: (base) => ({
+          ...base,
+          fontFamily: 'inherit',
+          fontSize: 'inherit'
+        }),
+        option: (base) => ({
+          ...base,
+          fontFamily: 'inherit',
+          fontSize: 'inherit'
+        }),
+        clearIndicator: (base, state) => ({
+          ...base,
+          cursor: 'pointer',
+          color: state.isFocused ? '#db2828' : '#db2828'
+        })
+      }}
+      className='tcomponent-select'
+      // menuPlacement='top'
+      isClearable
+      id={propsName}
+      isSearchable
+      isHtml={props.isHtml}
+      isMulti={props.isMultiple}
+      placeholder={props.placeholder ? props.placeholder : 'Pilih'}
+      getOptionLabel={labelGenerate}
+      getOptionValue={(option) => option[props.optionValue]}
+      noOptionsMessage={() => 'Data tidak ditemukan'}
+      value={valueParam}
+      onChange={onChange}
+      options={options}
+      isDisabled={props.disabled}
+    />
+  )
+}
+
+export default InputSelect

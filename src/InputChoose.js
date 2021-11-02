@@ -35,7 +35,8 @@ function InputChoose(props) {
   let value = findArrayName(propsName, input) || null
 
   let valueParam =
-    findArrayName(propsName, parameter) || (props.isMultiple ? [] : {})
+    findArrayName('selected_' + propsName, parameter) ||
+    (props.isMultiple ? [] : {})
 
   const type = props.type || 'inline'
 
@@ -101,7 +102,7 @@ function InputChoose(props) {
       dispatch({
         type: 'SET_PARAMETER',
         payload: {
-          key: slug(String('selected_' + propsName), '_'),
+          key: 'selected_' + propsName,
           value: defaultValue
         }
       })
