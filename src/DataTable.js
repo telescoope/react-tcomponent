@@ -57,37 +57,41 @@ import {
 } from 'react-bootstrap'
 
 function DataTable(props) {
-  let [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(false)
 
-  let [link, setLink] = useState('')
+  const [link, setLink] = useState('')
 
-  let [data, setData] = useState([])
+  const [data, setData] = useState([])
 
-  let [temp, setTemp] = useState([])
+  const [temp, setTemp] = useState([])
 
-  let [meta, setMeta] = useState({})
+  const [meta, setMeta] = useState({})
 
-  let [tooltipOpenEx, setTooltipOpenEx] = useState(false)
+  const [tooltipOpenEx, setTooltipOpenEx] = useState(false)
 
-  let [tooltipOpenIm, setTooltipOpenIm] = useState(false)
+  const [tooltipOpenIm, setTooltipOpenIm] = useState(false)
 
-  let toggleImport = () => setTooltipOpenIm(!tooltipOpenIm)
+  const toggleImport = () => setTooltipOpenIm(!tooltipOpenIm)
 
-  let toggleExport = () => setTooltipOpenEx(!tooltipOpenEx)
+  const toggleExport = () => setTooltipOpenEx(!tooltipOpenEx)
 
-  let dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-  let parameter = useSelector((state) => state.core.parameter) || {}
+  const parameter = useSelector((state) => state.core.parameter) || {}
 
-  let input = useSelector((state) => state.core.input) || {}
+  const input = useSelector((state) => state.core.input) || {}
 
-  let user = useSelector((state) => state.auth.user) || {}
+  const user = useSelector((state) => state.auth.user) || {}
 
-  let filter = useSelector((state) => state.core.filter) || {}
+  const filter = useSelector((state) => state.core.filter) || {}
 
-  let key_select = slug('selected_' + props.name, '_')
+  const key_select = slug('selected_' + props.name, '_')
 
-  let primaryKey = props.primaryKey ? props.primaryKey : 'id'
+  const primaryKey = props.primaryKey ? props.primaryKey : 'id'
+
+  const nodeRef = useRef()
+
+  const isVisible = useIsVisible(nodeRef)
 
   function onChecked(rowInfo, input, exist = false) {
     let value = rowInfo.row.original || {}
@@ -177,10 +181,6 @@ function DataTable(props) {
       )
     }
   }
-
-  let nodeRef = useRef()
-
-  let isVisible = useIsVisible(nodeRef)
 
   let col = !isEmpty(props.selectable)
     ? [checkComponent, ...props.columns]
