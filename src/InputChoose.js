@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 
 import {
-  debounce,
   isEmpty,
   find,
   isUndefined,
@@ -13,7 +12,7 @@ import {
 
 import { Form } from 'react-bootstrap'
 
-import { findArrayName, slug, useDebounce } from 'tcomponent'
+import { findArrayName, slug } from 'tcomponent'
 
 import InputFile from './InputFile'
 

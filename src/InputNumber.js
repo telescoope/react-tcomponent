@@ -2,14 +2,7 @@ import React from 'react'
 
 import Cleave from 'cleave.js/react'
 
-import {
-  isEmpty,
-  debounce,
-  isEqual,
-  isUndefined,
-  isNull,
-  isNumber
-} from 'lodash'
+import { isEmpty, isEqual, isUndefined, isNull, isNumber } from 'lodash'
 
 import InputRange from 'react-input-range'
 
