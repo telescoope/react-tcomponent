@@ -217,7 +217,7 @@ function ShowData(props) {
 function InputSelectFetch(props) {
   let { isMultiple, defaultValue, optionLabel, separator } = props
 
-  let dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   let auth = useSelector((state) => state.auth) || {}
 

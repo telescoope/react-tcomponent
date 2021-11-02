@@ -10,7 +10,7 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
-    "localforage": "^1.10.0",
+    "localforage": "1.10.0",
     "react": "file:../node_modules/react",
     "react-dom": "file:../node_modules/react-dom",
     "react-redux": "file:../node_modules/react-redux",
@@ -19,7 +19,7 @@
     "redux": "file:../node_modules/redux",
     "redux-logger": "3.0.6",
     "redux-persist": "6.0.0",
-    "redux-thunk": "^2.4.0",
+    "redux-thunk": "2.4.0",
     "tcomponent": "git+https://github.com/telescoope/tcomponent.git"
   },
   "devDependencies": {
