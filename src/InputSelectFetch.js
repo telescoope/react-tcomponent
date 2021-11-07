@@ -36,7 +36,12 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { faTimes, faSync, faSearch } from '@fortawesome/free-solid-svg-icons'
+import {
+  faTimes,
+  faSync,
+  faSearch,
+  faCheck
+} from '@fortawesome/free-solid-svg-icons'
 
 import DataTableContainer from './DataTableContainer'
 
@@ -870,9 +875,8 @@ function InputSelectFetch(props) {
         centered
         size='xl'
         show={open}
-        onHide={closeModal}
       >
-        <Modal.Header onHide={closeModal} closeButton>
+        <Modal.Header>
           <Modal.Title>{props.placeholder || 'Pilih'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -941,30 +945,43 @@ function InputSelectFetch(props) {
           </LoadingOverlay>
 
           {!listLoading && (
-            <div style={{ marginTop: 12 }}>
-              <p>Dipilih : </p>
-              {loading && <Loading />}
-              <ul>
-                {isMultiple
-                  ? isi_param &&
-                    isi_param.map((val, index) => {
-                      return (
+            <Row style={{ marginTop: 12 }}>
+              <Col lg='9' md='8' sm='6' xs='12'>
+                <p style={{ marginBottom: '4px' }}>Dipilih : </p>
+                {loading && <Loading />}
+                <ul>
+                  {isMultiple
+                    ? isi_param &&
+                      isi_param.map((val, index) => {
+                        return (
+                          <li>
+                            {!isUndefined(val) && !isEmpty(val)
+                              ? labelGenerate(val)
+                              : ''}
+                          </li>
+                        )
+                      })
+                    : isi_param && (
                         <li>
-                          {!isUndefined(val) && !isEmpty(val)
-                            ? labelGenerate(val)
+                          {!isUndefined(isi_param) && !isEmpty(isi_param)
+                            ? labelGenerate(isi_param)
                             : ''}
                         </li>
-                      )
-                    })
-                  : isi_param && (
-                      <li>
-                        {!isUndefined(isi_param) && !isEmpty(isi_param)
-                          ? labelGenerate(isi_param)
-                          : ''}
-                      </li>
-                    )}
-              </ul>
-            </div>
+                      )}
+                </ul>
+              </Col>
+              <Col lg='3' md='4' sm='6' xs='12'>
+                <Button
+                  variant='primary'
+                  type='button'
+                  className='btn-icon'
+                  style={{ float: 'right' }}
+                  onClick={closeModal}
+                >
+                  <FontAwesomeIcon icon={faCheck} />
+                </Button>
+              </Col>
+            </Row>
           )}
         </Modal.Body>
       </Modal>
