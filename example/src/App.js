@@ -159,6 +159,34 @@ function App() {
       ])
     }, 5000)
     */
+    dispatch({
+      type: 'SET_INPUT',
+      payload: {
+        key: 'choose[122]',
+        value: 'Disetujui'
+      }
+    })
+    dispatch({
+      type: 'SET_INPUT',
+      payload: {
+        key: 'tag',
+        value: 'aaa|bb'
+      }
+    })
+    dispatch({
+      type: 'SET_INPUT',
+      payload: {
+        key: 'choose_single',
+        value: 'Disetujui'
+      }
+    })
+    dispatch({
+      type: 'SET_INPUT',
+      payload: {
+        key: 'choose_multiple',
+        value: ['Disetujui', 'Ditolak']
+      }
+    })
   }, [])
 
   // console.log(dataSatu)

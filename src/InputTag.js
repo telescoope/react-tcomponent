@@ -11,8 +11,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { slug, findArrayName } from 'tcomponent'
 
 function InputTag(props) {
-  const [tags, setTags] = useState([])
-
   const [suggestions, setSuggestions] = useState([])
 
   const separator = '|'
@@ -29,6 +27,8 @@ function InputTag(props) {
 
   const value = findArrayName(propsName, input) || ''
 
+  const [tags, setTags] = useState([])
+
   function onDelete(i) {
     let t = tags.slice(0)
 
@@ -41,6 +41,8 @@ function InputTag(props) {
     let t = [].concat(tags, tag)
 
     setTags(_.uniqBy(t, 'name'))
+
+    setInput(propsName, _.map(t, 'name').join(separator))
   }
 
   function setInput(key, val) {
@@ -52,10 +54,6 @@ function InputTag(props) {
       }
     })
   }
-
-  useEffect(() => {
-    setInput(propsName, _.map(tags, 'name').join(separator))
-  }, [tags])
 
   function onFocus(tag) {}
 
@@ -88,8 +86,10 @@ function InputTag(props) {
 
     setSuggestions(suggestions)
 
-    setTags(t)
-  }, [])
+    setTags(_.uniqBy(t, 'name'))
+  }, [value])
+
+  // console.log(propsName, tags)
 
   return (
     <ReactTags

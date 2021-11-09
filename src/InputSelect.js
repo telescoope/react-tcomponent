@@ -39,9 +39,7 @@ function InputSelect(props) {
 
   let value = findArrayName(propsName, input) || null
 
-  let valueParam =
-    findArrayName('selected_' + propsName, parameter) ||
-    (props.isMultiple ? [] : {})
+  let valueParam = findArrayName('selected_' + propsName, parameter) || null
 
   let options = []
   try {
@@ -80,7 +78,9 @@ function InputSelect(props) {
         value: val
       }
     })
+  }
 
+  function refreshParam(val) {
     let defaultValue = null
 
     if (props.isMultiple) {
@@ -97,6 +97,9 @@ function InputSelect(props) {
           }
         }
       }
+      if (defaultValue.length == 0) {
+        defaultValue = null
+      }
     } else {
       defaultValue =
         find(
@@ -105,6 +108,10 @@ function InputSelect(props) {
             return String(o[props.optionValue]) == String(val)
           }.bind(this)
         ) || {}
+
+      if (isEmpty(defaultValue)) {
+        defaultValue = null
+      }
     }
 
     if (!isUndefined(defaultValue)) {
@@ -118,7 +125,12 @@ function InputSelect(props) {
     }
   }
 
+  useEffect(() => {
+    refreshParam(value)
+  }, [value])
+
   function onChange(selectedOption) {
+    console.log('onChange', selectedOption)
     if (propsName) {
       try {
         if (props.isMultiple) {
