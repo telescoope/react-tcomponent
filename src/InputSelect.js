@@ -43,13 +43,15 @@ function InputSelect(props) {
 
   let options = []
   try {
-    for (let i = 0; i < props.options.length; i++) {
-      let y = props.options[i]
+    if (isArray(props.options)) {
+      for (let i = 0; i < props.options.length; i++) {
+        let y = props.options[i]
 
-      if (props.isHtml) {
-        y[props.name] = parse(String(y[props.name]))
+        if (props.isHtml) {
+          y[props.name] = parse(String(y[props.name]))
+        }
+        options.push(y)
       }
-      options.push(y)
     }
   } catch (e) {}
 
@@ -86,17 +88,22 @@ function InputSelect(props) {
     if (props.isMultiple) {
       defaultValue = []
 
-      for (let i = 0; i < options.length; i++) {
-        for (let y = 0; y < val.length; y++) {
-          let opt = options[i]
+      try {
+        if (isArray(options) && isArray(val)) {
+          for (let i = 0; i < options.length; i++) {
+            for (let y = 0; y < val.length; y++) {
+              let opt = options[i]
 
-          let cur = val[y]
+              let cur = val[y]
 
-          if (String(opt[props.optionValue]) == String(cur)) {
-            defaultValue.push(opt)
+              if (String(opt[props.optionValue]) == String(cur)) {
+                defaultValue.push(opt)
+              }
+            }
           }
         }
-      }
+      } catch (e) {}
+
       if (defaultValue.length == 0) {
         defaultValue = null
       }

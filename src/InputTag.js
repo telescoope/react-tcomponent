@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { map, uniqBy, findIndex, isEmpty, isUndefined } from 'lodash'
+import { map, uniqBy, findIndex, isEmpty, isUndefined, isArray } from 'lodash'
 
 import './InputTag.module.css'
 
@@ -66,23 +66,31 @@ function InputTag(props) {
 
     let t = []
 
-    for (let i = 0; i < props.options.length; i++) {
-      let isi = props.options[i]
+    try {
+      if (isArray(props.options)) {
+        for (let i = 0; i < props.options.length; i++) {
+          let isi = props.options[i]
 
-      if (!_.isEmpty(isi[props.optionValue])) {
-        suggestions.push({ name: isi[props.optionValue] })
+          if (!_.isEmpty(isi[props.optionValue])) {
+            suggestions.push({ name: isi[props.optionValue] })
+          }
+        }
       }
-    }
+    } catch (e) {}
 
     let v = value ? String(value).split(separator) : []
 
-    for (let i = 0; i < v.length; i++) {
-      let isi = v[i]
+    try {
+      if (isArray(v)) {
+        for (let i = 0; i < v.length; i++) {
+          let isi = v[i]
 
-      if (!_.isEmpty(isi)) {
-        t.push({ name: isi })
+          if (!_.isEmpty(isi)) {
+            t.push({ name: isi })
+          }
+        }
       }
-    }
+    } catch (e) {}
 
     setSuggestions(suggestions)
 

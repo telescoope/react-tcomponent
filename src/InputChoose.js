@@ -76,16 +76,24 @@ function InputChoose(props) {
     if (props.isMultiple) {
       defaultValue = []
 
-      for (let i = 0; i < options.length; i++) {
-        for (let y = 0; y < val.length; y++) {
-          let opt = options[i]
+      try {
+        if (isArray(options) && isArray(val)) {
+          for (let i = 0; i < options.length; i++) {
+            for (let y = 0; y < val.length; y++) {
+              let opt = options[i]
 
-          let cur = val[y]
+              let cur = val[y]
 
-          if (String(opt[props.optionValue]) == String(cur)) {
-            defaultValue.push(opt)
+              if (String(opt[props.optionValue]) == String(cur)) {
+                defaultValue.push(opt)
+              }
+            }
           }
         }
+      } catch (e) {}
+
+      if (defaultValue.length == 0) {
+        defaultValue = null
       }
     } else {
       defaultValue =
@@ -95,6 +103,10 @@ function InputChoose(props) {
             return String(o[props.optionValue]) == String(val)
           }.bind(this)
         ) || {}
+
+      if (isEmpty(defaultValue)) {
+        defaultValue = null
+      }
     }
 
     if (!isUndefined(defaultValue)) {
