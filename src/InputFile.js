@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { findArrayName, slug, setAuthHeader, secureData } from 'tcomponent'
 
-import DocViewer from 'react-doc-viewer'
+import DocViewer, { DocViewerRenderers } from 'react-doc-viewer'
 
 import {
   isNull,
@@ -75,7 +75,13 @@ function Preview(props) {
     // }
   } catch (e) {}
 
-  return <DocViewer style={{ width: '100%', height: 480 }} documents={files} />
+  return (
+    <DocViewer
+      style={{ width: '100%', height: 480 }}
+      pluginRenderers={DocViewerRenderers}
+      documents={files}
+    />
+  )
 }
 
 function InputFile(props) {
