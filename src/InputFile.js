@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { findArrayName, slug, setAuthHeader, secureData } from 'tcomponent'
 
+import DocViewer from 'react-doc-viewer'
+
 import {
   isNull,
   isUndefined,
@@ -37,17 +39,22 @@ import { Form, Button, Modal, ButtonGroup } from 'react-bootstrap'
 let moment = momentImported
 
 function Preview(props) {
+  const files = [
+    { uri: process.env.REACT_APP_API_URL + '/file/stream/' + props.file }
+  ]
+
   try {
-    if (isEqual(props.type.type.substring(0, 5), 'image')) {
-      return (
-        <img
-          key={props.file}
-          className='img-responsive'
-          style={{ maxWidth: '100%' }}
-          src={process.env.REACT_APP_API_URL + '/file/stream/' + props.file}
-        />
-      )
-    } else if (isEqual(props.type.type.substring(0, 5), 'video')) {
+    // if (isEqual(props.type.type.substring(0, 5), 'image')) {
+    //   return (
+    //     <img
+    //       key={props.file}
+    //       className='img-responsive'
+    //       style={{ maxWidth: '100%' }}
+    //       src={process.env.REACT_APP_API_URL + '/file/stream/' + props.file}
+    //     />
+    //   )
+    // } else
+    if (isEqual(props.type.type.substring(0, 5), 'video')) {
       return (
         <Player
           key={props.file}
@@ -55,19 +62,20 @@ function Preview(props) {
           src={process.env.REACT_APP_API_URL + '/file/stream/' + props.file}
         />
       )
-    } else if (isEqual(props.type.type, 'application/pdf')) {
-      return (
-        <iframe
-          key={props.file}
-          width='100%'
-          height='480'
-          src={process.env.REACT_APP_API_URL + '/file/stream/' + props.file}
-        ></iframe>
-      )
     }
+    //  else if (isEqual(props.type.type, 'application/pdf')) {
+    //   return (
+    //     <iframe
+    //       key={props.file}
+    //       width='100%'
+    //       height='480'
+    //       src={process.env.REACT_APP_API_URL + '/file/stream/' + props.file}
+    //     ></iframe>
+    //   )
+    // }
   } catch (e) {}
 
-  return null
+  return <DocViewer style={{ width: '100%', height: 480 }} documents={files} />
 }
 
 function InputFile(props) {
@@ -173,13 +181,15 @@ function InputFile(props) {
 
       axios(options)
         .then((response) => {
-          if (response.data.success) {
-            type[token] = response.data.data
-            setType(type)
+          try {
+            if (response.data.success) {
+              type[token] = response.data.data
+              setType(type)
 
-            open[token] = false
-            setOpen(open)
-          }
+              open[token] = false
+              setOpen(open)
+            }
+          } catch (e) {}
           setLoading(false)
         })
         .catch((error) => {

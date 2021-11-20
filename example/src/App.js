@@ -579,7 +579,14 @@ function App() {
       />
       <h4>Contoh File</h4>
       <InputFile preview name='file' />
-      <InputFile preview name='file_multi[a]' />
+      <InputFile
+        preview
+        name='file_multi[a]'
+        isReadonly
+        value={
+          'https://telescoope.org/eproc-nk-2-web-api/file/download/AT-2MY0MN0L4ELY'
+        }
+      />
       <h4>Contoh File Multiple</h4>
       <InputFile preview name='filemultiple' isMultiple />
       <InputFile preview name='filemultiple_multi[a]' isMultiple />
