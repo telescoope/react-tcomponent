@@ -84,6 +84,18 @@ function Preview(props) {
   )
 }
 
+function isValidHttpUrl(string) {
+  let url
+
+  try {
+    url = new URL(string)
+  } catch (_) {
+    return false
+  }
+
+  return url.protocol === 'http:' || url.protocol === 'https:'
+}
+
 function InputFile(props) {
   let acceptedFiles = props.accept
     ? props.accept
@@ -164,12 +176,15 @@ function InputFile(props) {
   }
 
   function fetchInfo(token) {
+    console.log('fetchInfo', token)
     if (
       isString(token) &&
       !isEmpty(token) &&
       token != 'null' &&
+      !isValidHttpUrl(token) &&
       isEmpty(type[token])
     ) {
+      console.log('GO')
       let url = process.env.REACT_APP_API_URL + '/file/info'
 
       let data = secureData({
@@ -184,10 +199,9 @@ function InputFile(props) {
       }
 
       setLoading(true)
-
-      axios(options)
-        .then((response) => {
-          try {
+      try {
+        axios(options)
+          .then((response) => {
             if (response.data.success) {
               type[token] = response.data.data
               setType(type)
@@ -195,16 +209,17 @@ function InputFile(props) {
               open[token] = false
               setOpen(open)
             }
-          } catch (e) {}
-          setLoading(false)
-        })
-        .catch((error) => {
-          type[token] = ''
-          setType(type)
 
-          open[token] = false
-          setOpen(open)
-        })
+            setLoading(false)
+          })
+          .catch((error) => {
+            type[token] = ''
+            setType(type)
+
+            open[token] = false
+            setOpen(open)
+          })
+      } catch (e) {}
     }
   }
 
@@ -499,12 +514,14 @@ function InputFile(props) {
                 show={open[val]}
                 onHide={() => toggle(val)}
               >
-                <Modal.Header closeButton onHide={() => toggle(val)}>
-                  <Modal.Title>Lampiran {val}</Modal.Title>
-                </Modal.Header>
                 <Modal.Body>
                   <Preview key={val} type={type[val]} file={val} />
                 </Modal.Body>
+                <Modal.Footer>
+                  <Button variant='primary' onClick={() => toggle(val)}>
+                    <FontAwesomeIcon icon={faTimes} /> Tutup
+                  </Button>
+                </Modal.Footer>
               </Modal>
             </div>
           )
