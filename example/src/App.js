@@ -648,6 +648,7 @@ function App() {
         errorMessage='Error disini'
       >
         <InputText name='teks' type='text' className='form-control' />
+        <InputText name='nik' type='nik' className='form-control' />
       </Field>
       <InputText name='teks_multi[satu]' type='text' className='form-control' />
       <h4>Contoh Text Area</h4>

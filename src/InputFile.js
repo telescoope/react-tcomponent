@@ -6,6 +6,8 @@ import DropzoneComponent from 'react-dropzone-component'
 
 import { Player } from 'video-react'
 
+import './InputFile.module.css'
+
 import * as momentImported from 'moment'
 
 import { useSelector, useDispatch } from 'react-redux'

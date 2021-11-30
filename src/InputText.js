@@ -35,15 +35,48 @@ function InputText(props) {
 
   const dispatch = useDispatch()
 
-  const [placeholder, setPlaceholder] = useState(props?.placeholder || '')
-
   const type = !isUndefined(props?.type) ? String(props?.type) : ''
+
+  const defaultType = type === 'text' || isUndefined(type) ? 'search' : type
 
   const [open, setOpen] = useState(false)
 
   const [temp, setTemp] = useState('')
 
-  const [optionsCleave, setOptionsCleave] = useState({})
+  let placeholder = props?.placeholder || ''
+
+  let optionsCleave = {}
+
+  if (defaultType.toLowerCase() == 'nik') {
+    optionsCleave = {
+      delimiter: ' ',
+      blocks: [2, 2, 2, 6, 4],
+      numericOnly: true
+    }
+    placeholder = props?.placeholder || 'Nomor Induk Kependudukan'
+  } else if (defaultType.toLowerCase() == 'kip') {
+    optionsCleave = {
+      delimiter: ' ',
+      blocks: [4, 4, 4, 4]
+    }
+    placeholder = props?.placeholder || 'Kartu Indonesia Pintar'
+  } else if (defaultType.toLowerCase() == 'npwp') {
+    optionsCleave = {
+      delimiters: ['.', '.', '.', '-', '.'],
+      blocks: [2, 3, 3, 1, 3, 3],
+      numericOnly: true
+    }
+    placeholder = props?.placeholder || 'Nomor Pokok Wajib Pajak'
+  } else if (defaultType.toLowerCase() == 'postcode') {
+    optionsCleave = {
+      blocks: [5],
+      delimiter: ' ',
+      numericOnly: true
+    }
+    placeholder = props?.placeholder || 'Kode Pos'
+  } else if (defaultType.toLowerCase() == 'phone') {
+    placeholder = props?.placeholder || 'Telepon'
+  }
 
   const config = useState({
     readonly: false,
@@ -56,47 +89,6 @@ function InputText(props) {
   const editorRef = useRef()
 
   const equationEditorRef = useRef()
-
-  let defaultType = type === 'text' || isUndefined(type) ? 'search' : type
-
-  useEffect(() => {
-    let default_placeholder = props?.placeholder || ''
-
-    let options_cleave = {}
-
-    if (type.toLowerCase() == 'nik') {
-      options_cleave = {
-        delimiter: ' ',
-        blocks: [2, 2, 2, 6, 4],
-        numericOnly: true
-      }
-      default_placeholder = props?.placeholder || 'Nomor Induk Kependudukan'
-    } else if (type.toLowerCase() == 'kip') {
-      options_cleave = {
-        delimiter: ' ',
-        blocks: [4, 4, 4, 4]
-      }
-      default_placeholder = props?.placeholder || 'Kartu Indonesia Pintar'
-    } else if (type.toLowerCase() == 'npwp') {
-      options_cleave = {
-        delimiters: ['.', '.', '.', '-', '.'],
-        blocks: [2, 3, 3, 1, 3, 3],
-        numericOnly: true
-      }
-      default_placeholder = props?.placeholder || 'Nomor Pokok Wajib Pajak'
-    } else if (type.toLowerCase() == 'postcode') {
-      options_cleave = {
-        blocks: [5],
-        delimiter: ' ',
-        numericOnly: true
-      }
-      default_placeholder = props?.placeholder || 'Kode Pos'
-    } else if (type.toLowerCase() == 'phone') {
-      default_placeholder = props?.placeholder || 'Telepon'
-    }
-    setPlaceholder(default_placeholder)
-    setOptionsCleave(options_cleave)
-  }, [type])
 
   useEffect(() => {
     if (!isUndefined(props?.value)) {
@@ -171,6 +163,8 @@ function InputText(props) {
   function handleInputChange(event) {
     event.preventDefault()
 
+    // console.log(propsName, event.target.value, event.target.rawValue)
+
     let data = event.target.value ? String(event.target.value) : ''
 
     if (
@@ -206,6 +200,8 @@ function InputText(props) {
     onChange(temp)
     closeModal()
   }
+
+  // console.log('optionsCleave', propsName, value, optionsCleave)
 
   if (!propsName) return 'Name is Required'
 
