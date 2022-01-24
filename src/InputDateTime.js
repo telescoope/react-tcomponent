@@ -181,7 +181,7 @@ function InputDateTime(props) {
           dropdownMode='select'
           startDate={valueStart}
           endDate={valueEnd}
-          shouldCloseOnSelect={false}
+          shouldCloseOnSelect={true}
         />
         <span className='input-group-addon' style={{ background: 'none' }}>
           &nbsp; - &nbsp;
@@ -222,7 +222,7 @@ function InputDateTime(props) {
           dropdownMode='select'
           startDate={valueStart}
           endDate={valueEnd}
-          shouldCloseOnSelect={false}
+          shouldCloseOnSelect={true}
         />
       </div>
     )
@@ -266,7 +266,7 @@ function InputDateTime(props) {
       showYearDropdown
       todayButton={'Hari ini'}
       dropdownMode='select'
-      shouldCloseOnSelect={false}
+      shouldCloseOnSelect={true}
     />
   )
 }

@@ -16,7 +16,7 @@ import { findArrayName, slug } from 'tcomponent'
 
 import parse from 'html-react-parser'
 
-import { Form, Modal, InputGroup, Button } from 'react-bootstrap'
+import { Form, Modal, InputGroup, Button, Input } from 'react-bootstrap'
 
 import * as MathType from '@wiris/mathtype-generic'
 
@@ -241,6 +241,16 @@ function InputText(props) {
       <PhoneInput
         international
         defaultCountry='ID'
+        // inputComponent={React.memo(() => (
+        //   <Input
+        //     type='tel'
+        //     autocomplete='tel'
+        //     class='PhoneInputInput form-control'
+        //     onChange={onChange}
+        //     value={value ? String(value) : ''}
+        //   />
+        // ))}
+        numberInputProps={{ className: 'form-control' }}
         value={value ? String(value) : ''}
         onChange={onChange}
       />

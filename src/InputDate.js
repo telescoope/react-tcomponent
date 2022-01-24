@@ -168,7 +168,7 @@ function InputDate(props) {
             readOnly={props.disabled || props.isReadonly}
             startDate={valueStart}
             endDate={valueEnd}
-            shouldCloseOnSelect={false}
+            shouldCloseOnSelect={true}
           />
           <span className='input-group-addon' style={{ background: 'none' }}>
             &nbsp; - &nbsp;
@@ -208,7 +208,7 @@ function InputDate(props) {
             endDate={valueEnd}
             disabled={props.disabled || props.isReadonly}
             readOnly={props.disabled || props.isReadonly}
-            shouldCloseOnSelect={false}
+            shouldCloseOnSelect={true}
           />
         </div>
       )
@@ -251,7 +251,7 @@ function InputDate(props) {
       dropdownMode='select'
       disabled={props.disabled || props.isReadonly}
       readOnly={props.disabled || props.isReadonly}
-      shouldCloseOnSelect={false}
+      shouldCloseOnSelect={true}
     />
   )
 }
