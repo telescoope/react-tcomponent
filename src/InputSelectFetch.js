@@ -398,9 +398,9 @@ function InputSelectFetch(props) {
     }
   }
 
-  useDebounce(syncParameter, 500, [findArrayName(key_select, input)])
+  useDebounce(syncParameter, 400, [findArrayName(key_select, input)])
 
-  useDebounce(onReload, 500, [
+  useDebounce(onReload, 400, [
     findArrayName('keyword_' + props_name, filter),
     findArrayName('page_' + props_name, filter),
     findArrayName('load_' + props_name, filter)

@@ -16,7 +16,7 @@ import { findArrayName, slug } from 'tcomponent'
 
 import parse from 'html-react-parser'
 
-import { Form, Modal, InputGroup, Button, Input } from 'react-bootstrap'
+import { Form, Modal, InputGroup, Button } from 'react-bootstrap'
 
 import * as MathType from '@wiris/mathtype-generic'
 

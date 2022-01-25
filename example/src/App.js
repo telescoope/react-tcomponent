@@ -85,10 +85,10 @@ function App() {
     const { page, load, keyword, sorted, search } = defaultFilterData(
       filter,
       [],
-      'slider'
+      'uom'
     )
 
-    const url = process.env.REACT_APP_API_URL + '/slider?'
+    const url = process.env.REACT_APP_API_URL + '/uom?'
 
     const options = {
       data: secureData({
@@ -370,13 +370,13 @@ function App() {
           <InputSelectFetch
             className='form-control'
             parameter={{}}
-            optionValue={{ id: 'slider_id' }}
+            optionValue={{ id: 'uom_id' }}
             defaultValue={dataSatu[0]}
             primaryKey='kode'
-            url='slider'
+            url='uom'
             separator=' - '
-            optionLabel={['kode', 'slider_foto_attachment']}
-            name='slider'
+            optionLabel={['kode', 'uom_foto_attachment']}
+            name='uom'
           />
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
@@ -385,73 +385,73 @@ function App() {
       <InputSelectFetch
         className='form-control'
         parameter={{}}
-        optionValue={{ id: 'slider_id' }}
+        optionValue={{ id: 'uom_id' }}
         defaultValue={dataSatu[0]}
         primaryKey='kode'
-        url='slider'
+        url='uom'
         separator=' - '
-        optionLabel={['kode', 'slider_foto_attachment']}
-        name='slider'
+        optionLabel={['kode', 'uom_foto_attachment']}
+        name='uom'
       />
       <InputSelectFetch
         className='form-control'
         parameter={{}}
-        optionValue={{ id: 'slider_id' }}
+        optionValue={{ id: 'uom_id' }}
         defaultValue={dataSatu[1]}
         primaryKey='id'
-        url='slider'
+        url='uom'
         separator=' - '
-        optionLabel={['kode', 'slider_foto_attachment']}
-        name='slider_multiple[satu]'
+        optionLabel={['kode', 'uom_foto_attachment']}
+        name='uom_multiple[satu]'
       />
       <InputSelectFetch
         className='form-control'
         parameter={{}}
-        optionValue={{ id: 'slider_id' }}
+        optionValue={{ id: 'uom_id' }}
         defaultValue={dataSatu}
         isMultiple
         primaryKey='id'
-        url='slider'
+        url='uom'
         separator=' - '
-        optionLabel={['kode', 'slider_foto_attachment']}
-        name='slider2'
+        optionLabel={['kode', 'uom_foto_attachment']}
+        name='uom2'
       />
       <InputSelectFetch
         className='form-control'
         parameter={{}}
-        optionValue={{ id: 'slider_id' }}
+        optionValue={{ id: 'uom_id' }}
         defaultValue={dataSatu}
         isMultiple
         primaryKey='id'
-        url='slider'
+        url='uom'
         separator=' - '
-        optionLabel={['kode', 'slider_foto_attachment']}
-        name='slider2_multiple[satu]'
+        optionLabel={['kode', 'uom_foto_attachment']}
+        name='uom2_multiple[satu]'
       />
       <InputSelectFetch
         className='form-control'
         parameter={{}}
-        optionValue={{ id: 'slider_id' }}
+        optionValue={{ id: 'uom_id' }}
         defaultValue={dataSatu}
         isMultiple
         isReadonly
         primaryKey='id'
-        url='slider'
+        url='uom'
         separator=' - '
-        optionLabel={['kode', 'slider_foto_attachment']}
-        name='slider3_multiple[satu]'
+        optionLabel={['kode', 'uom_foto_attachment']}
+        name='uom3_multiple[satu]'
       />
       <InputSelectFetch
         className='form-control'
         isMultiple
         // parameter={{}}
-        // optionValue={{ id: 'slider_id' }}
+        // optionValue={{ id: 'uom_id' }}
         // defaultValue={{
         //   value: null,
         //   label: null
         // }}
         primaryKey='id'
-        url='slider'
+        url='uom'
         separator=' - '
         optionLabel={['kode']}
         name='role'
@@ -477,7 +477,7 @@ function App() {
         selectable='multiple'
         data={list}
         isLoading={loading}
-        name='slider'
+        name='uom'
         primaryKey='id'
         isSearchable
         isColumnsSearchable
@@ -511,69 +511,14 @@ function App() {
         columns={[
           {
             Header: 'Kode',
-            id: 'kode',
-            accessor: (d) => d.kode
+            id: 'code',
+            accessor: (d) => d.code
           },
-          /*
+
           {
-            Header: 'Slide',
-            id: 'slide',
-            accessor: (d) => d.kode + d.kode + d.kode
-          },
-          {
-            Header: 'Slide2',
-            id: 'slide2',
-            accessor: (d) => d.kode + d.kode + d.kode
-          },
-          {
-            Header: 'Slide3',
-            id: 'slide3',
-            accessor: (d) => d.kode + d.kode + d.kode
-          },
-          {
-            Header: 'Slide4',
-            id: 'slide4',
-            accessor: (d) => d.kode + d.kode + d.kode
-          },
-          {
-            Header: 'Slide5',
-            id: 'slide5',
-            accessor: (d) => d.kode + d.kode + d.kode
-          },
-          {
-            Header: 'Slide6',
-            id: 'slide6',
-            accessor: (d) => d.kode + d.kode + d.kode
-          },
-          {
-            Header: 'Slide7',
-            id: 'slide7',
-            accessor: (d) =>
-              d.kode +
-              d.kode +
-              d.kode +
-              d.kode +
-              d.kode +
-              d.kode +
-              d.kode +
-              d.kode +
-              d.kode
-          },
-          {
-            Header: 'Slide8',
-            id: 'slide8',
-            accessor: (d) => d.kode + d.kode + d.kode
-          },
-          */
-          {
-            Header: 'Lampiran',
-            id: 'slider_foto_attachment',
-            accessor: (d) => d.slider_foto_attachment
-          },
-          {
-            Header: 'Status',
-            id: 'status',
-            accessor: (d) => d.status
+            Header: 'Name',
+            id: 'name',
+            accessor: (d) => d.name
           }
         ]}
       />

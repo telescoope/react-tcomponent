@@ -65,6 +65,8 @@ export const DefaultColumnFilter = (props) => {
 
     setData(e.target.value)
 
+    setCurPage(1)
+
     dispatch({
       type: 'SET_MULTI_FILTER',
       payload: {
@@ -221,7 +223,7 @@ function DataTableContainer({
         })
       }
     },
-    500,
+    400,
     [headers]
   )
 
@@ -284,13 +286,21 @@ function DataTableContainer({
         }
       })
     },
-    500,
+    400,
     [curpage]
+  )
+
+  useDebounce(
+    () => {
+      customgotoPage(filter[slug('page_' + name, '_')])
+    },
+    400,
+    [filter[slug('page_' + name, '_')]]
   )
 
   useEffect(() => {
     if (setLocalLoading && !loading) {
-      setTimeout(() => setLocalLoading(loading), 500)
+      setTimeout(() => setLocalLoading(loading), 400)
     } else {
       setLocalLoading(loading)
     }
@@ -299,6 +309,8 @@ function DataTableContainer({
   if (isEmpty(name)) {
     return <p>Props name is Required</p>
   }
+
+  console.log('pages', parseInt(customPageIndex), parseInt(curpage))
 
   return (
     <div>
