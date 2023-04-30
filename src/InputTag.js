@@ -97,8 +97,6 @@ function InputTag(props) {
     setTags(_.uniqBy(t, 'name'))
   }, [value])
 
-  // console.log(propsName, tags)
-
   return (
     <ReactTags
       minQueryLength={1}

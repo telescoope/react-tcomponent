@@ -163,8 +163,6 @@ function InputText(props) {
   function handleInputChange(event) {
     event.preventDefault()
 
-    // console.log(propsName, event.target.value, event.target.rawValue)
-
     let data = event.target.value ? String(event.target.value) : ''
 
     if (
@@ -200,8 +198,6 @@ function InputText(props) {
     onChange(temp)
     closeModal()
   }
-
-  // console.log('optionsCleave', propsName, value, optionsCleave)
 
   if (!propsName) return 'Name is Required'
 

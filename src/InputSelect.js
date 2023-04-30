@@ -137,7 +137,6 @@ function InputSelect(props) {
   }, [value])
 
   function onChange(selectedOption) {
-    console.log('onChange', selectedOption)
     if (propsName) {
       try {
         if (props.isMultiple) {

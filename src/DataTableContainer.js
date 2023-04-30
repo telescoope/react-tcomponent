@@ -134,8 +134,6 @@ function DataTableContainer({
   name,
   customPageTotal
 }) {
-  // console.log(customPageIndex)
-
   let filter = useSelector((state) => state.core.filter) || {}
 
   let sortBy = []
@@ -309,8 +307,6 @@ function DataTableContainer({
   if (isEmpty(name)) {
     return <p>Props name is Required</p>
   }
-
-  console.log('pages', parseInt(customPageIndex), parseInt(curpage))
 
   return (
     <div>

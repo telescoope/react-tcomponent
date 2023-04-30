@@ -178,7 +178,6 @@ function InputFile(props) {
   }
 
   function fetchInfo(token) {
-    console.log('fetchInfo', token)
     if (
       isString(token) &&
       !isEmpty(token) &&
@@ -186,7 +185,6 @@ function InputFile(props) {
       !isValidHttpUrl(token) &&
       isEmpty(type[token])
     ) {
-      console.log('GO')
       let url = process.env.REACT_APP_API_URL + '/file/info'
 
       let data = secureData({

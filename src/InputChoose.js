@@ -161,7 +161,6 @@ function InputChoose(props) {
           setInput(propsName, new_val)
         }
       } catch (e) {
-        console.log(e)
         setInput(propsName, null)
       }
     }
@@ -178,9 +177,7 @@ function InputChoose(props) {
           } else {
             isChecked = isEqual(value, v[props.optionValue])
           }
-        } catch (e) {
-          // console.log(e)
-        }
+        } catch (e) {}
 
         return (
           <React.Fragment>

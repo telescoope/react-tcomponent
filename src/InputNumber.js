@@ -60,26 +60,20 @@ function InputNumber(props) {
   }
 
   function handleInputChange(event) {
-    let val = isNumber(val)
-      ? Number(val)
+    let val = isNumber(event.target.value)
+      ? Number(event.target.value)
       : Number(event.target.value.replace(/[^0-9.-]+/g, ''))
-
-    console.log(val)
 
     if (props.type == 'decimal') {
       val = Number(val)
-      console.log('COND A')
     } else if (props.type == 'percent') {
       val = validate_min_max(val, 0, 100)
-      console.log('COND B')
     } else if (props.type == 'range_three') {
       val = validate_min_max(val, 1, 3)
     } else if (props.type == 'range_hundred') {
       val = validate_min_max(val, 1, 100)
-      console.log('COND C')
     } else if (props.type == 'range_depend') {
       val = validate_min_max(val, 0, 100)
-      console.log('COND D')
     }
 
     let min = props.minValue ? Number(props.minValue) : null
@@ -88,13 +82,10 @@ function InputNumber(props) {
 
     if (max && min) {
       val = validate_min_max(val, min, max)
-      console.log('COND F')
     } else if (!max && min) {
       val = validate_min_max(val, min, 999999999999)
-      console.log('COND G')
     } else if (max && !min) {
       val = validate_min_max(val, 0, max)
-      console.log('COND H')
     }
 
     val = onChange(val)

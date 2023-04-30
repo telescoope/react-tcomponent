@@ -582,8 +582,6 @@ function InputSelectFetch(props) {
 
       let _input = findArrayName(key_select, input) || null
 
-      // console.log('reloader',defaultValue,props_name, val, _input)
-
       if (!isEqual(val, _input)) {
         if (isNull(val) && !isNull(_input)) {
           dispatch({
@@ -593,7 +591,6 @@ function InputSelectFetch(props) {
               value: _input
             }
           })
-          // console.log(props_name,'COND 1')
         } else if (!isNull(val) && isNull(_input)) {
           dispatch({
             type: 'SET_INPUT',
@@ -602,7 +599,6 @@ function InputSelectFetch(props) {
               value: val
             }
           })
-          // console.log(props_name,'COND 2')
         } else if (!isNull(val) && !isNull(_input)) {
           dispatch({
             type: 'SET_INPUT',
@@ -611,7 +607,6 @@ function InputSelectFetch(props) {
               value: val
             }
           })
-          // console.log(props_name,'COND 3')
         } else {
           dispatch({
             type: 'SET_INPUT',
@@ -620,7 +615,6 @@ function InputSelectFetch(props) {
               value: null
             }
           })
-          // console.log(props_name,'COND 4')
         }
       }
     }
