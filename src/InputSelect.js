@@ -43,12 +43,12 @@ function InputSelect(props) {
 
   let options = []
   try {
-    if (isArray(props.options)) {
-      for (let i = 0; i < props.options.length; i++) {
-        let y = props.options[i]
+    if (isArray(props?.options)) {
+      for (let i = 0; i < props?.options.length; i++) {
+        let y = props?.options[i]
 
-        if (props.isHtml) {
-          y[props.name] = parse(String(y[props.name]))
+        if (props?.isHtml) {
+          y[props?.name] = parse(String(y[props?.name]))
         }
         options.push(y)
       }
@@ -57,16 +57,16 @@ function InputSelect(props) {
 
   function labelGenerate(option) {
     let label = []
-    if (isArray(props.optionLabel)) {
-      let separator = props.separator ? props.separator : ' | '
+    if (isArray(props?.optionLabel)) {
+      let separator = props?.separator ? props?.separator : ' | '
 
-      for (let i = 0; i <= props.optionLabel.length - 1; i++) {
-        let isi = option[props.optionLabel[i]]
+      for (let i = 0; i <= props?.optionLabel?.length - 1; i++) {
+        let isi = option[props?.optionLabel[i]]
 
         label.push(isi)
       }
     } else {
-      label.push(option[props.optionLabel])
+      label.push(option[props?.optionLabel])
     }
 
     return label
@@ -85,18 +85,18 @@ function InputSelect(props) {
   function refreshParam(val) {
     let defaultValue = null
 
-    if (props.isMultiple) {
+    if (props?.isMultiple) {
       defaultValue = []
 
       try {
         if (isArray(options) && isArray(val)) {
-          for (let i = 0; i < options.length; i++) {
-            for (let y = 0; y < val.length; y++) {
+          for (let i = 0; i < options?.length; i++) {
+            for (let y = 0; y < val?.length; y++) {
               let opt = options[i]
 
               let cur = val[y]
 
-              if (String(opt[props.optionValue]) == String(cur)) {
+              if (String(opt[props?.optionValue]) == String(cur)) {
                 defaultValue.push(opt)
               }
             }
@@ -104,7 +104,7 @@ function InputSelect(props) {
         }
       } catch (e) {}
 
-      if (defaultValue.length == 0) {
+      if (defaultValue?.length == 0) {
         defaultValue = null
       }
     } else {
@@ -112,7 +112,7 @@ function InputSelect(props) {
         find(
           options,
           function (o) {
-            return String(o[props.optionValue]) == String(val)
+            return String(o[props?.optionValue]) == String(val)
           }.bind(this)
         ) || {}
 
@@ -139,10 +139,10 @@ function InputSelect(props) {
   function onChange(selectedOption) {
     if (propsName) {
       try {
-        if (props.isMultiple) {
-          setInput(propsName, map(selectedOption, props.optionValue))
+        if (props?.isMultiple) {
+          setInput(propsName, map(selectedOption, props?.optionValue))
         } else {
-          setInput(propsName, selectedOption[props.optionValue])
+          setInput(propsName, selectedOption[props?.optionValue])
         }
       } catch (e) {
         setInput(propsName, null)
@@ -154,15 +154,15 @@ function InputSelect(props) {
     setshow(!show)
   }
 
-  if (props.disabled || props.isReadonly) {
+  if (props?.disabled || props?.isReadonly) {
     return labelGenerate(valueParam)
   }
 
-  if (props.withModal)
+  if (props?.withModal)
     return (
       <React.Fragment>
         <Row>
-          {!props.isReadonly && (
+          {!props?.isReadonly && (
             <Col lg='1' md='1' sm='3' xs='1'>
               <Button
                 type='button'
@@ -190,23 +190,23 @@ function InputSelect(props) {
           onHide={openModal}
         >
           <ModalHeader closeButton toggle={openModal}>
-            <Modal.Title>{props.placeholder || 'Pilih'}</Modal.Title>
+            <Modal.Title>{props?.placeholder || 'Pilih'}</Modal.Title>
           </ModalHeader>
           <ModalBody>
             <Select
               isClearable
               id={propsName}
               isSearchable
-              isHtml={props.isHtml}
-              isMulti={props.isMultiple}
-              placeholder={props.placeholder ? props.placeholder : 'Pilih'}
+              isHtml={props?.isHtml}
+              isMulti={props?.isMultiple}
+              placeholder={props?.placeholder ? props?.placeholder : 'Pilih'}
               getOptionLabel={labelGenerate}
-              getOptionValue={(option) => option[props.optionValue]}
+              getOptionValue={(option) => option[props?.optionValue]}
               noOptionsMessage={() => 'Data tidak ditemukan'}
               value={valueParam}
               onChange={onChange}
               options={options}
-              isDisabled={props.disabled}
+              isDisabled={props?.disabled}
             />
           </ModalBody>
         </Modal>
@@ -266,16 +266,16 @@ function InputSelect(props) {
       isClearable
       id={propsName}
       isSearchable
-      isHtml={props.isHtml}
-      isMulti={props.isMultiple}
-      placeholder={props.placeholder ? props.placeholder : 'Pilih'}
+      isHtml={props?.isHtml}
+      isMulti={props?.isMultiple}
+      placeholder={props?.placeholder ? props?.placeholder : 'Pilih'}
       getOptionLabel={labelGenerate}
-      getOptionValue={(option) => option[props.optionValue]}
+      getOptionValue={(option) => option[props?.optionValue]}
       noOptionsMessage={() => 'Data tidak ditemukan'}
       value={valueParam}
       onChange={onChange}
       options={options}
-      isDisabled={props.disabled}
+      isDisabled={props?.disabled}
     />
   )
 }

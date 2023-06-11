@@ -34,10 +34,10 @@ const CustomInput = (props) => {
         }}
         type='text'
         className='form-control'
-        disabled={props.disabled}
-        name={props.name}
-        value={props.value || ''}
-        onClick={props.onClick}
+        disabled={props?.disabled}
+        name={props?.name}
+        value={props?.value || ''}
+        onClick={props?.onClick}
       />
     </InputGroup>
   )
@@ -58,7 +58,7 @@ function InputDate(props) {
 
   let valueEnd = findArrayName('end_' + propsName, input) || null
 
-  if (props.isRange) {
+  if (props?.isRange) {
     try {
       valueStart = moment(valueStart, formatDefault).isValid()
         ? moment(valueStart, formatDefault).toDate()
@@ -114,7 +114,7 @@ function InputDate(props) {
     })
   }
 
-  const dateFormat = props.dateFormat ? props.dateFormat : 'yyyy-MM-dd'
+  const dateFormat = props?.dateFormat ? props?.dateFormat : 'yyyy-MM-dd'
 
   function checkTglMerah(date) {
     const x = moment(date).format('d')
@@ -122,8 +122,8 @@ function InputDate(props) {
     return x == 5 || x == 6 ? 'weekend' : undefined
   }
 
-  if (props.isRange) {
-    if (props.disabled || props.isReadonly) {
+  if (props?.isRange) {
+    if (props?.disabled || props?.isReadonly) {
       return (
         (moment(valueStart, formatDefault).isValid()
           ? moment(valueStart, formatDefault).format('DD-MM-YYYY')
@@ -138,19 +138,19 @@ function InputDate(props) {
         <div className='input-daterange input-group'>
           <DatePicker
             minDate={
-              moment(props.minDate, formatDefault).isValid()
-                ? moment(props.minDate, formatDefault).toDate()
+              moment(props?.minDate, formatDefault).isValid()
+                ? moment(props?.minDate, formatDefault).toDate()
                 : null
             }
             maxDate={
-              moment(props.maxDate, formatDefault).isValid()
-                ? moment(props.maxDate, formatDefault).toDate()
+              moment(props?.maxDate, formatDefault).isValid()
+                ? moment(props?.maxDate, formatDefault).toDate()
                 : null
             }
             dateFormat={dateFormat}
-            placeholder={props.placeholder ? props.placeholder : 'Tanggal'}
+            placeholder={props?.placeholder ? props?.placeholder : 'Tanggal'}
             selected={valueStart}
-            isClearable={!props.disabled && !props.isReadonly}
+            isClearable={!props?.disabled && !props?.isReadonly}
             customInput={
               <CustomInput value={valueStart} name={'start_' + propsName} />
             }
@@ -164,8 +164,8 @@ function InputDate(props) {
             todayButton={'Hari ini'}
             dayClassName={checkTglMerah}
             dropdownMode='select'
-            disabled={props.disabled || props.isReadonly}
-            readOnly={props.disabled || props.isReadonly}
+            disabled={props?.disabled || props?.isReadonly}
+            readOnly={props?.disabled || props?.isReadonly}
             startDate={valueStart}
             endDate={valueEnd}
             shouldCloseOnSelect={true}
@@ -177,19 +177,19 @@ function InputDate(props) {
             minDate={
               moment(valueStart, formatDefault).isValid()
                 ? moment(valueStart, formatDefault).toDate()
-                : moment(props.minDate, formatDefault).isValid()
-                ? moment(props.minDate, formatDefault).toDate()
+                : moment(props?.minDate, formatDefault).isValid()
+                ? moment(props?.minDate, formatDefault).toDate()
                 : null
             }
             maxDate={
-              moment(props.maxDate, formatDefault).isValid()
-                ? moment(props.maxDate, formatDefault).toDate()
+              moment(props?.maxDate, formatDefault).isValid()
+                ? moment(props?.maxDate, formatDefault).toDate()
                 : null
             }
             dateFormat={dateFormat}
-            placeholder={props.placeholder ? props.placeholder : 'Tanggal'}
+            placeholder={props?.placeholder ? props?.placeholder : 'Tanggal'}
             selected={valueEnd}
-            isClearable={!props.disabled && !props.isReadonly}
+            isClearable={!props?.disabled && !props?.isReadonly}
             name={'end_' + propsName}
             selectsEnd
             customInput={
@@ -206,8 +206,8 @@ function InputDate(props) {
             dropdownMode='select'
             startDate={valueStart}
             endDate={valueEnd}
-            disabled={props.disabled || props.isReadonly}
-            readOnly={props.disabled || props.isReadonly}
+            disabled={props?.disabled || props?.isReadonly}
+            readOnly={props?.disabled || props?.isReadonly}
             shouldCloseOnSelect={true}
           />
         </div>
@@ -215,29 +215,29 @@ function InputDate(props) {
     }
   }
 
-  if (props.disabled || props.isReadonly) {
-    return moment(props.input[propsName], formatDefault).isValid()
-      ? moment(props.input[propsName], formatDefault).format('DD-MM-YYYY')
+  if (props?.disabled || props?.isReadonly) {
+    return moment(props?.input[propsName], formatDefault).isValid()
+      ? moment(props?.input[propsName], formatDefault).format('DD-MM-YYYY')
       : ''
   }
 
   return (
     <DatePicker
       minDate={
-        moment(props.minDate, formatDefault).isValid()
-          ? moment(props.minDate, formatDefault).toDate()
+        moment(props?.minDate, formatDefault).isValid()
+          ? moment(props?.minDate, formatDefault).toDate()
           : null
       }
       maxDate={
-        moment(props.maxDate, formatDefault).isValid()
-          ? moment(props.maxDate, formatDefault).toDate()
+        moment(props?.maxDate, formatDefault).isValid()
+          ? moment(props?.maxDate, formatDefault).toDate()
           : null
       }
       dateFormat={dateFormat}
-      placeholder={props.placeholder ? props.placeholder : 'Tanggal'}
+      placeholder={props?.placeholder ? props?.placeholder : 'Tanggal'}
       customInput={<CustomInput value={value} name={propsName} />}
       selected={value}
-      isClearable={!props.disabled && !props.isReadonly}
+      isClearable={!props?.disabled && !props?.isReadonly}
       id={propsName}
       className='form-control'
       dayClassName={checkTglMerah}
@@ -249,8 +249,8 @@ function InputDate(props) {
       showYearPicker={false}
       todayButton={'Hari ini'}
       dropdownMode='select'
-      disabled={props.disabled || props.isReadonly}
-      readOnly={props.disabled || props.isReadonly}
+      disabled={props?.disabled || props?.isReadonly}
+      readOnly={props?.disabled || props?.isReadonly}
       shouldCloseOnSelect={true}
     />
   )
