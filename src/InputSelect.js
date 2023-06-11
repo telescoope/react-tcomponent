@@ -62,11 +62,13 @@ function InputSelect(props) {
       let separator = props?.separator ? props?.separator : ' | '
 
       for (let i = 0; i <= props?.optionLabel?.length - 1; i++) {
-        let isi = option[props?.optionLabel[i]]
+        try {
+          let isi = option[props?.optionLabel[i]]
 
-        if (isi) {
-          label.push(isi)
-        }
+          if (isi) {
+            label.push(isi)
+          }
+        } catch (e) {}
       }
     } else {
       label.push(option[props?.optionLabel])
