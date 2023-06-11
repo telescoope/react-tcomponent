@@ -47,9 +47,10 @@ function InputSelect(props) {
       for (let i = 0; i < props?.options.length; i++) {
         let y = props?.options[i]
 
-        if (props?.isHtml) {
+        if (y && props?.isHtml) {
           y[props?.name] = parse(String(y[props?.name]))
         }
+
         options.push(y)
       }
     }
@@ -63,7 +64,9 @@ function InputSelect(props) {
       for (let i = 0; i <= props?.optionLabel?.length - 1; i++) {
         let isi = option[props?.optionLabel[i]]
 
-        label.push(isi)
+        if (isi) {
+          label.push(isi)
+        }
       }
     } else {
       label.push(option[props?.optionLabel])
