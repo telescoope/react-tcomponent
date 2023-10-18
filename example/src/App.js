@@ -311,7 +311,7 @@ function App() {
           { id: '3', nama: 'Menunggu Persetujuan' }
         ]}
         separator='-'
-        optionLabel={['nama']}
+        optionLabel={['id', 'nama']}
         optionValue='nama'
       />
       <br />

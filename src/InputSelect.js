@@ -63,7 +63,10 @@ function InputSelect(props) {
 
       for (let i = 0; i <= props?.optionLabel?.length - 1; i++) {
         try {
-          let isi = option[props?.optionLabel[i]]
+          let isi =
+            props?.optionLabel?.length - 1 == i
+              ? option[props?.optionLabel[i]]
+              : option[props?.optionLabel[i]] + props.separator
 
           if (isi) {
             label.push(isi)
